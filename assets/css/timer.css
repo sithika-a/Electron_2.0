@@ -1,0 +1,181 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    height: 100%
+}
+
+span.timedrop {
+    position: absolute;
+    border-radius: 100%;
+    text-align: center;
+    margin-top: 11px;
+    margin-left: 16px;
+    z-index: 1;
+    display: none;
+}
+.browser-tab>li.active span.timedrop {
+    display: block;
+}
+
+span.timedrop i {
+    font-size: 8px;
+    width: 10px;
+    height: 10px;
+    line-height: 10px;
+    border: 1px solid #fff;
+    border-radius: 100%;
+}
+.browser-tab div.fa.fa-clock-o {  
+    position: absolute;
+    font-size: 20px;
+    line-height: 34px;
+    margin-left: 22px;
+    z-index: 1;
+}
+.browser-tab>li.active div.fa.fa-clock-o {
+    display: none;
+}
+ul.browser-tab ul.dropdown-menu {
+    min-width: auto;
+    width: 100px;
+    font-size: 10px;
+}
+ul.browser-tab ul.dropdown-menu li {
+    min-width: auto;
+}
+ul.browser-tab ul.dropdown-menu:after {
+    right: inherit;
+    left: 10px;
+}
+.color_green {
+    color: #7bd523;
+}
+.color_away{
+    color: #fdd048;
+}
+
+.timer-wrapper {
+    width: 100%;
+    cursor: default;
+    position: relative;
+    display: inline-block;
+}
+
+.timer-holder {
+    list-style-type: none;
+    font-family: Helvetica;
+    color: #fff;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.timer-holder.alert {
+    color: #ca4638
+}
+
+.timer-holder li {
+    display: inline-block;
+    width: calc(100%/3 - 8px);
+    border-radius: 3px;
+    background: #000;
+    text-align: center;
+    margin-right: 4px;
+    overflow: hidden;
+    padding: 10px 0 6px;
+}
+.timer-holder li > span{
+    font-size: 22px;
+}
+.timer-holder li > small {
+    font-size: 12px;
+    margin-left: 1px;
+}
+.timer-holder li.limit {
+    font-size: 10px;
+    margin-right: 0;
+    width: 45px;
+    text-align: left;
+    color: #fff;
+    padding: 4px 0 4px 5px
+}
+
+.btn_holder {
+    padding: 0px 10px;
+    box-sizing: border-box;
+}
+
+.dropdown_btn {
+    width: 100%;
+    margin-bottom: 0;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    text-align: left;
+    outline: 0;
+    background: url(http://images.sb.a-cti.com/images/down_arrow.gif) 120px center no-repeat #46a781;
+    padding: 6px 0;
+    background-size: 8px;
+}
+
+.dropdown_btn span {
+    padding-left: 15px;
+    text-align: left
+}
+
+.btn_holder ul {
+    display: none;
+    min-width: 100%;
+    list-style: none;
+    font-size: 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 6px rgba(0,0,0,.175);
+    box-shadow: 0 6px 6px rgba(0,0,0,.175);
+    margin: 0;
+    padding: 5px 0;
+}
+
+.btn_holder.open ul {
+    display: block;
+    cursor: default;
+}
+
+.btn_holder ul>li>a {
+    display: block;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 3px 5px
+}
+
+.btn_holder ul>li>a:hover {
+    background: #f2f2f2;
+    cursor: pointer;
+}
+
+.btn2 {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 0;
+    padding: 6px 0;
+}
+
+.btn2:hover {
+    background: #429e7a url(http://images.sb.a-cti.com/images/down_arrow.gif) 120px center no-repeat;
+}
+
+/*.timer-holder li span {
+    font-size: small;
+}*/
+
+;
+.hms {
+    font-size: small;
+}

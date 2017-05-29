@@ -1,0 +1,285 @@
+/* popup panel code here -----------------------------------------------------*/
+
+.popupPanel {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    display: none;
+    font-family: verdana;
+    background-color: #ffffff;
+    border-radius: 10px;
+    z-index: 9
+}
+
+.popupPanel code.closeAct {
+    right: 10px;
+    top: 2px;
+    position: absolute;
+    font-size: 21px;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.2;
+}
+
+
+/*popup button code here -----------------------------------------------------*/
+
+.btnwrapper {
+    padding: 10px;
+    text-align: right;
+    background-color: #efeff4;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.btnPanel button {
+    padding: 7px;
+    width: 90px;
+    font-size: 13px;
+    color: #ffffff;
+    cursor: pointer;
+    border: 0px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    /*outline: none;*/
+}
+
+.btnGreen {
+    background-color: #00cd93;
+}
+
+.btnDarkblue {
+    background-color: #2c343e;
+}
+
+.btnLightblue {
+    background-color: #939eae;
+}
+
+.btnRed {
+    background-color: #d84958;
+}
+
+.updateLf div.btnPanel {
+    margin: 40px 0px 0px;
+}
+
+.btnCancel,
+.btnclose {
+    margin: 0px 0px 0px 5px;
+}
+
+.updatePanel button {
+    margin: 10px 0px;
+    display: block;
+}
+
+
+/* logoutPopup code here -----------------------------------------------------*/
+
+.logoutPopup {
+    margin: -68px 0px 0px -175px;
+    padding: 0px;
+    width: 350px;
+}
+
+.logoutPopup p {
+    margin: 0px;
+    padding: 35px 20px;
+    font-size: 13px;
+}
+
+.loginout img {
+    margin: 32px 0px 10px;
+    width: 40px;
+    height: 40px;
+}
+
+.loginout h3 {
+    margin: 0px;
+    padding: 0px 0px 35px;
+    font-size: 13px;
+}
+
+
+/* updateFailedPopup code here -----------------------------------------------------*/
+
+.updateFailedPopup {
+    margin: -70px 0px 0px -245px;
+    padding: 20px;
+    width: 450px;
+    text-align: left;
+}
+
+.updateFailedPopup p {
+    margin: 10px 0px 30px;
+    font-size: 12px;
+}
+
+
+/* updatePanel code here -----------------------------------------------------*/
+
+.updatePanel {
+    /*outline: none;*/
+    margin: -180px 0px 0px -375px;
+    padding: 0px;
+    width: 750px;
+    height: 360px;
+}
+
+.updatePanel div.updateLf,
+.updatePanel div.updateRt {
+    float: left;
+}
+
+.updatePanel div.updateLf {
+    padding: 0px 20px;
+    width: 150px;
+    height: 100%;
+    background-color: red;
+    border-radius: 10px 0px 0px 10px;
+    background: #555d69;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#555d69, #313943);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#555d69, #313943);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#555d69, #313943);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#555d69, #313943);
+    /* Standard syntax */
+}
+
+.updateLf img {
+    margin: 70px 0px 10px;
+    width: 60px;
+    height: 60px;
+}
+
+.updateLf p {
+    margin: 5px 0px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.updatePanel div.updateRt {
+    padding: 30px;
+    width: 500px;
+    height: 100%;
+}
+
+.updateRt h2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.updateRt h1 {
+    margin: 10px 0px 0px;
+    padding: 0px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.updateRt div {
+    margin: 15px 0px;
+    padding: 0px 10px 15px;
+    height: 210px;
+    overflow: auto;
+    -moz-box-shadow: 0 0 7px #a1a1a1;
+    -webkit-box-shadow: 0 0 7px#a1a1a1;
+    box-shadow: 0 0 7px #a1a1a1;
+}
+
+.updateRt h5 {
+    margin: 20px 0px 0px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.updateRt p {
+    margin: 5px 0px 0px;
+    padding: 0px;
+    font-size: 13px;
+}
+
+
+/* updating code here -----------------------------------------------------*/
+
+.updating {
+    margin: -87px 0px 0px -200px;
+    width: 400px;
+    text-align: center;
+}
+
+.updating p {
+    margin: 0px 0px 40px;
+    font-size: 14px;
+}
+
+.circle_bar {
+    margin: 40px auto 10px;
+    width: 70px;
+    height: 70px;
+    position: relative;
+    border-radius: 50%;
+}
+
+.circle_bar div {
+    top: 5px;
+    left: 5px;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.circle_bar div img {
+    margin: 1px 0px 0px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.updatedSuccess {
+    background-image: none !important;
+    background-color: #00cd93;
+}
+
+.below50 {
+    background-image: linear-gradient(90deg, #cccccc 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(180deg, #00cd93 50%, #cccccc 50%, #cccccc)
+}
+
+.above50 {
+    background-image: linear-gradient(-75deg, #00cd93 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, #00cd93 50%, #cccccc 50%, #cccccc)
+}
+
+
+/* popup panel code closed here ---------------------------------------------------------*/
+
+
+/* Transparent background */
+
+.transparentBackground {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    opacity: 0.6;
+    display: none;
+}
+
+.transparentBackgroundForUpdateFailedPopUp {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    opacity: 0.3;
+    display: none;
+}

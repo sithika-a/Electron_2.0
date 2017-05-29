@@ -1,0 +1,175 @@
+{
+    "mode": "code",
+
+    "code": {
+        "sb": "http://beta.sb.a-cti.com",
+        "sb5": "http://alpha-sb.appspot.com/",
+        "v2": {
+            "old": "https://fullcreative.awsapps.com/connect/login",
+            "new": "https://beta-v2.appspot.com/AgentInfoAction/ccpView.do"
+        },
+        "ar": "http://webchat.a-cti.com",
+        "loop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgICFvviHCgw",
+        "chatLoop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgMD2p6zFCQw",
+        "unCaughtExceptionLoop": "agtzfmxvb3BhYmFja3IMCxIETG9vcBiIxxIM",
+        "loopURL": "http://my.loopto.do",
+        "channel": "http://images.sb.a-cti.com/TC/analytics/channel.html",
+        "crashAnalytics": "http://web-analytics-demo.appspot.com/persistFullClientCrashData",
+        "chat": "http://live-fullspectrum.appspot.com/work/clocked-in-users/get?userlogin=",
+        "login": "https://fullcreative.fullauth.com",
+        "cms": "https://live-contactsapi.appspot.com/services/signin/v2.0/Account/authenticate_v2?apikey=SEN42",
+        "serviceId": "03be43cf-eb6b-40f6-9bac-18e4f1dec3b5",
+        "goclock": "http://www.yocoboard.com/",
+        "clockapp": "http://live-goclockin-dashboard.appspot.com",
+        "softphone": "https://pstn-api-dot-synclio-twilio.appspot.com/web-phone",
+        "feedback": {
+            "chat": "http://localhost:3000/files"
+        },
+        "logs": {
+            "synclio": "https://synclio-router-python.appspot.com/AnywhereWorksLogCollection"
+        },
+        "dcmApi": {
+            "contact": "https://live-contactsapi.appspot.com/api/v1.0/me",
+            "skillSets": "https://live-contactsapi.appspot.com/services/data/v2.0/objects/Skills/getContactSkillSetAndSkillSet",
+            "dept_id": "486a0382-b82c-4c4c-9e15-4051f58eeaba",
+            "dept": "2adf7f73-edeb-4b54-b387-f137707d9353",
+            "task_type": "4e5e7ae3-de6b-4d43-bb27-1c9db6b7724f",
+            "brand_id": "0db91e28-1e09-4420-9390-faac4ab2c931"
+        },
+        "auth": {
+            "tokenUrl": "https://fullcreative.fullauth.com/o/oauth2/v1/token",
+            "clientId": "29354-aa780325699e13968d8c4ee728e64897",
+            "secret": "3B68xokEyVSRnbxkefPFxAeRoRGGD5d_2XTQ5934",
+            "redirect": "http://images.sb.a-cti.com/testing/fullAuthApp.html"
+        }
+    },
+
+    "1.x": {
+        "sb": "http://beta.sb.a-cti.com",
+        "sb5": "http://alpha-sb.appspot.com",
+        "v2": {
+            "old": "https://fullcreative.awsapps.com/auth/?client_id=06919f4fd8ed324e&redirect_uri=https://lily.us-east-1.amazonaws.com/call-center-manager/auth/code",
+            "new": "http://alpha-v2.appspot.com/AgentInfoAction/ccpView.do"
+        },
+        "ar": "http://webchat.a-cti.com",
+        "unCaughtExceptionLoop": "agtzfmxvb3BhYmFja3IMCxIETG9vcBiIxxIM",
+        "loop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgIDAhtGVCQw",
+        "chatLoop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgMD2p6zFCQw",
+        "loopURL": "http://my.loopto.do",
+        "channel": "http://images.sb.a-cti.com/TC/analytics/channel.html",
+        "crashAnalytics": "http://web-analytics-demo.appspot.com/persistFullClientCrashData",
+        "chat": "http://live-fullspectrum.appspot.com/work/clocked-in-users/get?userlogin=",
+        "login": "https://fullcreative.fullauth.com",
+        "cms": "https://live-contactsapi.appspot.com/services/signin/v2.0/Account/authenticate_v2?apikey=SEN42",
+        "serviceId": "03be43cf-eb6b-40f6-9bac-18e4f1dec3b5",
+        "goclock": "http://www.yocoboard.com/",
+        "clockapp": "http://live-goclockin-dashboard.appspot.com",
+        "softphone": "https://pstn-api-dot-synclio-twilio.appspot.com/web-phone",
+        "feedback": {
+            "chat": "https://api.anywhereworks.com/api/v1/task"
+        },
+        "logs": {
+            "synclio": "https://synclio-router-python.appspot.com/AnywhereWorksLogCollection"
+        },
+        "dcmApi": {
+            "contact": "https://live-contactsapi.appspot.com/api/v1.0/me",
+            "skillSets": "https://live-contactsapi.appspot.com/services/data/v2.0/objects/Skills/getContactSkillSetAndSkillSet",
+            "dept_id": "486a0382-b82c-4c4c-9e15-4051f58eeaba",
+            "dept": "2adf7f73-edeb-4b54-b387-f137707d9353",
+            "task_type": "4e5e7ae3-de6b-4d43-bb27-1c9db6b7724f",
+            "brand_id": "0db91e28-1e09-4420-9390-faac4ab2c931"
+        },
+        "auth": {
+            "tokenUrl": "https://fullcreative.fullauth.com/o/oauth2/v1/token",
+            "clientId": "29354-aa780325699e13968d8c4ee728e64897",
+            "secret": "3B68xokEyVSRnbxkefPFxAeRoRGGD5d_2XTQ5934",
+            "redirect": "http://images.sb.a-cti.com/testing/fullAuthApp.html"
+        }
+    },
+
+    "lily": {
+        "sb": "http://beta.sb.a-cti.com",
+        "sb5": "http://alpha-sb.appspot.com",
+        "v2": {
+            "old": "https://fullcreative.awsapps.com/connect/login",
+            "new": "https://beta-v2.appspot.com/AgentInfoAction/ccpView.do"
+        },
+        "ar": "http://webchat.a-cti.com",
+        "unCaughtExceptionLoop": "agtzfmxvb3BhYmFja3IMCxIETG9vcBiIxxIM",
+        "loop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgIDAhtGVCQw",
+        "chatLoop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgMD2p6zFCQw",
+        "loopURL": "http://my.loopto.do",
+        "channel": "http://images.sb.a-cti.com/TC/analytics/channel.html",
+        "crashAnalytics": "http://web-analytics-demo.appspot.com/persistFullClientCrashData",
+        "chat": "http://live-fullspectrum.appspot.com/work/clocked-in-users/get?userlogin=",
+        "login": "https://fullcreative.fullauth.com",
+        "cms": "https://live-contactsapi.appspot.com/services/signin/v2.0/Account/authenticate_v2?apikey=SEN42",
+        "serviceId": "03be43cf-eb6b-40f6-9bac-18e4f1dec3b5",
+        "goclock": "http://www.yocoboard.com/",
+        "clockapp": "http://live-goclockin-dashboard.appspot.com",
+        "softphone": "https://pstn-api-dot-synclio-twilio.appspot.com/web-phone",
+        "feedback": {
+            "chat": "https://api.anywhereworks.com/api/v1/task"
+        },
+        "logs": {
+            "synclio": "https://synclio-router-python.appspot.com/AnywhereWorksLogCollection"
+        },
+        "dcmApi": {
+            "contact": "https://live-contactsapi.appspot.com/api/v1.0/me",
+            "skillSets": "https://live-contactsapi.appspot.com/services/data/v2.0/objects/Skills/getContactSkillSetAndSkillSet",
+            "dept_id": "486a0382-b82c-4c4c-9e15-4051f58eeaba",
+            "dept": "2adf7f73-edeb-4b54-b387-f137707d9353",
+            "task_type": "4e5e7ae3-de6b-4d43-bb27-1c9db6b7724f",
+            "brand_id": "0db91e28-1e09-4420-9390-faac4ab2c931"
+        },
+        "auth": {
+            "tokenUrl": "https://fullcreative.fullauth.com/o/oauth2/v1/token",
+            "clientId": "29354-aa780325699e13968d8c4ee728e64897",
+            "secret": "3B68xokEyVSRnbxkefPFxAeRoRGGD5d_2XTQ5934",
+            "redirect": "http://images.sb.a-cti.com/testing/fullAuthApp.html"
+        }
+    },
+
+    "test-1.x": {
+        "sb": "http://beta.sb.a-cti.com",
+        "sb5": "http://alpha-sb.appspot.com",
+        "v2": {
+            "old": "https://fullcreative.awsapps.com/connect/login",
+            "new": "https://staging-lily.appspot.com/AgentInfoAction/ccpView.do"
+        },
+        "ar": "http://webchat.a-cti.com",
+        "unCaughtExceptionLoop": "agtzfmxvb3BhYmFja3IMCxIETG9vcBiIxxIM",
+        "loop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgIDAhtGVCQw",
+        "chatLoop": "agtzfmxvb3BhYmFja3IRCxIETG9vcBiAgMD2p6zFCQw",
+        "loopURL": "http://my.loopto.do",
+        "channel": "http://images.sb.a-cti.com/TC/analytics/channel.html",
+        "crashAnalytics": "http://web-analytics-demo.appspot.com/persistFullClientCrashData",
+        "chat": "http://live-fullspectrum.appspot.com/work/clocked-in-users/get?userlogin=",
+        "login": "https://fullcreative.fullauth.com",
+        "cms": "https://live-contactsapi.appspot.com/services/signin/v2.0/Account/authenticate_v2?apikey=SEN42",
+        "serviceId": "03be43cf-eb6b-40f6-9bac-18e4f1dec3b5",
+        "goclock": "http://www.yocoboard.com/",
+        "clockapp": "http://live-goclockin-dashboard.appspot.com",
+        "softphone": "https://pstn-api-dot-synclio-twilio.appspot.com/web-phone",
+        "feedback": {
+            "chat": "https://api.anywhereworks.com/api/v1/task"
+        },
+        "logs": {
+            "synclio": "https://synclio-router-python.appspot.com/AnywhereWorksLogCollection"
+        },
+        "dcmApi": {
+            "contact": "https://live-contactsapi.appspot.com/api/v1.0/me",
+            "skillSets": "https://live-contactsapi.appspot.com/services/data/v2.0/objects/Skills/getContactSkillSetAndSkillSet",
+            "dept_id": "486a0382-b82c-4c4c-9e15-4051f58eeaba",
+            "dept": "2adf7f73-edeb-4b54-b387-f137707d9353",
+            "task_type": "4e5e7ae3-de6b-4d43-bb27-1c9db6b7724f",
+            "brand_id": "0db91e28-1e09-4420-9390-faac4ab2c931"
+        },
+        "auth": {
+            "tokenUrl": "https://fullcreative.fullauth.com/o/oauth2/v1/token",
+            "clientId": "29354-aa780325699e13968d8c4ee728e64897",
+            "secret": "3B68xokEyVSRnbxkefPFxAeRoRGGD5d_2XTQ5934",
+            "redirect": "http://images.sb.a-cti.com/testing/fullAuthApp.html"
+        }
+    }
+}

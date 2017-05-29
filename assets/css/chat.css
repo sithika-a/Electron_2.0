@@ -1,0 +1,230 @@
+.content {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  background: #D1D1D3;
+  right: 0;
+  bottom: 0;
+  padding: 0.2% 0.2% 0% 0.2%;
+  border: 1px solid #ccc;
+}
+iframe {
+  border: 0px;
+}
+iframe::-webkit-scrollbar {
+  display: none;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  height: 100%; 
+}
+body::-webkit-scrollbar {
+  /* Hiding webKit scroll bar from container if resized */
+  display: none;
+}
+
+/*Changes for App Quit Spinner*/
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.quit-popup-hold {
+    position: fixed;
+    z-index: 4100;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+}
+
+.quit-popup-wrapper {
+    width: 370px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    padding: 25px 40px;
+    position: absolute;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    top: 50%;
+    margin-top: -145px;
+    left: 50%;
+    margin-left: -225px;
+}
+
+.quit-popup-wrapper label {
+    display: block;
+}
+
+.quit-popup-wrapper img {
+    width: 30px;
+    height: 30px;
+}
+
+.quit-popup-wrapper a {
+    width: 90px;
+    display: inline-block;
+    line-height: 30px;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+    color: #ABABAB;
+    cursor: pointer;
+    opacity: .9;
+    text-decoration: none;
+}
+
+.quit-popup-wrapper a:hover {
+    opacity: 1;
+}
+
+.quit-popup-wrapper a.quit_btn {
+    color: #fff;
+    background-color: #d66252;
+    border-color: #d66252;
+    margin-left: 7px;
+}
+
+.quit-popup-wrapper a.tab_quit_btn {
+    color: #fff;
+    background-color: #d66252;
+    border-color: #d66252;
+    margin-left: 7px;
+}
+
+.quit-popup-wrapper p {
+    padding: 20px 0px;
+    border-bottom: 1px solid #E5E5E5;
+    margin: 0px 25px 20px;
+}
+
+/* Engine updater Style changes */
+.update {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, .5);
+    ;
+    z-index: 100;
+    padding: 60px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.aww_update {
+    width: 400px;
+    padding: 40px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    top: 15%;
+    right: 0;
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+}
+
+.aww_content,
+.aww_download,
+.aww_restart,
+.aww_progress {
+    margin: 10px;
+}
+
+.aww_update .logo {}
+
+.aww_update button {
+    text-align: center;
+    display: block;
+    border: 0;
+}
+
+.aww_update h2 {
+    font-size: 25px;
+    font-weight: 400;
+    color: #4a4a48;
+    margin: 5px 10px 8px 10px;
+}
+
+.aww_update .aww_content span {
+    font-style: italic;
+}
+
+.aww_update span {
+    color: #4a4a48;
+    font-size: 14px;
+}
+
+.aww_update button.action {
+    padding: 12px 20px;
+    background-color: #2ccb91;
+    margin: 25px auto;
+    width: 230px;
+    cursor: pointer;
+    border: 0;
+    font-size: 18px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: background 0.5s ease;
+    -webkit-transition: background 0.5s ease;
+    -moz-transition: background 0.5s ease;
+}
+
+.aww_update button.action:hover {
+    background-color: #1BAB76;
+}
+
+.percentage {
+    position: absolute;
+    color: #fff !important;
+    z-index: 10001;
+    left: 0;
+    right: 0;
+}
+
+.download,
+.end {
+    color: #4a4a48;
+    margin: 15px auto;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    margin-top: 20px;
+}
+
+.download:hover,
+.end:hover {
+    color: #4a4a48;
+    text-decoration: none;
+}
+
+.progress {
+    height: 50px;
+    border-radius: 4px;
+    width: 230px;
+    margin: 20px auto;
+    background-color: #e9eae4;
+    color: #fff !important;
+    position: relative;
+    line-height: 50px;
+}
+
+.progress-bar {
+    background-color: #2ccb91;
+    position: absolute;
+    width: 0%;
+    max-width: 100%;
+    height: 100%;
+    left: 0px;
+    border-radius: 4px;
+}

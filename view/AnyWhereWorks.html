@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <title>AnywhereWorks</title>
+    <link rel="stylesheet" type="text/css" href="../compiled/chatContainer.css">
+    <style type="text/css">
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chatContainer">
+    </div>
+     <!-- popup code here -->
+    <div class="popupPanel updatePanel hide">
+        <code class="closeAct" >&times;</code>
+        <div align="center" class="updateLf">
+            <a href="#">
+                <img src="http://images.sb.a-cti.com/TC/electron/common-images/AWW-logo.png" />
+            </a>
+            <p>AnywhereWorks</p>
+            <p>V 2.05</p>
+            <div class="btnPanel">
+                <button class="btnGreen">Update</button>
+                <button class="btnDarkblue">Later</button>
+            </div>
+        </div>
+        <div class="updateRt">
+            <h2>Update</h2>
+            <h1>What's new in Version 2.05?</h1>
+            <div>
+        <!-- Git Release Details will be injected dynamically -->
+            </div>
+        </div>
+    </div>
+    <!-- updatePanel -->
+    <div class="popupPanel logoutPopup">
+        <div id="logout_confirmation" class="hide">
+            <p>Are you sure you want to logout?</p>
+            <div class="btnwrapper btnPanel">
+                <button id="logout" class="btnRed">Logout</button>
+                <button id="logout_cancel" class="btnLightblue">Cancel</button>
+            </div>
+        </div>
+        <div id="logging_out" class="loginout hide" align="center">
+            <img src="http://images.sb.a-cti.com/TC/electron/common-images/AWW-logo.png" />
+            <h3>Logging out of V2...</h3>
+        </div>
+    </div>
+    <!-- logoutPopup -->
+    <div id='updateFailedPopup' class="popupPanel updateFailedPopup hide">
+        <!-- <code>&times;</code> -->
+        <p>App update failed, write permission are denied. Please contact IT support.</p>
+        <div align="right" class="btnPanel">
+            <button class="btnLightblue">Close</button>
+        </div>
+    </div>
+    <!-- updateFailedPopup -->
+   <div class="popupPanel updating hide">
+        <!-- <code>&times;</code> -->
+        <div class="circle_bar below50 updatedSuccess1">
+            <div><img src="http://images.sb.a-cti.com/TC/electron/common-images/AWW-logo.png" /></div>
+            <!-- http://images.sb.a-cti.com/TC/electron/common-images/Updated.png -->
+        </div>
+        <div class="circle_bar above50 updatedSuccess1" style="display: none">
+            <div><img src="http://images.sb.a-cti.com/TC/electron/common-images/AWW-logo.png" /></div>
+            <!-- http://images.sb.a-cti.com/TC/electron/common-images/Updated.png -->
+        </div>
+        <p>0% - Completed...</p>
+    </div>
+    <!-- updating -->
+    <!-- Apps script -->
+    <div id="transparentBg" class="transparentBackground"></div>
+    <div id="UpdateFailedtransparentBg" class="transparentBackgroundForUpdateFailedPopUp"></div>
+   <!--  <script type="text/javascript">
+    // standalone script to detect loading of scripts
+    function verifyLocalStorage() {
+        var strObj = localStorage.getItem('startup');
+        try {
+            var obj = JSON.parse(strObj);
+            return obj.isScriptError;
+        } catch (e) {
+        }
+        return false;
+    };
+
+    function onScriptError() {
+        if (!verifyLocalStorage()) {
+            localStorage.setItem('startup', JSON.stringify({
+                isScriptError: true
+            }));
+            return true;
+        }
+        document.body.innerText = 'Scripts are unable to load, Please contact IT support.';
+    };
+
+    function reload() {
+        if (verifyLocalStorage()) {
+            var {remote} = require('electron');
+            var win = remote.getCurrentWindow();
+            win.webContents.session.clearCache(function clearCache() {
+                document.body.innerText = 'Internet hick up was found, reloading app in a moment.';
+                console.warn('Cache cleared, reloadin window.');
+                    setTimeout(function() {
+                    location.reload();
+                }, 5000);
+            });
+        }
+    }
+
+    function onScriptLoad() {
+        localStorage.removeItem('startup');
+    }
+
+    var ipc = require('electron').ipcRenderer;
+    ipc.on('webapp-nw', function(eventInfo , msg) {
+        console.log('network message ', msg);
+        switch (msg.name) {
+            case 'networkBoot':
+                {
+                    if (msg.isUp) {
+                        reload();
+                    }
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    });
+    </script> -->
+<!--         <script onload="onScriptLoad();" onerror="onScriptError();" src="../compiled/chatContainer.js"></script>
+ -->
+ 
+    <script src="../compiled/chatContainer.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+.content {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    background: #D1D1D3;
+    right: 0;
+    bottom: 0;
+    padding: 0.2% 0.2% 0% 0.2%;
+    border: 1px solid #ccc;
+}
+
+iframe {
+    border: 0px;
+}
+
+iframe::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    background-color: white;
+    margin: 0px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    margin-top: 0px;
+}
+
+body::-webkit-scrollbar {
+    /* Hiding webKit scroll bar from container if resized */
+    display: none;
+}
+
+.popup {
+    position: fixed;
+    z-index: 140;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+}
+
+.poopup-hold {
+    z-index: 140;
+    background: #fff;
+    border: 5px solid #9a9a9a;
+    border-radius: 4px;
+    width: 450px;
+    top: 145px;
+    position: absolute;
+    left: 50%;
+    margin-left: -230px;
+}
+
+.close-btn {
+    position: absolute;
+    right: 0;
+    margin-right: 8px;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+    opacity: .3;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.popup-con {
+    padding: 19px 15px;
+    text-align: center;
+    font-family: Georgia;
+}
