@@ -5,6 +5,7 @@
         var nodeNotifier = FULLClient.require("node-notifier");
 
         function FullNotification(clientListenerObj) {
+            console.log('Instanciate ...',clientListenerObj, ': arguments: ',arguments)
             this.name = "FULLNotification";
             this.source = clientListenerObj != null ? clientListenerObj : location.origin;
             this.container = util.window.getName();
@@ -330,7 +331,11 @@
                 if (!this.activeNotification) {
                     this.activeNotification = true;
                     var args = [].slice.apply(arguments);
+                                        console.log('before splice Notify args : ',args)
+
                     args.splice(0, 0, FullNotification);
+                    console.log('Notify args : ',args);
+                    console.log(FullNotification.bind.apply(FullNotification, args));
                     new(FullNotification.bind.apply(FullNotification, args))();
                 }
             },

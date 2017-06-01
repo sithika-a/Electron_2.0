@@ -3,8 +3,9 @@
 (function(R) {
     console.log("Loading PRELOAD ..");
     var domain = location.host || location.href;
+    var path = require('path');
     console.debug("Domain : " + domain);
-    var messenger = require("electron").remote.require("../comm/messenger.js");
+    var messenger = require("electron").remote.require(path.join(process.cwd(),"/comm/messenger.js"));
 
     R["FULLClient"] = {
         require: require,

@@ -560,3 +560,4 @@ function Thinclient(lOpt, eventType, extension) {
         downloadedMB: null
     };
 }
+module.exports = namespace;

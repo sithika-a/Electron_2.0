@@ -1,64 +1,37 @@
-/**
-* 
-    Take a look @MessageCreator.js
+'use strict';
 
-    Messaging system for main process is defined 
-    in here.
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-    {
-    "target":{
-            "id" : "",
-            "title" : ""
-        },
-    "source":{
-            "id" : "",
-            "title" : ""
-        },
-    "options":{
-            "globalPublish":false, // Publish to all windows
-            "restart" : false,
-            "quit" : false,
-            "bounce":false, // "Window icon critical,normal" mac/win
-            "badge":false // "Badge label for doc icon"
-        },    
-    "etype":"", // points to operation type.
-    "info" : { name : <fulclient sblistener message format object> }
-}
+// let path = require('path');
+var _require = require(path.join(__dirname, '../comm/messenger.js')),
+    messenger = _require.messenger,
+    profile = _require.profile;
 
-Steps :
-    
-    TODO :
-    a. message - validate
-    b. target - validate
-    c. source - auto   
-    e. specify operation to perform
-
-    Based on this satisfication, auto post of message should commence.
-*
-**/
-
-
-var ipc = require('electron').ipcMain;
 var userInfo = null;
-var nativeImage;
+var nativeImage = void 0;
 
-var ipcController = {
-    name: 'ipcModule',
+var emitterController = {
+    name: 'emitterModule',
     containerCache: {
         v2Container: null,
         sbContainer: null,
         chatContainer: null
     },
-    log: function() {
-        var tmp = [].slice.call(arguments);
-        tmp.splice(0, 0, '[' + this.name + '] : ');
-        console.log.apply(console, tmp);
+    log: function log() {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        // let tmp = [].slice.call(arguments);
+        // tmp.splice(0, 0, '[' + this.name + '] : ');
+        console.log.apply(console, [this.name, args]);
     },
+
     debug: {
-        _activateDebug: function() {},
-        _deActivateDebug: function() {}
+        _activateDebug: function _activateDebug() {},
+        _deActivateDebug: function _deActivateDebug() {}
     },
-    getContainer: function(title) {
+    getContainer: function getContainer(title) {
         if (title) {
             switch (title) {
                 case "Chat":
@@ -84,7 +57,8 @@ var ipcController = {
             return this.containerCache[title] || this.setContainer(title);
         }
     },
-    setContainer: function(title) {
+
+    setContainer: function setContainer(title) {
         if (title) {
             this.containerCache[title] = this.getTarget({
                 "title": title
@@ -92,13 +66,13 @@ var ipcController = {
             return this.containerCache[title];
         }
     },
-    removeContainer: function(url) {
-        var title;
+    removeContainer: function removeContainer(url) {
+        var title = void 0;
         if (url && (title = path.basename(url, '.html'))) {
             this.containerCache[title] = null;
         }
     },
-    getTarget: function(lTarget) {
+    getTarget: function getTarget(lTarget) {
         console.log('searching for Target : ', lTarget);
         var targetArray = WindowManager.getAllWindows();
         for (var i = targetArray.length - 1; i >= 0; i--) {
@@ -114,7 +88,7 @@ var ipcController = {
             }
         };
     },
-    openContainer: function(msg) {
+    openContainer: function openContainer(msg) {
         this.log(msg);
         switch (msg.title) {
             case "V2":
@@ -158,21 +132,22 @@ var ipcController = {
                 }
         }
     },
-    passInfo: function(containerTitle, msg) {
-        if (typeof containerTitle == 'string' && typeof msg == 'object') {
+    passInfo: function passInfo(containerTitle, msg) {
+        if (typeof containerTitle == 'string' && (typeof msg === 'undefined' ? 'undefined' : _typeof(msg)) == 'object') {
             var targetWindow = this.getContainer(containerTitle);
             if (targetWindow && targetWindow.send) {
                 targetWindow.send('msg-to-' + containerTitle, msg);
             }
         }
     },
-    decider: function(msg) {
+    decider: function decider(msg) {
+        this.log('Emitter message : ', msg);
         this.log('Decider Block : ' + msg.eType);
         if (msg && msg.eType) {
             switch (msg.eType) {
                 case "menuActions":
                     {
-                        Emitter.emit('switchZoomUI', msg.opt)
+                        Emitter.emit('switchZoomUI', msg.opt);
                         break;
                     }
                 case "transerInfo":
@@ -202,7 +177,7 @@ var ipcController = {
                         this.passInfo(namespace.CONTAINER_TIMER, msg);
                         // Making No more message reach from main daemon
                         // thread to any other browser windows.
-                        this.passInfo = function() {};
+                        this.passInfo = function () {};
                         break;
                     }
                 case "bounce":
@@ -233,11 +208,8 @@ var ipcController = {
                     }
                 case "windowEvents":
                     {
-                        var container;
-                        if (msg.id && parseInt(msg.id))
-                            container = WindowManager.getWindowById(msg.id);
-                        else
-                            container = this.getContainer(msg.title);
+                        var container = void 0;
+                        if (msg.id && parseInt(msg.id)) container = WindowManager.getWindowById(msg.id);else container = this.getContainer(msg.title);
 
                         windowEventsController.eventHandler(container, msg.opt, msg.paramObj);
                         // msg.title  may be Chat ,V2,FULL
@@ -246,9 +218,9 @@ var ipcController = {
                     }
                 case "activateNewV2":
                     {
-                        console.log('New v2 switch is on..')
+                        console.log('New v2 switch is on..');
                         ipc.removeAllListeners('msg-to-V2');
-                        ipc.on('msg-to-V2', ipcController.v2NewHandler);
+                        ipc.on('msg-to-V2', emitterController.v2NewHandler);
                         /**
                          * Switch to new v2 handlers.
                          */
@@ -256,9 +228,9 @@ var ipcController = {
                     }
                 case "activateOldV2":
                     {
-                        console.log('New v2 switch is off..')
+                        console.log('New v2 switch is off..');
                         ipc.removeAllListeners('msg-to-V2');
-                        ipc.on('msg-to-V2', ipcController.v2OldHandler);
+                        ipc.on('msg-to-V2', emitterController.v2OldHandler);
                         /**
                          * Switch to new v2 handlers.
                          */
@@ -380,32 +352,25 @@ var ipcController = {
             }
         }
     },
-    setBadge: function(count) {
+    setBadge: function setBadge(count) {
         if (/^darwin/.test(process.platform)) {
-            count ?
-                app.dock.setBadge(count.toString()) :
-                app.dock.setBadge('');
+            count ? app.dock.setBadge(count.toString()) : app.dock.setBadge('');
         }
     },
-    setOverlayIcon: function(msg) {
+    setOverlayIcon: function setOverlayIcon(msg) {
         try {
             if (/^win32/.test(process.platform) && msg) {
 
-                if (!nativeImage)
-                    nativeImage = require('electron').nativeImage;
-
+                if (!nativeImage) nativeImage = require('electron').nativeImage;
 
                 if (msg.dataURL) {
                     // In 1.x we have to send it to main container,
                     // remote container is not serialized, so api
                     // change will affect implementation.
                     // check https://github.com/electron/electron/issues/4011
-                    this.getContainer('Chat')
-                        .setOverlayIcon(nativeImage.createFromDataURL(msg.dataURL), "");
+                    this.getContainer('Chat').setOverlayIcon(nativeImage.createFromDataURL(msg.dataURL), "");
                     return true;
-                } else
-                    this.getContainer('Chat')
-                    .setOverlayIcon(null, "");
+                } else this.getContainer('Chat').setOverlayIcon(null, "");
 
                 return false;
             }
@@ -414,46 +379,49 @@ var ipcController = {
             console.log('SetoverLay error ', e.stack);
         }
     },
-    hideDockIcon: function(count) {
+    hideDockIcon: function hideDockIcon(count) {
         if (/^darwin/.test(process.platform)) {
             app.dock.hide();
         }
     },
-    bounce: function(isContinuous) {
+    bounce: function bounce(isContinuous) {
         isContinuous ? app.dock.bounce('critical') : app.dock.bounce();
         // critical,normal mac/win
     },
-    transerInfo: function(msg) {
+    transerInfo: function transerInfo(msg) {
         this.log('transerInfo Block :', msg.target);
         var _target = this.getTarget(msg.target);
-        if (_target && _target.send)
-            _target.send('msg-from-main', msg);
+        if (_target && _target.send) _target.send('msg-from-main', msg);
     },
-    v2OldHandler: function(event, msg) {
-        ipcController.passInfo('V2', msg);
+    v2OldHandler: function v2OldHandler(event, msg) {
+        emitterController.passInfo('V2', msg);
     },
-    v2NewHandler: function(event, msg) {
-        if (msg && /object/i.test(typeof msg)) {
+    v2NewHandler: function v2NewHandler(event, msg) {
+        if (msg && /object/i.test(typeof msg === 'undefined' ? 'undefined' : _typeof(msg))) {
             msg.isForV2 = true;
-            ipcController.passInfo(namespace.CONTAINER_V2_SOFTPHONE, msg);
+            emitterController.passInfo(namespace.CONTAINER_V2_SOFTPHONE, msg);
         }
     },
-    sbHandler: function(event, msg) {
-        ipcController.passInfo('FULL', msg);
+    sbHandler: function sbHandler(event, msg) {
+        emitterController.passInfo('FULL', msg);
     },
-    chatHandler: function(event, msg) {
-        ipcController.passInfo('Chat', msg);
+    chatHandler: function chatHandler(event, msg) {
+        emitterController.passInfo('Chat', msg);
     },
-    mainHandler: function(event, msg) {
-        ipcController.decider(msg);
+    mainHandler: function mainHandler(msg) {
+        emitterController.decider(msg);
     },
-    timerHandler: function(event, msg) {
-        ipcController.passInfo(namespace.CONTAINER_TIMER, msg);
+    timerHandler: function timerHandler(event, msg) {
+        emitterController.passInfo(namespace.CONTAINER_TIMER, msg);
     }
 };
 
-ipc.on('msg-to-Main', ipcController.mainHandler);
-ipc.on('msg-to-V2', ipcController.v2OldHandler);
-ipc.on('msg-to-FULL', ipcController.sbHandler);
-ipc.on('msg-to-Chat', ipcController.chatHandler);
-ipc.on('msg-to-' + namespace.CONTAINER_TIMER, ipcController.timerHandler);
+// ipc.on('msg-to-Main', emitterController.mainHandler);
+
+messenger.subscribe('msg-to-Main', function (event) {
+
+    console.log('message received  in main : ' + event);
+    emitterController.mainHandler(event.data);
+});
+
+module.exports = emitterController;

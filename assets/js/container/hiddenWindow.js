@@ -1,8 +1,31 @@
     console.log('hidden backGroundWindow ...');
-    var winList = ['CHAT', 'Timer', 'SB', 'V2'];
-    var currentSkillSet = 'onlyChat';
+    // var winList = ['CHAT', 'Timer', 'SB', 'V2'];
+    // var currentSkillSet = 'onlyChat';
 
 
+// function ModuleSubscription (option){
+//     this.name  = 'ModuleSubscription',
+//     this.option = option;
+//     this.AFK = {
+//     sender : namespace.HiddenWindow,
+//     receiverList : []
+//     };
+//     this.network = {
+//     sender : namespace.HiddenWindow,
+//     receiverList : []
+//     };
+
+// }
+// var subscriberStore = {
+//     AFK : {
+//     sender : namespace.HiddenWindow,
+//     receiverList : []
+//     },
+//     network : {
+//     sender : namespace.HiddenWindow,
+//     receiverList : []
+//     }
+// }
 
     // var skillSet = {
     //     'onlyChat': {

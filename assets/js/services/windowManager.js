@@ -1,4 +1,7 @@
 var path = require('path');
+// var WindowCreator = require(path.join(__dirname,'../assets/emitter/js/services/WindowCreator.js'));
+// var namespace = require(path.join(__dirname,'../assets/emitter/js/DAO/oldCommDAO.js'));
+
 var util = {
     name: 'Utilities',
     log: function() {
@@ -77,7 +80,7 @@ var WindowManager = {
                 allowDisplayingInsecureContent: true
             }
         });
-        hiddenWindow.get().openDevTools();
+        return hiddenWindow.get();
     },
     openWebContainer: function(isShowWindow) {
         this.log('WebContainer is getting opened !! ');
@@ -288,7 +291,8 @@ var WindowManager = {
         });
     }
 }
+module.exports = WindowManager;
 
-Emitter.on('/windowManager/open/chat/container', WindowManager.openChatContainer.bind(WindowManager));
-Emitter.on('/windowManager/open/sb/container', WindowManager.openWebContainer.bind(WindowManager));
-Emitter.on('/windowManager/open/v2/container', WindowManager.openV2Container.bind(WindowManager));
+// Emitter.on('/windowManager/open/chat/container', WindowManager.openChatContainer.bind(WindowManager));
+// Emitter.on('/windowManager/open/sb/container', WindowManager.openWebContainer.bind(WindowManager));
+// Emitter.on('/windowManager/open/v2/container', WindowManager.openV2Container.bind(WindowManager));

@@ -1,4 +1,4 @@
-var jsVersion = '0.1.0 - May,29 2017 11:17';
+var jsVersion = '0.1.0 - Jun,01 2017 11:26';
 var namespace = {
     APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? "FULL" : "AnywhereWorks",
     HIDDEN_CONTAINER: "HiddenWindow",
@@ -482,6 +482,8 @@ function Thinclient(lOpt, eventType, extension) {
     };
 }
 
+module.exports = namespace;
+
 "use strict";
 
 var _require = require("electron"), app = _require.app, BrowserWindow = _require.BrowserWindow, ipcMain = _require.ipcMain;
@@ -565,7 +567,7 @@ WindowCreator.prototype.onClose = function() {
     appWin.once("closed", function() {
         if (this && this.url) {
             console.log("onclosed ?? :: " + this.url);
-            ipcController.removeContainer(this.url);
+            emitterController.removeContainer(this.url);
         }
     }.bind(this));
 };
@@ -579,6 +581,8 @@ WindowCreator.prototype.hide = function() {
     var appWin = this.get();
     appWin.hide();
 };
+
+module.exports = WindowCreator;
 
 var windowEventsController = {
     eventHandler: function(container, eType, paramsObj) {
@@ -743,7 +747,7 @@ var WindowManager = {
                 allowDisplayingInsecureContent: true
             }
         });
-        hiddenWindow.get().openDevTools();
+        return hiddenWindow.get();
     },
     openWebContainer: function(isShowWindow) {
         this.log("WebContainer is getting opened !! ");
@@ -937,11 +941,7 @@ var WindowManager = {
     }
 };
 
-Emitter.on("/windowManager/open/chat/container", WindowManager.openChatContainer.bind(WindowManager));
-
-Emitter.on("/windowManager/open/sb/container", WindowManager.openWebContainer.bind(WindowManager));
-
-Emitter.on("/windowManager/open/v2/container", WindowManager.openV2Container.bind(WindowManager));
+module.exports = WindowManager;
 
 "use strict";
 
@@ -951,11 +951,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-var messenger = require("../comm/messenger.js");
+var _require = require(path.join(__dirname, "../comm/messenger.js")), messenger = _require.messenger, profile = _require.profile;
 
 var userInfo = null;
 
-var nativeImage;
+var nativeImage = void 0;
 
 var emitterController = {
     name: "emitterModule",
@@ -965,9 +965,10 @@ var emitterController = {
         chatContainer: null
     },
     log: function log() {
-        var tmp = [].slice.call(arguments);
-        tmp.splice(0, 0, "[" + this.name + "] : ");
-        console.log.apply(console, tmp);
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+        console.log.apply(console, [ this.name, args ]);
     },
     debug: {
         _activateDebug: function _activateDebug() {},
@@ -1011,7 +1012,7 @@ var emitterController = {
         }
     },
     removeContainer: function removeContainer(url) {
-        var title;
+        var title = void 0;
         if (url && (title = path.basename(url, ".html"))) {
             this.containerCache[title] = null;
         }
@@ -1159,7 +1160,7 @@ var emitterController = {
 
               case "windowEvents":
                 {
-                    var container;
+                    var container = void 0;
                     if (msg.id && parseInt(msg.id)) container = WindowManager.getWindowById(msg.id); else container = this.getContainer(msg.title);
                     windowEventsController.eventHandler(container, msg.opt, msg.paramObj);
                     break;
@@ -1371,6 +1372,8 @@ messenger.subscribe("msg-to-Main", function(event) {
     console.log("message received  in main : " + event);
     emitterController.mainHandler(event.data);
 });
+
+module.exports = emitterController;
 
 var mainModuleLoader = {
     name: "mainModuleLoader",

@@ -2,6 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
       distFolder: 'compiled',
       asarArchive: 'archive',
+      moudulePath : '',
       pkg: grunt.file.readJSON('package.json'),
       jsVersion : '<%= pkg.version %> - <%= grunt.template.today("mmm,dd yyyy HH:MM") %>',
       mode : '<%= pkg.mode %>',
@@ -12,10 +13,10 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'es5/main.js': 'es6/main.js',
-                    'assets/js/preload/preloadContainer.js': 'es6/preloadContainer.js',
-                     'assets/js/background/mainMessagingEmitter.js': 'es6/mainMessagingEmitter.js',
-
+                     'comm/messenger.js': 'es6/comm/messenger.js',
+                    'assets/js/background/main.js': 'es6/js/background/main.js',
+                    'assets/js/preload/preloadContainer.js': 'es6/js/preload/preloadContainer.js',
+                     'assets/js/background/mainMessaging.js': 'es6/js/background/mainMessaging.js',
                 }
             }
         },
@@ -88,11 +89,11 @@ module.exports = function(grunt) {
                 src: [
                     'assets/js/DAO/oldCommDAO.js',
                     // 'assets/js/background/bLog.js',
-                    'es5/main.js',
+                    'assets/js/background/main.js',
                     'assets/js/services/windowCreator.js',
                     'assets/js/services/windowEvents.js',
                     'assets/js/services/WindowManager.js',
-                    'assets/js/background/mainMessagingEmitter.js',
+                    'assets/js/background/mainMessaging.js',
                     'assets/js/background/mainModuleLoader.js',
                     'assets/js/background/mainCrashManager.js',
                     'assets/js/background/mac-menuList.js',
@@ -101,13 +102,14 @@ module.exports = function(grunt) {
                 ],
                 dest: '<%= distFolder %>/background.min.js'
             },
-            // hr: {
-            //     src: [
-            //         'assets/js/container/hiddenWindow.js'
+            hr: {
+                src: [
+                    'assets/js/container/hiddenWindow.js'
+                    ,'assets/js/services/notification.js'
 
-            //     ],
-            //     dest: '<%= distFolder %>/hiddenWindow.min.js'
-            // },
+                ],
+                dest: '<%= distFolder %>/hiddenWindow.min.js'
+            },
             // web: {
             //     src: [
             //         'assets/js/container/sb.js'
