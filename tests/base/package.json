@@ -1,0 +1,14 @@
+{
+  "name": "Electron_2_TESTS",
+  "version": "2.0.0",
+  "description": "Electron_2.0 Test Suits",
+  "main": "main.js",
+  "scripts": {
+    "test": "run tests"
+  },
+  "author": "Sithika",
+  "license": "ISC",
+  "devDependencies": {
+    "electron-mocha": "^3.4.0"
+  }
+}

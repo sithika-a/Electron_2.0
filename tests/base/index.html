@@ -1,0 +1,96 @@
+<html>
+<head>
+  <meta name="referrer" content="always">
+  <link href="../node_modules/electron-mocha/node_modules/mocha/mocha.css" rel="stylesheet">
+  <script src="jquery-2.0.3.min.js"></script>
+</head>
+<body>
+
+<div id="mocha"></div>
+
+<script type="text/javascript" charset="utf-8">
+(function() {
+ 
+  var path = require('path');
+  var electron = require ('electron');
+  var remote = electron.remote;
+  var ipcRenderer = electron.ipcRenderer;
+
+    var win = remote.getCurrentWindow();
+    win.show();
+    win.focus();
+
+  // Show DevTools.
+  document.oncontextmenu = function(e) {
+    remote.getCurrentWindow().inspectElement(e.clientX, e.clientY);
+  }
+
+
+  // var Coverage = require('electabul').Coverage;
+
+  var Mocha = require('mocha');
+
+  var mocha = new Mocha();
+
+  mocha.ui('bdd').reporter('html');
+  // mocha.timeout(isCi ? 30000 : 10000)
+
+  // var query = Mocha.utils.parseQuery(window.location.search || '');
+  // if (query.grep) mocha.grep(query.grep);
+  // if (query.invert) mocha.invert();
+
+  // Read all test files.
+  var walker = require('walkdir').walk(require('path').dirname(__dirname), {
+    no_recurse: true
+  });
+
+  walker.on('file', function(file) {
+    if (/-spec\.js$/.test(file))
+      mocha.addFile(file);
+
+
+      var runner = mocha.run(function() {
+
+      Mocha.utils.highlightTags('code');
+
+      var coverage = new Coverage({
+        libPath: path.join(__dirname, '..', '..', 'lib'),
+        outputPath: path.join(__dirname, '..', '..', 'out', 'coverage'),
+        formats: ['text', 'lcov']
+      });
+      coverage.addCoverage(ipcRenderer.sendSync('get-main-process-coverage'))
+      coverage.generateReport()
+
+    });
+  });
+
+  // walker.on('end', function() {
+  //   var runner = mocha.run(function() {
+  //     if (isCi && runner.hasOnly) {
+  //       try {
+  //         throw new Error('A spec contains a call to it.only or describe.only and should be reverted.')
+  //       } catch (error) {
+  //         console.error(error.stack || error)
+  //       }
+  //       // ipcRenderer.send('process.exit', 1)
+  //       return
+  //     }
+
+  //     Mocha.utils.highlightTags('code');
+
+  //     var coverage = new Coverage({
+  //       libPath: path.join(__dirname, '..', '..', 'lib'),
+  //       outputPath: path.join(__dirname, '..', '..', 'out', 'coverage'),
+  //       formats: ['text', 'lcov']
+  //     });
+  //     coverage.addCoverage(ipcRenderer.sendSync('get-main-process-coverage'))
+  //     coverage.generateReport()
+
+  //     // if (isCi)
+  //     //   ipcRenderer.send('process.exit', runner.failures);
+  //   });
+  // });
+})();
+</script>
+</body>
+</html>

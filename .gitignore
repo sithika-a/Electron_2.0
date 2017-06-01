@@ -1,0 +1,31 @@
+#Grunt files
+.grunt
+.cache
+.sublime-grunt.cache
+*.sublime-workspace
+*.zip
+
+#Mac file system
+*.DS_Store
+
+#Build compiled
+compiled
+
+#backup not needed
+backup
+
+#Depedent nodeModules
+node_modules
+
+#gsutil config
+cloudUpload
+
+#compiled preload mins
+archive
+asar
+backgroundLogs
+app
+appUpdates
+
+#json
+engineUpdater.json
