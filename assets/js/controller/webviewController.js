@@ -277,9 +277,7 @@
              * constant "ipc-message" check docs
              * https://github.com/atom/electron/blob/master/docs/api/web-view-tag.md
              **/
-             console.log('view : ',this.getView())
             this.getView().addEventListener('ipc-message', function(event) {
-                console.log('Message from Webview ...',event.channel,':',event.args[0])
                 util.publish('/msgModule/handler/', event.args[0], event.channel);
             });
         },

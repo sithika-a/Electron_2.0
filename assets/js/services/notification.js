@@ -17,6 +17,7 @@
             this.create();
         }
         FullNotification.prototype.create = function() {
+            console.log('create : ')
             var options = {
                 title: this.title,
                 body: this.body,
@@ -28,8 +29,11 @@
                 focusContainer: this.focusContainer
             };
             if (/^darwin/.test(process.platform)) {
+                console.log('macNotification ...')
                 this.macNotification(options);
             } else if (/^win/.test(process.platform)) {
+                                console.log('win Notification ...')
+
                 this.windowsNotification(options);
             }
         };
@@ -69,9 +73,10 @@
                 sourceObj = nObj.source;
             notificatioObj = this.getnotifyObject(sourceObj);
             if (notificationController.canUseTerminlNotifier) {
+                console.log('macTerminalNotification:',notificatioObj)
                 this.macTerminalNotification(notificatioObj, nObj);
             } else {
-                //console.warn('Falling back to backup notification');
+                console.warn('Falling back to backup notification');
                 if (!feedbackAlerted) {
                     feedbackAlerted = true
                     util.publish('/feedback/initiate', {
@@ -328,6 +333,7 @@
             canUseTerminlNotifier: false,
             // userPermissionToWriteFile: false,
             create: function() {
+                console.log('notificationController : create : ',this.activeNotification)
                 if (!this.activeNotification) {
                     this.activeNotification = true;
                     var args = [].slice.apply(arguments);
@@ -341,11 +347,13 @@
             },
             checkNotificationDependency: function() {
                 if (/^darwin/.test(process.platform)) {
+                    console.log("tring to give pre");
                     fs.access(FULLClient.getFilePath() + this.terminalNotifierPath, fs.W_OK && fs.R_OK && fs.X_OK, function(err, res) {
                         if (err) {
                             console.log("Error File down have permissions:", err);
                             this.givingPermissionToTerminalNotifier();
                         } else {
+                            console.log("pre done");
                             this.canUseTerminlNotifier = true;
                         }
                     }.bind(this)); // fs.access ends

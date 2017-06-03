@@ -1,32 +1,36 @@
-var path = require('path');
-// var WindowCreator = require(path.join(__dirname,'WindowCreator.js'));
-// var namespace = require(path.join(__dirname,'../assets/emitter/js/DAO/oldCommDAO.js'));
+let path = require('path');
+// let WindowCreator = require(path.join(__dirname,'WindowCreator.js'));
+// let namespace = require(path.join(__dirname,'../assets/emitter/js/DAO/oldCommDAO.js'));
 
-var util = {
+let util = {
     name: 'Utilities',
-    log: function() {
-        var tmp = [];
-        for (var i = arguments.length - 1; i >= 0; i--) {
-            tmp[i] = arguments[i];
-        };
-        tmp.splice(0, 0, '[' + this.name + '] : ');
-        // console.log.apply(console, tmp);
-    }
+    log(...args) {
+        // let tmp = [].slice.call(arguments);
+        // tmp.splice(0, 0, '[' + this.name + '] : ');
+        console.log.apply(console, [this.name,args]);
+    },
+    // log: function() {
+    //     let tmp = [];
+    //     for (let i = arguments.length - 1; i >= 0; i--) {
+    //         tmp[i] = arguments[i];
+    //     };
+    //     tmp.splice(0, 0, '[' + this.name + '] : ');
+    //     // console.log.apply(console, tmp);
+    // }
 };
 
-var WindowManager = {
+let WindowManager = {
     name: "WindowManager",
-
-    log: function() {
+    log() {
         console.log.apply(console, arguments);
     },
-    getAllWindows: function() {
+    getAllWindows() {
         return typeof __BrowserWindow != 'undefined' ? __BrowserWindow.getAllWindows() : [];
     },
-    getWindowById: function(id) {
+    getWindowById(id) {
         return (parseInt(id) && typeof __BrowserWindow != 'undefined') ? __BrowserWindow.fromId(id) : false;
     },
-    getConfig: function() {
+    getConfig() {
         if (!this.config) {
             try {
                 // WorkAround for check based on code
@@ -38,33 +42,33 @@ var WindowManager = {
         }
         return this.config;
     },
-    getContainerPreload: function() {
-        return path.join(this.getFilePath(), 'assets/js/preload/preloadContainer.js');
+    getContainerPreload() {
+        return path.join(this.getFilePath(), 'es6/js/preload/preloadContainer.js');
     },
-    getHiddenWindowPreload: function() {
-        return path.join(this.getFilePath(), 'assets/js/preload/preloadHiddenWindow.js');
+    getHiddenWindowPreload() {
+        return path.join(this.getFilePath(), 'es6/js/preload/preloadHiddenWindow.js');
     },
-    getwebPreload: function() {
-        var manifest = require(path.join(this.getFilePath(), 'package.json')); // getting package json path
+    getwebPreload() {
+        let manifest = require(path.join(this.getFilePath(), 'package.json')); // getting package json path
         arr = manifest.main.match(/(.*asar)/g) // matching asar string. This will return matching array 
         asarPath = arr && arr.length ? '/' + arr[0] : '/asar/full.asar'; // getting first matched value 
         return path.join(this.getFilePath(), asarPath, 'webPreload.min.js'); // getting asar path
     },
-    getFilePath: function() {
+    getFilePath() {
         if (this.getConfig() && this.getConfig().mode == 'code') {
             return process.cwd()
         } else {
             return path.join(path.join(process.resourcesPath, "app"));
         }
     },
-    openHiddenContainer: function() {
+    openHiddenContainer() {
         console.log('Hidden Window is getting opened !! ');
 
         // if (emitterController.getContainer('AnyWhereWorks'))
         //     return;
 
-        var filepath = this.getFilePath();
-        var hiddenWindow = new WindowCreator('file://' + this.getFilePath() + '/view/hiddenWindow.html', {
+        let filepath = this.getFilePath();
+        let hiddenWindow = new WindowCreator('file://' + this.getFilePath() + '/view/hiddenWindow.html', {
             "title": namespace.HIDDEN_CONTAINER,
             "width": 1100,
             "height": 680,
@@ -82,12 +86,12 @@ var WindowManager = {
         });
         return hiddenWindow.get();
     },
-    openWebContainer: function(isShowWindow) {
-        this.log('WebContainer is getting opened !! ');
+    openWebContainer(isShowWindow) {
+        util.log('WebContainer is getting opened !! ');
         if (emitterController.getContainer('FULL'))
             return;
 
-        var WebContainer = new WindowCreator('file://' + this.getFilePath() + '/view/FULL.html', {
+        let WebContainer = new WindowCreator('file://' + this.getFilePath() + '/view/FULL.html', {
             "title": namespace.CONTAINER_CHAT,
             "width": 1152,
             "height": 700,
@@ -96,7 +100,7 @@ var WindowManager = {
             "center": true,
             "minWidth": 1060,
             "minHeight": 680,
-            "show": isShowWindow ? true : false,
+            "show": false,
             "webPreferences": {
                 "preload": this.getContainerPreload(),
                 "webSecurity": false,
@@ -108,40 +112,40 @@ var WindowManager = {
         this.setSbHandler(WebContainer.get());
         return WebContainer.get();
     },
-    setSbHandler: function(winRef) {
-        winRef.on('focus', function(event) {
+    setSbHandler(winRef) {
+        winRef.on('focus', event => {
             Emitter.emit("onFocus", {
                 container: 'FULL'
             });
             lastFocussedWindow = namespace.CONTAINER_SB;
         });
-        winRef.on('blur', function(event) {
+        winRef.on('blur', event => {
             Emitter.emit("onBlur");
         });
     },
-    setV2Handler: function(winRef) {
-        winRef.on('focus', function(event) {
+    setV2Handler(winRef) {
+        winRef.on('focus', event => {
             Emitter.emit("onFocus", {
                 container: 'V2'
             });
         });
-        winRef.on('blur', function(event) {
+        winRef.on('blur', event => {
             Emitter.emit("onBlur");
         });
     },
-    openV2Container: function(isShowWindow) {
+    openV2Container(isShowWindow) {
         if (emitterController.getContainer('V2'))
             return;
 
         this.log('V2Container is getting opened !! ');
-        var v2Container = new WindowCreator('file://' + this.getFilePath() + '/view/V2.html', {
+        let v2Container = new WindowCreator('file://' + this.getFilePath() + '/view/V2.html', {
             "title": namespace.CONTAINER_V2,
             "width": 550,
             "height": 710,
             "fullscreen": false,
             "kiosk": false,
             "center": true,
-            "show": isShowWindow ? true : false,
+            "show": false,
             "minWidth": 550,
             "minHeight": 710,
             "webPreferences": {
@@ -153,28 +157,28 @@ var WindowManager = {
         });
         this.setV2Handler(v2Container.get());
     },
-    setChatHandler: function(winRef) {
-        winRef.on('minimize', function() {
-            var _tc = new Thinclient('state');
+    setChatHandler(winRef) {
+        winRef.on('minimize', () => {
+            let _tc = new Thinclient('state');
             _tc[_tc.opt]['window']['isMinimized'] = true;
             emitterController.chatHandler(null, _tc);
         });
-        winRef.on('focus', function(event) {
+        winRef.on('focus',() => {
             Emitter.emit("onFocus", {
                 container: 'Chat'
             });
             lastFocussedWindow = namespace.CONTAINER_CHAT;
-            var _tc = new Thinclient('state');
+            let _tc = new Thinclient('state');
             _tc[_tc.opt]['window']['isFocused'] = true;
             emitterController.chatHandler(null, _tc);
         });
-        winRef.on('blur', function(event) {
+        winRef.on('blur', () => {
             Emitter.emit("onBlur");
-            var _tc = new Thinclient('state');
+            let _tc = new Thinclient('state');
             _tc[_tc.opt]['window']['isBlured'] = true;
             emitterController.chatHandler(null, _tc);
         });
-        winRef.webContents.on('new-window', function(e) {
+        winRef.webContents.on('new-window',e => {
             /*
              * new Window opening should be prevented from main process 
              * cannot be done from renderer.
@@ -183,13 +187,13 @@ var WindowManager = {
             e.preventDefault();
         });
     },
-    openChatContainer: function() {
+    openChatContainer() {
         // if (emitterController.getContainer('AnyWhereWorks'))
         //     return;
 
-        this.log('ChatContainer is getting opened !! ');
-        var filepath = this.getFilePath();
-        var chatContainer = new WindowCreator('file://' + this.getFilePath() + '/view/AnyWhereWorks.html', {
+        util.log('ChatContainer is getting opened !! ');
+        let filepath = this.getFilePath();
+        let chatContainer = new WindowCreator('file://' + this.getFilePath() + '/view/AnyWhereWorks.html', {
             "title": namespace.CONTAINER_CHAT,
             "width": 1100,
             "height": 680,
@@ -207,11 +211,11 @@ var WindowManager = {
         });
         // this.setChatHandler(chatContainer.get());
     },
-    openTimerWidget: function(options) {
+    openTimerWidget(options) {
         if (emitterController.getContainer(namespace.CONTAINER_TIMER))
             return;
 
-        var timerContainer = new WindowCreator('file://' + this.getFilePath() + '/view/Timer.html', {
+        let timerContainer = new WindowCreator('file://' + this.getFilePath() + '/view/Timer.html', {
             "title": "TimerWidget",
             "alwaysOnTop": true,
             "frame": false,
@@ -230,7 +234,7 @@ var WindowManager = {
         if (parseInt(process.versions['electron'].split('.')[1]) < 36)
             timerContainer.get().setAlwaysOnTop(true);
     },
-    openSBMochaRunner: function() {
+    openSBMochaRunner() {
         this.log('ChatContainer is getting opened !! ');
         new WindowCreator('file://' + this.getFilePath() + '/tests/html/sbMochaRun.html', {
             "title": "Mocha",
@@ -244,7 +248,7 @@ var WindowManager = {
             }
         });
     },
-    openSBJasmineRunner: function() {
+    openSBJasmineRunner() {
         this.log('openSBJasmineRunner is getting opened !! ');
         new WindowCreator('file://' + this.getFilePath() + '/tests/jasmine/view/FULLJasmineRunner.html', {
             "title": namespace.CONTAINER_CHAT + "-JasmineRunner",
@@ -262,7 +266,7 @@ var WindowManager = {
             }
         });
     },
-    openV2MochaRunner: function() {
+    openV2MochaRunner() {
         this.log('ChatContainer is getting opened !! ');
         new WindowCreator('file://' + this.getFilePath() + '/tests/html/v2MochaRun.html', {
             "title": "Mocha",
@@ -276,7 +280,7 @@ var WindowManager = {
             }
         });
     },
-    openWebsite: function(url) {
+    openWebsite(url) {
         this.log('openWebsite is getting opened !! ');
         new WindowCreator(url, {
             "title": "Website Loading....",
@@ -291,7 +295,6 @@ var WindowManager = {
         });
     }
 }
-module.exports = WindowManager;
 
 // Emitter.on('/windowManager/open/chat/container', WindowManager.openChatContainer.bind(WindowManager));
 // Emitter.on('/windowManager/open/sb/container', WindowManager.openWebContainer.bind(WindowManager));

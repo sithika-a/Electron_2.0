@@ -3,9 +3,7 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 // let path = require('path');
-var _require = require(path.join(__dirname, '../comm/messenger.js')),
-    messenger = _require.messenger,
-    profile = _require.profile;
+var messenger = require(path.join(__dirname, '../comm/messenger.js'));
 
 var userInfo = null;
 var nativeImage = void 0;
@@ -423,5 +421,3 @@ messenger.subscribe('msg-to-Main', function (event) {
     console.log('message received  in main : ' + event);
     emitterController.mainHandler(event.data);
 });
-
-module.exports = emitterController;

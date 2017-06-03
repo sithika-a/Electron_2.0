@@ -4,10 +4,7 @@
     console.log("Loading PRELOAD ..");
     var domain = location.host || location.href;
     console.debug("Domain : " + domain);
-
-    var _require$remote$requi = require("electron").remote.require("../comm/messenger.js"),
-        messenger = _require$remote$requi.messenger,
-        profile = _require$remote$requi.profile;
+    var messenger = require("electron").remote.require("../es6/comm/messenger.js");
 
     R["FULLClient"] = {
         require: require,
@@ -21,30 +18,30 @@
             },
             wrap_msg: function wrap_msg(destination, message) {
                 if (destination && this.isValid(message)) return {
-                    name: profile.actionData,
+                    name: messenger.profile.actionData,
                     destination: destination,
                     message: message
                 };
             },
             sendToHR: function sendToHR(message) {
-                var destination = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : profile.channel.Mediator;
+                var destination = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : messenger.profile.channel.Mediator;
 
                 var msgObj = this.wrap_msg(destination, message);
-                console.log("wrapper of message : " + JSON.stringify(msgObj));
+                // console.log(`wrapper of message : ${JSON.stringify(msgObj)}`);
 
                 if (msgObj) messenger.sendToHR(msgObj);
             },
             sendToMain: function sendToMain(message) {
-                this.sendToHR(message, profile.channel.Main);
+                this.sendToHR(message, messenger.profile.channel.Main);
             },
             sendToV2: function sendToV2(message) {
-                this.sendToHR(message, profile.channel.V2);
+                this.sendToHR(message, messenger.profile.channel.V2);
             },
             sendToChat: function sendToChat(message) {
-                this.sendToHR(message, profile.channel.CHAT);
+                this.sendToHR(message, messenger.profile.channel.CHAT);
             },
             sendToSB: function sendToSB(message) {
-                this.sendToHR(message, profile.channel.SB);
+                this.sendToHR(message, messenger.profile.channel.SB);
             }
         }
     };

@@ -2,7 +2,7 @@
     console.log(`Loading PRELOAD ..`);
     let domain = location.host || location.href;
     console.debug(`Domain : ${domain}`);
-    const {messenger,profile} = require(`electron`).remote.require(`../comm/messenger.js`);
+    const messenger = require(`electron`).remote.require(`../comm/messenger.js`);
 
     R["FULLClient"] = {
         require,
@@ -17,28 +17,28 @@
             wrap_msg(destination, message) {
                 if (destination && this.isValid(message))
                 return {
-                        name: profile.actionData,
+                        name: messenger.profile.actionData,
                         destination: destination,
                         message: message
                 }
             },
-            sendToHR(message, destination = profile.channel.Mediator) {
+            sendToHR(message, destination = messenger.profile.channel.Mediator) {
                 var msgObj = this.wrap_msg(destination, message);
-                console.log(`wrapper of message : ${JSON.stringify(msgObj)}`);
+                // console.log(`wrapper of message : ${JSON.stringify(msgObj)}`);
 
                 if (msgObj) messenger.sendToHR(msgObj);
             },
             sendToMain(message) {
-                this.sendToHR(message, profile.channel.Main);
+                this.sendToHR(message, messenger.profile.channel.Main);
             },
             sendToV2(message) {
-                this.sendToHR(message, profile.channel.V2);
+                this.sendToHR(message, messenger.profile.channel.V2);
             },
             sendToChat(message) {
-                this.sendToHR(message, profile.channel.CHAT);
+                this.sendToHR(message, messenger.profile.channel.CHAT);
             },
             sendToSB(message) {
-                this.sendToHR(message, profile.channel.SB);
+                this.sendToHR(message, messenger.profile.channel.SB);
             }
         }
     }

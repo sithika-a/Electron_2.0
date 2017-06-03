@@ -1,41 +1,39 @@
 "use strict";
 
-(function(R) {
+(function (R) {
     console.log("Loading PRELOAD ..");
-    var domain = location.host || location.href;
-    var path = require('path');
+    let domain = location.host || location.href;
+    let path = require("path");
     console.debug("Domain : " + domain);
-    var messenger = require("electron").remote.require(path.join(process.cwd(),"/comm/messenger.js"));
-
+    // const {messenger,profile} = require(`electron`).remote.require(`../comm/messenger.js`);
+    console.log(path.join(process.cwd(), "/comm/messenger.js"));
+    let messenger = require("electron").remote.require(path.join(process.cwd(), "/comm/messenger.js"));
+    console.log('messenger  :', messenger.subscribe);
     R["FULLClient"] = {
-        require: require,
+        require,
         emitter: {
-            namespace : messenger.namespace,
-            broadCast : messenger.broadCast,
+            broadCast: messenger.broadCast,
             subscribe: messenger.subscribe,
             unSubscribe: messenger.unSubscribe,
             unSubscribeAll: messenger.unSubscribeAll,
-            isValid: function(msg) {
-                if (msg && typeof msg == 'object') {
+            isValid: function isValid(msg) {
+                if (msg && typeof msg == "object") {
                     return msg;
                 }
             },
-            sendToMain: function (msg) {
-                console.log('sending to main from messenger')
-                if(this.isValid(msg))
-                messenger.sendToMain(msg);
+            sendToMain: function sendToMain(msg) {
+                console.log("sending to main from win");
+                if (this.isValid(msg)) messenger.sendToMain(msg);
             },
-            sendToV2: function (msg) {
-                if(this.isValid(msg))
-                messenger.sendToV2(msg);
+            sendToV2: function sendToV2(msg) {
+                if (this.isValid(msg)) messenger.sendToV2(msg);
             },
-            sendToChat: function (msg) {
-                if(this.isValid(msg))
-                messenger.sendToChat(msg);
+            sendToChat: function sendToChat(msg) {
+                console.log('sending to chat from hidden win');
+                if (this.isValid(msg)) messenger.sendToChat(msg);
             },
-            sendToSB: function (msg) {
-                if(this.isValid(msg))
-                messenger.sendToSB(msg);
+            sendToSB: function sendToSB(msg) {
+                if (this.isValid(msg)) messenger.sendToSB(msg);
             }
         }
     };

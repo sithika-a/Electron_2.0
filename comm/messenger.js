@@ -19,6 +19,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
     var messenger = {
+        profile: profile,
 
         bridge: {
             on: function on(event, callback) {
@@ -58,9 +59,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         },
         broadCast: function broadCast(target, message) {
             if (this.isValid(message)) {
-                console.log('its a valid message');
+                console.log('its a valid message', message);
                 if (target) {
-                    console.log('BroadCasting ....');
+                    console.log('BroadCasting ....', target);
                     this.bridge.emit(target, message);
                     return true;
                 }
@@ -84,5 +85,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this.broadCast(profile.channel.SB, msg);
         }
     };
-    module.exports = { profile: profile, messenger: messenger };
+    module.exports = messenger;
 })();

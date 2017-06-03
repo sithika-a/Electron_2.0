@@ -7,7 +7,6 @@ try {
         fs,
         FormData,
         request,
-        path,
         socks,
         getPort;
 
@@ -20,7 +19,6 @@ try {
         fs = require('fs');
         FormData = require('form-data');
         request = require("request");
-        path = require('path');
         getPort = require('get-port');
 
     } catch (e) {

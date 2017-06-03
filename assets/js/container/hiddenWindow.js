@@ -198,7 +198,7 @@ var messageHandler = {
                      case namespace.Mediator:
                     {
                         console.log('to HiddenWindow:',event.data.message)
-                        FULLClient.emitter.sendToMain(event.data.message);
+                        FULLClient.emitter.sendToHR(event.data.message);
                         break;
                     }
                     // case "getReceiverInfo" :{

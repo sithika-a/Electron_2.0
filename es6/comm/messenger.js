@@ -1,21 +1,20 @@
 (function() {
     const Emitter = new(require("events").EventEmitter);
 
-    const profile = { // Define Module
-        id: `Messenger`, // module Name
-        action: `communication`, // purpose of module
-        actionData: `winCommunication`,
-        message : null,
-        channel: {
-            SB: `msg-to-FULL`, // SB container
-            CHAT: `msg-to-Chat`, // AnyWhereWorks container
-            V2: `msg-to-V2`, // v2 container
-            Mediator: `msg-to-Mediator`, // hidden Renderer
-            Main: `msg-to-Main` // BackGround
-        }
-    };
-    const messenger = {
-
+    let messenger = {
+        profile: { // Define Module
+            id: `Messenger`, // module Name
+            action: `communication`, // purpose of module
+            actionData: `winCommunication`,
+            message: null,
+            channel: {
+                SB: `msg-to-FULL`, // SB container
+                CHAT: `msg-to-Chat`, // AnyWhereWorks container
+                V2: `msg-to-V2`, // v2 container
+                Mediator: `msg-to-Mediator`, // hidden Renderer
+                Main: `msg-to-Main` // BackGround
+            }
+        },
         bridge: {
             on(event, callback) {
                 Emitter.on(event, callback);
@@ -55,9 +54,9 @@
         },
         broadCast(target, message) {
             if (this.isValid(message)) {
-                console.log('its a valid message');
+                console.log('its a valid message', message);
                 if (target) {
-                    console.log('BroadCasting ....')
+                    console.log('BroadCasting ....', target)
                     this.bridge.emit(target, message)
                     return true;
                 }
@@ -67,20 +66,20 @@
             throw new Error('[messenger.broadCast] : MessageData is not an Object :' + message);
         },
         sendToMain(msg) {
-            this.broadCast(profile.channel.Main, msg)
+            this.broadCast(this.profile.channel.Main, msg)
         },
         sendToV2(msg) {
-            this.broadCast(profile.channel.V2, msg);
+            this.broadCast(this.profile.channel.V2, msg);
         },
         sendToHR(msg) {
-            this.broadCast(profile.channel.Mediator, msg);
+            this.broadCast(this.profile.channel.Mediator, msg);
         },
         sendToChat(msg) {
-            this.broadCast(profile.channel.CHAT, msg);
+            this.broadCast(this.profile.channel.CHAT, msg);
         },
         sendToSB(msg) {
-            this.broadCast(profile.channel.SB, msg);
+            this.broadCast(this.profile.channel.SB, msg);
         }
     }
-    module.exports = {profile, messenger};
+    module.exports = messenger;
 })();

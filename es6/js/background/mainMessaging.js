@@ -1,5 +1,5 @@
 // let path = require('path');
-let {messenger,profile} = require(path.join(__dirname,`../comm/messenger.js`));
+let messenger = require(path.join(__dirname,`../es6/comm/messenger.js`));
 
 let userInfo = null;
 let nativeImage;

@@ -6,20 +6,21 @@ module.exports = function(grunt) {
       pkg: grunt.file.readJSON('package.json'),
       jsVersion : '<%= pkg.version %> - <%= grunt.template.today("mmm,dd yyyy HH:MM") %>',
       mode : '<%= pkg.mode %>',
-        babel: {
-            options: {
-                sourceMap: false,
-                presets: ['es2015']
-            },
-            dist: {
-                files: {
-                     'comm/messenger.js': 'es6/comm/messenger.js',
-                    'assets/js/background/main.js': 'es6/js/background/main.js',
-                    'assets/js/preload/preloadContainer.js': 'es6/js/preload/preloadContainer.js',
-                     'assets/js/background/mainMessaging.js': 'es6/js/background/mainMessaging.js',
-                }
-            }
-        },
+        // babel: {
+        //     options: {
+        //         sourceMap: false,
+        //         presets: ['es2015']
+        //     },
+        //     dist: {
+        //         files: {
+        //             'comm/messenger.js': 'es6/comm/messenger.js',
+        //             'assets/js/background/main.js': 'es6/js/background/main.js',
+        //             'assets/js/preload/preloadContainer.js': 'es6/js/preload/preloadContainer.js',
+        //             'assets/js/preload/preloadHiddenWindow.js': 'es6/js/preload/preloadHiddenWindow.js',
+        //             'assets/js/background/mainMessaging.js': 'es6/js/background/mainMessaging.js',
+        //         }
+        //     }
+        // },
         uglify: {
           options: {
         mangle: false, // true will change the name to single letter alphabets, Difficult to debug.
@@ -45,25 +46,25 @@ module.exports = function(grunt) {
         ],
         dest: '<%= distFolder%>/kDebugLogging.min.js'
       },
-      preloadWeb: {
-        options:{
-          banner : "/* Preload JS */"
-        },
-        src:[
-          'assets/js/preload/preload.js'
-          ,'assets/js/preload/preloadWeb.js'
-        ],
-        dest : '<%= asarArchive %>/webPreload.min.js'
-      },
-      preloadContainer: {
-        options:{
-          banner : "/* Preload JS */"
-        },
-        src:[
-          'assets/js/preload/preloadContainer.js'
-        ],
-        dest : '<%= asarArchive %>/preloadContainer.min.js'
-      },
+      // preloadWeb: {
+      //   options:{
+      //     banner : "/* Preload JS */"
+      //   },
+      //   src:[
+      //     'assets/js/preload/preload.js'
+      //     ,'assets/js/preload/preloadWeb.js'
+      //   ],
+      //   dest : '<%= asarArchive %>/webPreload.min.js'
+      // },
+      // preloadContainer: {
+      //   options:{
+      //     banner : "/* Preload JS */"
+      //   },
+      //   src:[
+      //     'assets/js/preload/preloadContainer.js'
+      //   ],
+      //   dest : '<%= asarArchive %>/preloadContainer.min.js'
+      // },
             // background: {
             //     src: [
             //         'es5/main.js'
@@ -82,26 +83,26 @@ module.exports = function(grunt) {
             //     ],
             //     dest: '<%= asarArchive %>/webPreload.js'
             // },
-            background_page: {
-                options: {
-                    banner: '/* Background JS */ var jsVersion = \'<%= jsVersion %>\';'
-                },
-                src: [
-                    'assets/js/DAO/oldCommDAO.js',
-                    // 'assets/js/background/bLog.js',
-                    'assets/js/background/main.js',
-                    'assets/js/services/windowCreator.js',
-                    'assets/js/services/windowEvents.js',
-                    'assets/js/services/WindowManager.js',
-                    'assets/js/background/mainMessaging.js',
-                    'assets/js/background/mainModuleLoader.js',
-                    'assets/js/background/mainCrashManager.js',
-                    'assets/js/background/mac-menuList.js',
-                    'assets/js/background/win-menuList.js',
-                    'assets/js/background/menuActions.js'
-                ],
-                dest: '<%= distFolder %>/background.min.js'
-            },
+            // background_page: {
+            //     options: {
+            //         banner: '/* Background JS */ var jsVersion = \'<%= jsVersion %>\';'
+            //     },
+            //     src: [
+            //         'assets/js/DAO/oldCommDAO.js',
+            //         // 'assets/js/background/bLog.js',
+            //         'assets/js/background/main.js',
+            //         'assets/js/services/windowCreator.js',
+            //         'assets/js/services/windowEvents.js',
+            //         'assets/js/services/WindowManager.js',
+            //         'assets/js/background/mainMessaging.js',
+            //         'assets/js/background/mainModuleLoader.js',
+            //         'assets/js/background/mainCrashManager.js',
+            //         'assets/js/background/mac-menuList.js',
+            //         'assets/js/background/win-menuList.js',
+            //         'assets/js/background/menuActions.js'
+            //     ],
+            //     dest: '<%= distFolder %>/background.min.js'
+            // },
             hr: {
                 src: [
                     'assets/js/container/hiddenWindow.js'
@@ -124,7 +125,67 @@ module.exports = function(grunt) {
             //     ],
             //     dest: '<%= distFolder %>/v2Container.min.js'
             // },
-            chat: {
+            // chat: {
+            //     src: [
+            //         'assets/js/services/global.js'
+            //         ,'assets/js/services/utilities.js'
+            //         ,'assets/js/DAO/oldCommDAO.js'
+            //         ,'assets/js/DAO/userDAO.js'
+            //         ,'assets/js/services/fullAuth.js'
+            //         ,'assets/js/controller/webviewController.js'
+            //         ,'assets/js/container/chat.js'
+            //         ,'assets/js/services/asarUpdater.js'
+            //         ,'assets/js/services/appUpdater.js'
+            //         ,'assets/js/services/updateHelper.js'
+            //         ,'assets/js/services/appRestart.js'
+            //         ,'assets/js/controller/moduleController.js'
+            //         ,'assets/js/services/login.js'
+            //         ,'assets/js/services/userLoginRegister.js'
+            //         ,'assets/js/services/downloader.js'
+            //         ,'assets/js/services/notification.js'
+            //         ,'assets/js/services/privateBrowsing.js'
+            //         ,'assets/js/services/reLogin.js'
+            //         ,'assets/js/services/mousemenu.js'
+            //         ,'assets/js/services/writePermissionChecker.js'
+            //         ,'assets/js/services/engineUpdater.js'
+            //         ,'assets/js/services/updateUI.js'
+            //         ,'assets/js/services/mailSender.js'
+            //         ,'assets/js/services/removeAccess.js'
+          
+            //     ],
+            //     dest: '<%= distFolder %>/chatContainer.min.js'
+            // }
+        },
+         concat: {
+      options: {
+        separator: ';',
+        stripBanners: true
+      },
+       background_page: {
+                options: {
+                    banner: '/* Background JS */ var jsVersion = \'<%= jsVersion %>\';'
+                },
+                src: [
+                    'assets/js/DAO/oldCommDAO.js',
+                    // 'assets/js/background/bLog.js',
+                    'es6/js/background/main.js',
+                    'assets/js/services/windowCreator.js',
+                    'assets/js/services/windowEvents.js',
+                    'es6/js/services/WindowManager.js',
+                    'es6/js/background/mainMessaging.js',
+                    'assets/js/background/mainModuleLoader.js',
+                    'assets/js/background/mainCrashManager.js',
+                    'assets/js/background/mac-menuList.js',
+                    'assets/js/background/win-menuList.js',
+                    'assets/js/background/menuActions.js'
+                ],
+                dest: '<%= distFolder %>/background.min.js'
+            },
+            chat_first: {
+              options  : {
+                 banner: ' var jsVersion = \'<%= jsVersion %>\'; \
+                  var nwUserAgent = navigator.userAgent + " Tc-webkit";',
+                },
                 src: [
                     'assets/js/services/global.js'
                     ,'assets/js/services/utilities.js'
@@ -153,13 +214,7 @@ module.exports = function(grunt) {
           
                 ],
                 dest: '<%= distFolder %>/chatContainer.min.js'
-            }
-        },
-         concat: {
-      options: {
-        separator: ';',
-        stripBanners: true
-      },
+            },
       libs: {
         src:[
             'assets/js/libs/compare-versions.js'
@@ -287,17 +342,17 @@ module.exports = function(grunt) {
         //     }
         // }
     });
-    grunt.loadNpmTasks('grunt-babel');
+    // grunt.loadNpmTasks('grunt-babel');
     // grunt.loadNpmTasks('grunt-mkdir');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-        grunt.loadNpmTasks('grunt-contrib-cssmin');
-                grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
 
     // grunt.loadNpmTasks('grunt-shell-spawn');
     // grunt.loadNpmTasks('grunt-contrib-copy');
         // grunt.registerTask('app', ['babel', 'uglify', 'shell:asar', 'mkdir', 'copy', 'shell:echo', 'shell:sha']);
 
-    grunt.registerTask('app', ['babel', 'uglify','concat','cssmin']);
+    grunt.registerTask('app', [ 'uglify','concat','cssmin']);
 
 };
