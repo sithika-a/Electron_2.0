@@ -3,6 +3,7 @@
  * All Global & namespace should come under
  * this file.
  **/
+
 Array.prototype.filterObjects = function(key, value) {
     return this.filter(function(x) {
         return x[key] === value;

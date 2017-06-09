@@ -7,19 +7,19 @@
     var loginModule = {
         name: 'loginModule',
         userLoginInfo: null,
-        log: function() {
+        log() {
             util.log.apply(this, arguments);
         },
-        getBaseURL: function() {
+        getBaseURL() {
             return FULLClient.getConfig().login;
         },
-        getServiceId: function() {
+        getServiceId() {
             return this.isNewFullAuth() ? FULLClient.getConfig().auth.clientId : FULLClient.getConfig().serviceId;
         },
-        isNewFullAuth: function() {
+        isNewFullAuth() {
             return /fullcreative.fullauth/.test(FULLClient.getConfig().login)
         },
-        getLoginURL: function() {
+        getLoginURL() {
             return this.isNewFullAuth() ?
                 /*
                     Service From
@@ -46,12 +46,12 @@
                 '&allowExternalUser=true';
 
         },
-        getRedirectURL: function() {
+        getRedirectURL() {
             return this.isNewFullAuth() ? 
                         FULLClient.getConfig().auth.redirect
                         : this.getBaseURL() + '/login.jsp';
         },
-        onload: function(evt) {
+        onload(evt) {
             loginModule.log('Recieved login page onload !!! ', evt);
             util.publish('/app/loginModule/onload/recieved');
             evt.target.send('webapp-init', {
@@ -60,7 +60,7 @@
                 contact: {}
             });
         },
-        embedWebviewDom: function() {
+        embedWebviewDom() {
             this.log('Embedding webview login dom ');
             var login = new WebviewProxy('LoginModule', this.getLoginURL(), 'persist:FULLClient:tab');
             login.setContentloaded(this.onload);
@@ -73,28 +73,28 @@
              */
             
         },
-        getMainProcessUserInfo: function() {
+        getUserInfoObj() {
             var tmp = userDAO.getUser();
             tmp.isFullWork = userDAO.getSkillByName('FullWork') ? true : false;
             tmp.isCEA = userDAO.getSkillByName('CEA') ? true : false;
             tmp['crashInfo'] = this.userLoginInfo ? this.userLoginInfo : null;
             return tmp;
         },
-        getUserInfoFromUserLoginRegisterModule : function(){
+        getUserInfoFromUserLoginRegisterModule(){
             util.publish('/userInfo/getSpecDetails/', function(res) {
                 if(res){
                     this.userLoginInfo = res;
                  }
             }.bind(this));
         },
-        sendUserInfoToMainProcess: function() {
-            console.log('sendUserInfoToMainProcess ...')
-            FULLClient.emitter.sendToMain({
+        sendUserInfoToMainProcess() {
+            console.log('sendUserInfoToMainProcess ...');
+            util.subscribe('/util/sendMessage/toMain',{
                 "eType": "userInfo",
-                "userObj": this.getMainProcessUserInfo()
-            });
+                "userObj": this.getUserInfoObj()
+            })
         },
-        getLocalStorageUserData: function() {
+        getLocalStorageUserData() {
             if (userDAO.getUser()) {
                 this.log('USER Data available in storage !!!');
                 util.publish('module/controller/login', {
@@ -109,14 +109,14 @@
                 return false;
             }
         },
-        embedLoginTab: function() {
+        embedLoginTab() {
             this.removedEmbeddedView();
             this.embedWebviewDom();
         },
-        removedEmbeddedView: function() {
+        removedEmbeddedView() {
             $('#LoginModule').remove();
         },
-        saveUser: function(contact) {
+        saveUser(contact) {
             var dcm = contact;
             if (dcm && dcm['success'] && dcm['contact'] && dcm['contact'].login) {
                 this.removedEmbeddedView();
@@ -160,12 +160,12 @@
                 this.log('Application Cookies are cleared !!!');
             }
         },
-        msgHandler: function(msg) {
+        msgHandler(msg) {
             if (msg) {
                 this.saveUser(msg.contact);
             }
         },
-        init: function() {
+        init() {
             /**
              *
              * SHOW login screen and commence login

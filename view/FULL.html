@@ -1,0 +1,375 @@
+<html>
+
+<head>
+    <!-- <title>FULL</title> -->
+    <title>Anywhere Works</title>
+    <link rel="stylesheet" type="text/css" href="../compiled/webContainer.css">
+    <!-- Full Timer -->
+    <!-- Scripts for timer widget will be added in dynamically -->
+    <!-- Full Timer -->
+</head>
+
+<body>
+    <div class="quit-popup-wrapper">
+    <p>Are you sure you want to quit the App ?</p>
+    <a href="javascript:void(0);"  tabindex='2' class="cancel_btn">Cancel</a>
+    <a href="javascript:void(0);"  tabindex='1' class="quit_btn">Quit</a>
+    </div>
+    <div id="closeTabUI" class="closetabPopup">
+    <h4>Close Tab</h4>
+    <code ></code>
+    <div class="popup-body" style="text-align: left;">
+    <textarea tabindex="1" id="userText" row="5" placeholder="Please give the reason."></textarea>
+  </div>
+    <div id="xClosePopUp">
+     <button  value="closeTabNo"  tabindex="4" id="closeTabNo" class="bgNone">Cancel</button>
+     <div class="closeDwn">
+      <a tabindex="2"  value="closeTabYes"  id="closeTabYes" href="javascript:void(0);">Close / Go Available</a>
+    <!--  <a tabindex="2" id="closeTabYes" class="justCloseTab" style="display:none" href="javascript:void(0);">Close Tab</a> -->
+     <a  value="status_switch" tabindex="3" id="status_switch"></a>
+     <ul id="status_scroll">
+          <li><a value="0" href="javascript:void(0);">Close / Go Available</a></li>
+          <li><a value="1" href="javascript:void(0);">Close / Go to Break</a></li>
+          <li><a value="2" href="javascript:void(0);">Close / Meeting</a></li>
+          <li><a value="3" href="javascript:void(0);">Close / System Issues</a></li>
+          <li><a value="4" href="javascript:void(0);">Close / Project</a></li>
+          <li><a value="5" href="javascript:void(0);">Close / Personal</a></li>
+          <li><a value="6" href="javascript:void(0);">Close / Training</a></li>
+          <li><a value="7" href="javascript:void(0);">Close / Offline</a></li>
+     </ul>
+    </div>
+    </div>
+    </div>
+    <div id="top">
+        <!-- Notifications panel -->
+        <div id="notify_panel" class="notify_style">
+            <a href="javascript:void(0);" class="notify_style_close">x</a>
+            <div class="notify_style_text">
+                <h4>Title</h4>
+                <p>Message</p>
+            </div>
+        </div>
+        <div id="answer_phrase_popup">
+            <div class="answer_phrase_content">
+                <a href="javascript:void(0)" tooltip="Please hit enter to close." class="ap_tooltip">
+                    <div class="close_btn tooltip" title="Please hit enter to close."></div>
+                </a>
+                <p id='answer_phrase_val'>Default AnswerPhrase HMIHY?</p>
+            </div>
+        </div>
+        <!-- Chat container design  -->
+        <div id="chat_container" style="display:none;" class="chat_container"></div>
+        <div id="v2_container" class="v2_container">
+            <!-- <iframe id="chat_webview" nwdisable nwfaketop onload="" style="width:100%; height:100%;" src=""> </iframe>-->
+        </div>
+        <!-- Container can be used for both v2 and inBuilt routing -->
+        <div id="inbuit_container" class="inbuit_routing"></div>
+        <div id="mac-bar" class="browser-holder">
+            <header class='main-header' id="buttons">
+                <div class="v2_tab_parent">
+                    <div class="arrowHold hide">
+                        <a href="javascript:void(0)" id="leftArrow" class="arrowLf "></a>
+                        <a href="javascript:void(0)" id="rightArrow" class="arrowRt noActive"></a>
+                    </div>
+                    <ul class="v2_tab">
+                        <li id="1" class="active">
+                            <a href="javascript:void(0)">Anywhere Works</a>
+                            <code class="ico-circle">&times;</code>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Right side icon list holder  -->
+                <ul class="option-list header-interface">
+                    <!-- softPhone -->
+                    <code class="status_loaderCircle"></code>
+                    <li id="softPhoneContainer" class="hide">
+                        <!-- <div class="call-time-drop">
+                            <i class="fa fa-phone"></i>
+                            <span></span>
+                            <a href="javascript:void(0)"><i class="fa fa-caret-down"></i></a>
+                        </div> -->
+                        <div class="softPhoneFramecover call_height">
+                        </div>
+                    </li>
+                    <!-- v2 phone -->
+                    <li id="v2_Phone" title="Display v2-phone" class="dropdown tooltip dial-icon">
+                        <a href="javascript:void(0)">
+                            <i id="v2_Phone_Icon"></i>
+                            <!-- <i id="v2_Phone_Icon" class="fa fa-headphones"></i> -->
+                        </a>
+                        <!-- <ul class="dropdown-menu">
+                                <li> Show v2</li>
+                                <li> ---------- </li>
+                                <li> Available</li>
+                                <li> Break </li>
+                                <li> Meeting</li>
+                                <li> Personal</li>
+                                <li> System</li>
+                                <li> Training</li>
+                                <li> Offline</li>
+                            </ul> -->
+                    </li>
+                    <!--  <li id="_chat" title="Chat" class='chat-icon' style="display:none;">
+                        <a href="javascript:void(0)">
+                           <cite id="_chat_notify_no">0</cite>
+                        </a>
+                    </li> -->
+                    <li id="_feeds" title="Feeds" style="display:none;" class='view-updates'>
+                        <a href="javascript:void(0)">
+                            <!-- <i class="fa fa-cloud-upload"></i> -->
+                            <cite id="_feeds_notify_no">0</cite>
+                        </a>
+                    </li>
+                    <!-- <li class="view-search">
+                        <a></a>
+                    </li> -->
+                    <!-- v2 phone -->
+                    <li id="ibr" title="Inbuilt routing" style="display:none;" class="dropdown tooltip">
+                        <a href="javascript:void(0)"><span id="ibr_Icon" class="io aroffline"></span></a>
+                    </li>
+                    <li id="_feeds_notify" class="feeds-notify" style="display: none;" title="Feeds Notification">
+                        <a href="javascript:void(0)">
+                            <cite id="_feeds_notification_count">0</cite>
+                        </a>
+                    </li>
+                    <li id="_directory" class="directory" style="display: none;" title="Directory">
+                        <a href="javascript:void(0)">
+                            <i id="_directory_notify_no" class="fa fa-user"></i>
+                        </a>
+                    </li>
+                    <!-- Preferences -->
+                    <li id="preferences" class="dropdown more-icon">
+                        <a href="javascript:void(0)">
+                            <i id="preferences_Icon"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li id="_chat" class="chat_ico">Chats <i></i></li>
+                            <li class="divider"></li>
+                            <li>Fetch</li>
+                            <li>Re-Fetch Recent</li>
+                            <li class="divider"></li>
+                            <li>Back up form</li>
+                            <li>Feedback</li>
+                            <li>Team FULL Creative</li>
+                            <li class="divider"></li>
+                            <li class="hover_remove notAllowed">Network Strength
+                                <div class="wifi_strength fr wifi0_signal">
+                                    <code></code>
+                                    <code></code>
+                                    <code></code>
+                                    <code></code>
+                                    <i class="fa fa-ban"></i>
+                                </div>
+                            </li>
+                            <li id="reloadV2">Reload V2</li>
+                            <li class="clear_cache">Clear Cache <i></i></li>
+                            <li id="QuitApp">Quit</li>
+                            <!-- <img src="" style="display:none;" class="userpicture_image" id="userpicture_image"/> -->
+                            <!-- <li id="chat_window_option">Enable Dual Window</li> -->
+                            <!-- <li class="divider"></li> -->
+                            <!-- <li class="zoom_hold">
+                                <a href="javascript:void(0)" class="zoom zoomin"><i class="fa fa-plus"></i></a>
+                                <a href="javascript:void(0)" class="zoom zoomout"><i class="fa fa-minus"></i></a>
+                                <span>100%</span>
+                            </li> -->
+                            <!-- <li class="divider"></li> -->
+                            <!-- <li> Settings</li> -->
+                        </ul>
+                    </li>
+                </ul>
+                <!-- v8s code hide here  -->
+                <!-- <div class="user-info fr">
+                    <img src="http://lh3.googleusercontent.com/DUnXF1SWeuAUbRkBEydOLY-98ssKKA3JBesIpNSgse8DvPNRTHkTJXlEic2NUXMPYeNglGp2Tmw45v7cnnjIf89vKUnoXEZgC6N8TkQ">
+                    <div class="user-status fl">
+                        <h4>Available</h4>
+                        <span>- 53 Calls<i class="fa fa-angle-down"></i></span>
+                    </div>
+
+                    <div class="user-time fl">
+                        <span class="hrs fl">00</span>
+                        <span class="min fl">:40:</span>
+                        <span class="sec fl">03</span>
+                    </div>
+
+                </div>
+                <div style="clear:both;"></div> -->
+                <div class="findsearch_hold">
+                    <a id="closeFindUI" class="close-search">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <div class="findsearch_arrow">
+                        <a id="previousSearch">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a id="nextSearch">
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="findsearch_input">
+                        <span></span>
+                        <input id="inpText" type="text">
+                    </div>
+                </div>
+            </header>
+            <!-- Internet disconnected -->
+            <div class="blink-hold" id="redX" class="tooltip" title="Internet Fluctuating" style="display: none;">
+                <img src="http://images.sb.a-cti.com/TC/node-webkit/common-images/down.png" class="blinking" />
+            </div>
+            <div class="clearfix"></div>
+            <!-- ================================ Preferences ================================ -->
+            <div id="settings" class="popup-holder" style="display: none;">
+                <div class="popup-dialog">
+                    <div class="popup-content">
+                        <div class="popup-header">
+                            <a href="javascript:void(0)" class="close_pref">&times;</a>
+                            <h4>Settings</h4>
+                        </div>
+                        <div class="popup-body">
+                            <ul>
+                                <li>
+                                    <div>
+                                        <label>Fetch Account :</label>
+                                        <div class="input-holder">
+                                            <input type="radio" id="overrideTab" name="fetchTab" />Override Tab
+                                            <input type="radio" id="newTab" name="fetchTab" checked />New Tab
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <label>App Window :</label>
+                                        <div class="input-holder">
+                                            <input type="radio" id="sbWin" name="app" checked />SB
+                                            <input type="radio" id="v2Win" name="app" />V2
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <label>Window size :</label>
+                                        <ul id="sbWinRes" class="select-col">
+                                            <li>1920 x 1440</li>
+                                            <li>1600 x 900</li>
+                                            <li>1440 x 900</li>
+                                            <li class="active">1280 x 800</li>
+                                            <li>1152 x 720</li>
+                                        </ul>
+                                        <div id="v2WinRes" style="display: none" class="input-holder">
+                                            We are deciding resolutions for v2</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <label>SB window visibility when interaction recieved, should be on :</label>
+                                        <div class="input-holder">
+                                            <input type="radio" id="ontop" name="sbCont" checked />Top
+                                            <input type="radio" id="onhide" name="sbCont" />Hidden
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="popup-footer">
+                            <div class="btn-holder">
+                                <a href="javascript:void(0)" id="saveSettings" href="">Save Settings</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fetch options -->
+            <div id="fetch" class="popup-holder" style="display: none;">
+                <div class="popup-dialog">
+                    <div class="popup-header">
+                        <a href="javascript:void(0)" class="close_pref">&times;</a>
+                        <h4>Fetch</h4>
+                    </div>
+                    <div class="popup-body">
+                        <div class="fetch-con">
+                            <input type="text" name="fetchVal" value="" placeholder="Account no/Conn Id" />
+                            <div class="btn-holder">
+                                <a href="javascript:void(0)" id='gofetch' href="javascript:void(0)">Go</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Feedbacks -->
+            <div id="agentFb" class="popup-holder" style="display: none;">
+                <div class="popup-dialog">
+                    <div class="popup-content">
+                        <div class="popup-header">
+                            <a href="javascript:void(0)" class="close_pref">&times;</a>
+                            <h4>Feedback</h4>
+                        </div>
+                        <div class="popup-body">
+                            <div class="fetch-con">
+                                <textarea tabindex="1" rows="10" cols="35" placeholder="Please give us your feedback! Thanks"></textarea>
+                            </div>
+                        </div>
+                        <div class="popup-footer" style="padding: 0px 20px 20px; margin-top: -5px;">
+                            <div class="btn-holder">
+                                <a href="javascript:void(0)" tabindex="3" id="sendFdb" style="top: 12px; position: relative;" href="javascript:void(0)">Send
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Status update -->
+            <div id="statusUpdate" class="popup-holder" style="display: none;">
+                <div class="popup-dialog" style="width: 350px;">
+                    <div class="popup-content">
+                        <div class="popup-header">
+                            <a href="javascript:void(0)" class="close_pref">&times;</a>
+                            <h4>Status Update</h4>
+                        </div>
+                        <div class="popup-body">
+                            <div class="fetch-con">
+                                <textarea rows="10" cols="35" placeholder="Please give us your status update! Thanks"></textarea>
+                            </div>
+                        </div>
+                        <div class="popup-footer" style="padding: 0px 20px 20px; margin-top: -5px;">
+                            <div class="btn-holder">
+                                <a href="javascript:void(0)" id="sendFdb" style="top: 12px; position: relative;">Send
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- webview content holder -->
+            <div class="tab-content-hold">
+                <div class="update-target-url"></div>
+                <!-- Injecting webview"s dynamically  -->
+                <div id="1_content" class="tab-content active">
+                    <!-- <iframe id="web1" onload="loginpage_load(event);" src="http://beta.sb.a-cti.com"></iframe> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- popup code here -->
+    <div class="popupPanel logoutPopup">
+        <div id="logout_confirmation" class="hide">
+            <p>Are you sure you want to logout?</p>
+            <div class="btnwrapper btnPanel">
+                <button id="logout" class="btnRed">Logout</button>
+                <button id="logout_cancel" class="btnLightblue">Cancel</button>
+            </div>
+        </div>
+        <div id="logging_out" class="loginout hide" align="center">
+            <img src="http://images.sb.a-cti.com/TC/electron/common-images/AWW-logo.png" />
+            <h3>Logging out of V2...</h3>
+        </div>
+    </div>
+    <!-- logoutPopup -->
+    <!-- Apps script -->
+    <div id="transparentBg" class="transparentBackground"></div>
+    <div id="UpdateFailedtransparentBg" class="transparentBackgroundForUpdateFailedPopUp"></div>
+
+    <!-- Apps script -->
+     <div class="black-screen"></div>
+</body>
+<script src="../compiled/webContainer.js"></script>
+
+</html>

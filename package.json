@@ -1,7 +1,7 @@
 {
   "name": "AW_version2",
   "version": "0.1.0",
-  "main": "archive/background.js",
+  "main": "compiled/background.min.js",
   "scripts": {
     "test": "node main.js"
   },
@@ -11,6 +11,10 @@
     "form-data": "^0.2.0",
     "formidable": "^1.0.17",
     "get-port": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^2.2.0",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-shell-spawn": "^0.3.10",
     "is-online": "^5.2.0",
     "marked": "^0.3.6",
     "minimist": "^1.2.0",

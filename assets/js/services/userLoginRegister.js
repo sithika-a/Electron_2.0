@@ -9,7 +9,7 @@
     var childProcess = require('child_process');
 
     var getOS = {
-        getSystemInfo: function() {
+        getSystemInfo() {
             var defer = $.Deferred();
             childProcess.exec('systeminfo', function(error, sysout, syserr) {
                 if (!error) {
@@ -20,13 +20,13 @@
             });
             return defer;
         },
-        platform: function() {
+        platform() {
             return (process.platform == "darwin") ? this.mac() : this.win();
         },
-        getRelease: function() {
+        getRelease() {
             return FULLClient.require('os').release();
         },
-        win: function() {
+        win() {
 
             var osVer = this.getRelease(),
                 kernalVer = /\d*\.\d*/.exec(osVer)[0];
@@ -46,7 +46,7 @@
                     return "OlderOrLatest";
             }
         },
-        mac: function() {
+        mac() {
 
             var kernalVer = this.getRelease(),
                 kernalVer = /\d*/.exec(kernalVer)[0];
@@ -83,7 +83,7 @@
         log: function() {
             util.log.apply(this, arguments);
         },
-        setSpeckInfo: function(speckInfo) {
+        setSpeckInfo(speckInfo) {
             return {
                 version: 'App : ' + FULLClient.manifest.version + ', Engine : ' + process.versions.electron, // Mandatory
                 os: getOS.platform(), // Mandatory
@@ -93,7 +93,7 @@
                 ip: this.ip // Optional
             };
         },
-        getSpecDetails:function(cb){
+        getSpecDetails(cb){
             if (cb) {
                 cb.call(this,{
                     appVersion: FULLClient.manifest.version,
@@ -106,7 +106,7 @@
             }
             
         },
-        getSpecks: function() {
+        getSpecks() {
             if (/^darwin/.test(process.platform)) {
                 var defer = $.Deferred();
                 defer.resolve(specs);
@@ -115,7 +115,7 @@
                 return getOS.getSystemInfo();
             }
         },
-        storeInSpreadsheet: function() {
+        storeInSpreadsheet() {
             if (util.user.getEmail()) {
                 this.log("Storing in Spreadsheet user info ");
                 this.getSpecks()
@@ -132,7 +132,7 @@
                     })
             }
         },
-        getIP: function() {
+        getIP() {
             $.get("http://l2.io/ip")
                 .done($.proxy(function(ipAddress) {
                     this.log('Got IPAddress : ' + ipAddress);

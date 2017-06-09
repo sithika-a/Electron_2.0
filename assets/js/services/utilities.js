@@ -17,6 +17,7 @@ var util = {
     }
 };
 
+
 util.hasSpecialCharacters = function(data) {
     var regex = /([^a-zA-Z0-9])/;
     if (typeof data == 'string' && data && !regex.test(data)) {
@@ -422,25 +423,25 @@ util.caching = {
         sb: null,
         chat: null,
         timer: null,
-        reset: function() {
+        reset() {
             this.v2 = this.sb = this.chat = this.timer = null;
         },
-        getByTitle: function() {
+        getByTitle() {
             return this.getTarget(util.window.getName());
         },
-        getV2: function() {
+        getV2() {
             return this.v2 ? this.v2 : this.getTarget(namespace.CONTAINER_V2);
         },
-        getSB: function() {
+        getSB() {
             return this.sb ? this.sb : this.getTarget(namespace.CONTAINER_SB);
         },
-        getChat: function() {
+        getChat() {
             return this.chat ? this.chat : this.getTarget(namespace.CONTAINER_CHAT);
         },
-        getTimer: function() {
+        getTimer() {
             return this.timer ? this.timer : this.getTarget(namespace.CONTAINER_TIMER);
         },
-        getTarget: function(title) {
+        getTarget(title) {
             var targetArray = util.getAllWindows();
             for (var i = targetArray.length - 1; i >= 0; i--) {
                 if (targetArray[i].getURL().indexOf(title + '.html') !== -1) {
@@ -582,6 +583,11 @@ util.window = {
             case "v2Container.js":
                 {
                     title = namespace.CONTAINER_V2;
+                    break;
+                }
+            case "hiddenWindow.js":
+                {
+                    title = namespace.HIDDEN_CONTAINER;
                     break;
                 }
             default:
@@ -839,7 +845,7 @@ util.v2 = {
     statusPush: function(sObj) {
         if (typeof sObj == "object" && (new RegExp(sObj.status, "g").test(this.getStatusList()))) {
             if (!this.isV2LoggedIn()) {
-                console.log('V2 is not LoggedIn ...,sending status to YOCO  :', sObj.status)
+                console.log('V2 is not LoggedIn ... sending status to YOCO  :', sObj.status)
                 this.pushStatusToYoco(sObj.status, 'N/A', true);
             } else {
                 var v2 = new V2Communication('statusPush');
@@ -1078,6 +1084,39 @@ util.app = {
         }
     }
 };
+
+util.sendMessage = {
+    isValidMsg (message){
+         return (message && typeof message == 'object') ? true : false;
+    },
+    toMediator (message){
+       if(this.isValidMsg(message)) FULLClient.emitter.sendToMediator(message);
+    },
+    toMain (message){
+        if(this.isValidMsg(message)) FULLClient.emitter.sendToMain(message);
+    },
+    toSB (message){
+        if(this.isValidMsg(message)) FULLClient.emitter.sendToSB(message);
+    },
+    toChat (message){
+        if(this.isValidMsg(message)) FULLClient.emitter.toChat(message);
+    },
+    toV2 (message){
+         if(this.isValidMsg(message)) FULLClient.emitter.toV2(message);
+    },
+    toWebview(message) {
+            FULLClient.emitter.toWebview(message);
+    }
+}
+util.subscribe('/util/sendMessage/toMediator', util.sendMessage, util.sendMessage.toMediator);
+util.subscribe('/util/sendMessage/toMain', util.sendMessage, util.sendMessage.toMain);
+util.subscribe('/util/sendMessage/toSB', util.sendMessage, util.sendMessage.toSB);
+util.subscribe('/util/sendMessage/toChat', util.sendMessage, util.sendMessage.toChat);
+util.subscribe('/util/sendMessage/toV2', util.sendMessage, util.sendMessage.toV2);
+util.subscribe('/util/sendMessage/toTimer', util.sendMessage, util.sendMessage.toTimer);
+util.subscribe('/util/sendMessage/toWebview', util.sendMessage, util.sendMessage.toWebview);
+
+
 util.checkForUpdates = {
     isFromMenu: function() {
         var update = util.storage.get('update');

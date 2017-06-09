@@ -8,7 +8,6 @@
 **/
 // var path = require('path');
 var __BrowserWindow = getBrowserWindowConstructor();
-// var emitterController = require(path.join(__dirname,'../assets/emitter/js/background/mainMessaging.js'));
 
 function getBrowserWindowConstructor() {
     if (require && typeof window == "undefined") {
@@ -89,7 +88,7 @@ WindowCreator.prototype.onClose = function() {
     appWin.once('closed', function() {
         if (this && this.url) {
             console.log('onclosed ?? :: ' + this.url);
-            emitterController.removeContainer(this.url);
+            messageHandler.removeContainer(this.url);
         }
     }.bind(this));
 };

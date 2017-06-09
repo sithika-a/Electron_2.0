@@ -1,0 +1,1 @@
+/* webWorker - IndexedDB Commuication Api */ function webworker_script() { var window = self;var jsVersion = FULLClient.getManifest().version+' - '+new Date();

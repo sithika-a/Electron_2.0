@@ -42,6 +42,30 @@ Steps :
  * @param targetTitle {[String]} - defaults to "main" process
  */
 
+
+
+
+//From containers to hiddenwindow / vice versa
+function WindowMessaging() {
+   this.name = 'WindowMessaging';
+   this.metaData =  {
+        messagingProtocol: 'eventEmitter',
+        src: {
+            windowName: util.window.getName(), // window name
+            moduleName: 'StatusPanel'
+        },
+        dest: {
+            name: 'V2', // window name
+            channel : 'channelName'
+        }
+    };
+    this.data = {
+        name: 'StatusPanelController'
+            // Actual Message
+    };
+}
+ //From Hidden widnow to other containers
+
 function MessageCreator( message  , targetTitle ) {
     this.name = "MessageCreator";
     this.init(message  , targetTitle);
@@ -158,10 +182,11 @@ MessageCreator.prototype.setSource = function() {
             id: cWin.id,
             title: cWin.getTitle()
         }
-    } else {
-        // Webapplication is the source.
-        this._setWebAsSource();
     }
+    //  else {
+    //     // Webapplication is the source.
+    //     this._setWebAsSource();
+    // }
 };
 
 MessageCreator.prototype.setEventType = function(type) {

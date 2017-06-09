@@ -1,15 +1,228 @@
-console.log('Chat container...', nwUserAgent);
 /**
  * Developer shortcut
  */
+(function() {
+    var shortcuts = key.noConflict();
+    shortcuts('command+s,ctrl+s', function(event) {
+        util.preventEvent(event);
+        util.windowEvents.show(namespace.CONTAINER_SB);
+    });
 
-// TODO : 1 , Add Shortcuts code
+    shortcuts('command+h', function(event) {
+        util.preventEvent(event);
+        if (/^darwin/.test(process.platform))
+            util.windowEvents.hide(util.window.getName());
+    });
+    shortcuts('command+shift+t,ctrl+shift+t', function(testRunner) {
+        util.preventEvent(testRunner);
+        if (FULLClient.getMode() == "code")
+            FULLClient.ipc.send({
+                eType: 'open',
+                title: 'sbJasmineRunner'
+            })
+    });
+
+    shortcuts('command+option+i,ctrl+shift+i', function(eDeveloperTool) {
+        util.preventEvent(eDeveloperTool);
+        util.getCurrentWindow().openDevTools();
+    });
+
+    shortcuts('escape', function(e) {
+        // console.log('escape key press')
+        // util.publish('updateUI/cancelUpdate');
+    });
+
+    shortcuts('command+=,ctrl+=', function() {
+        util.zoom.zoomIn(chat.getView());
+    });
+
+    shortcuts('command+o,ctrl+o', function() {
+        util.zoom.resetZoom(chat.getView());
+    });
+
+    shortcuts('command+-,ctrl+-', function() {
+        util.zoom.zoomOut(chat.getView());
+    });
+
+})();
+
+var chat = {
+    toDropEvent: false,
+    isQuitable: false,
+    outerDiv: null,
+    appurl: null,
+    onloadDFD: $.Deferred(),
+    initObj: {
+        name: "init",
+        opt: "chat",
+        dcm: null,
+    },
+    name: 'chatMsgHandler',
+    setZoomLevelLimits: function() {
+        util.getCurrentWindow()
+            .webContents
+            .setZoomLevelLimits(1, 1);
+    },
+    onload: function() {
+        chat.setZoomLevelLimits();
+        chat.onloadDFD.resolve('Webview onload success');
+        chat.postToWebview(chat.initObj);
+
+        chat.registerMouse();
+
+        // Experimental Implementation for changing terminal-notifier file permission. 
+        console.log("Checking terminal-notifier permission..!");
+        util.publish("/notification/create/checkNotificationDependency");
+
+        jQuery(window).bind('resize', jQuery.debounce(20, false, function(event) {
+            chat.getOuterDiv().height(window.innerHeight);
+        }));
+
+        // window.addEventListener("drop", function(e) {
+        //     console.log('*********** Drop ***********');
+        //     // Keep a boolean workaround.
+        //     chat.toDropEvent = true;
+        // }, false);
+
+        window.onfocus = function() {
+            var webView = chat.getView();
+            if (webView) {
+                util.document.shadowRootFocus(webView)
+                util.zoom.updateUIOnFocus(webView);
+            }
+        };
+    },
+    log: function() {
+        util.log.apply(this, arguments);
+    },
+    _canQuit: function(flag) {
+        this.isQuitable = flag;
+    },
+    getOuterDiv: function() {
+        if (!this.outerDiv)
+            this.outerDiv = $('#chatContainer');
+        return this.outerDiv;
+    },
+    getView: function() {
+        return document.querySelector('webview#chat_webview')
+    },
+    send_state: function(opt) {
+        var commObj = {
+            eType: 'getState',
+            opt: namespace.CONTAINER_CHAT
+        }
+        FULLClient.ipc.send(commObj);
+    },
+    getUrl: function() {
+        if (this.appurl)
+            return this.appurl
+        else {
+            if (userDAO.getUser() && userDAO.getUser().email && FULLClient.getConfig() && FULLClient.getConfig().chat) {
+                this.appurl = FULLClient.getConfig().chat + userDAO.getUser().email + '&uniquepin=' + userDAO.getCompanyId() + '&isSingleWindow=false';
+                return this.appurl;
+            }
+        }
+    },
+    mouseMenu: function(evt) {
+        if (evt && evt.menu) {
+            this.getView()[evt.menu]();
+        }
+    },
+    registerMouse: function() {
+        util.mouse.registerCB(this.mouseMenu, this);
+    },
+    createChatFrame: function(url) {
+        var chatDom = new WebviewProxy("chat_webview", url, "FULLClient:Chat");
+        chatDom.setContentloaded(chat.onload);
+        this.getOuterDiv().html(chatDom.getView());
+    },
+    init: function() {
+        chat._canQuit(false);
+        this.initObj.dcm = JSON.stringify(userDAO.getUserDcmResponse());
+        this.createChatFrame(this.getUrl());
+        this.onClose();
+        // Making v2 object for laststatus
+        // received null, we are getting status
+        // from this object to send to chat.
+        Locstor.set('v2', null);
+    },
+    reloadchat: function() {
+        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'show');
+        var chatView = this.getView()
+        if (chatView) chatView.reload();
+    },
+    registerMouse: function() {
+        util.mouse.registerCB(this.mouseMenu, this);
+    },
+    onbeforeunload: function(e) {
+        console.log('onbefore unload is getting trigger ');
+
+        function onQuit() {
+            if (/^win/.test(process.platform)) {
+                console.log('minimizing window...')
+                    // windows should minimize
+                chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'minimize');
+            } else {
+                // All other platforms
+                console.log('Hiding window...')
+                chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'hide');
+            }
+        };
+
+        /* 
+            Removed this code, bcoz event for page reloadin is not firing
+            when drag and drop initiated on webview window.
+        */
+
+        // if (chat.toDropEvent) {
+        //     onQuit();
+        //     return (chat.toDropEvent = false);
+        // } 
+
+        if (!chat.isQuitable) {
+            onQuit();
+            return chat.isQuitable;
+        } else {
+            console.log('We are letting window to close ');
+            return undefined;
+        }
+    },
+    onClose: function() {
+        /**
+         *
+         * OnBeforeUnload will stop the window from closing in Electron.
+         * http://electron.atom.io/docs/v0.28.0/api/browser-window/
+         **/
+        // window.addEventListener("beforeunload", this.tmp);
+        window.onbeforeunload = this.onbeforeunload;
+    },
+    postToWebview: function(obj) {
+        this.onloadDFD
+            .done(function() {
+                var dom = chat.getView();
+                if (dom && obj) {
+                    dom.send('webapp-msg', obj);
+                }
+            });
+    },
+    postToBackground: function(title, eType, opt, count) {
+        var commObj = {
+            title: title ? title : namespace.CONTAINER_CHAT,
+            eType: eType ? eType : false,
+            opt: opt ? opt : false,
+            count: count ? count : 0
+        };
+        if (commObj && commObj.eType) {
+            FULLClient.ipc.send(commObj);
+        }
+    }
+};
+
 
 (function(R, util) {
 
     var clientlistener = {
         handler: function(msg) {
-            console.log('handler :',msg)
             var val = msg.opt.trim();
             switch (val) {
                 case 'accessToken':
@@ -41,7 +254,7 @@ console.log('Chat container...', nwUserAgent);
                     }
                 case 'showsbcontainer':
                     {
-                        util.publish('/util/window/events/show', namespace.channel.CONTAINER_SB);
+                        util.publish('/util/window/events/show', namespace.CONTAINER_SB);
                         break;
                     }
                 case 'toGuestPage':
@@ -52,7 +265,7 @@ console.log('Chat container...', nwUserAgent);
                 case 'setv2status':
                     {
                         //Forwarding status to SB container...
-                        FULLClient.emitter.sendToSB(msg);
+                        FULLClient.ipc.sendToSB(msg);
                         break;
                     }
                 case 'feedback':
@@ -62,7 +275,7 @@ console.log('Chat container...', nwUserAgent);
                         feedbackSend[feedbackSend.opt].userFeedback = msg[msg.opt].text;
                         feedbackSend[feedbackSend.opt].isFromChatModule = true;
                         feedbackSend[feedbackSend.opt].token = msg[msg.opt].token
-                        FULLClient.emitter.sendToSB(feedbackSend);
+                        FULLClient.ipc.sendToSB(feedbackSend);
                         break;
                     }
                 case 'notify':
@@ -74,7 +287,7 @@ console.log('Chat container...', nwUserAgent);
                 case "clearCache":
                     {
                         console.log("ClearCache: user doing sign-out in chat window.");
-                        FULLClient.emitter.sendToSB({
+                        FULLClient.ipc.sendToSB({
                             name: "analytics",
                             accountNumber: null,
                             eventAction: analytics.APP_CLEAR_CACHE,
@@ -86,13 +299,13 @@ console.log('Chat container...', nwUserAgent);
                     }
                 case 'show':
                     {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'show');
+                        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'show');
 
                         break;
                     }
                 case 'hide':
                     {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'hide');
+                        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'hide');
 
                         break;
                     }
@@ -106,9 +319,9 @@ console.log('Chat container...', nwUserAgent);
                         /* Request from chat application to quit FC App*/
                         var commObj = {
                             name: 'appQuit',
-                            sender: namespace.channel.CONTAINER_CHAT
+                            sender: namespace.CONTAINER_CHAT
                         };
-                        FULLClient.emitter.sendToSB(commObj);
+                        FULLClient.ipc.sendToSB(commObj);
                         break;
                     }
                 case 'getstate':
@@ -127,7 +340,7 @@ console.log('Chat container...', nwUserAgent);
                         if (/^win32/.test(process.platform))
                             msg[msg.opt].count ? util.showBadgeLabel(msg[msg.opt].count.toString()) : util.showBadgeLabel('');
                         else
-                            chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'setBadge', '', msg[msg.opt].count);
+                            chat.postToBackground(namespace.CONTAINER_CHAT, 'setBadge', '', msg[msg.opt].count);
                         break;
                     }
                 case 'requestattention': //needed for showing counts on new messsage arrived
@@ -137,38 +350,38 @@ console.log('Chat container...', nwUserAgent);
                             //     eType: 'bounce',
                             //     opt: msg[msg.opt].isContinuous
                             // };
-                            chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'bounce', msg[msg.opt].isContinuous);
+                            chat.postToBackground(namespace.CONTAINER_CHAT, 'bounce', msg[msg.opt].isContinuous);
                         } else {
-                            chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'bounce');
+                            chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'bounce');
                         }
                         break;
                     }
 
                 case 'enableOnTop':
                     {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'enableontop');
+                        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'enableontop');
                         break;
                     }
                 case 'restore':
                     {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'restore');
+                        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'restore');
 
                         break;
                     }
                 case 'maximize':
                     {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'maximize');
+                        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'maximize');
                         break;
                     }
                 case 'disableOnTop':
                     {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'disableontop');
+                        chat.postToBackground(namespace.CONTAINER_CHAT, 'windowEvents', 'disableontop');
                         break;
                     }
                 case 'loadwebsite':
                     {
                         // send to sb
-                        FULLClient.emitter.sendToMediator(msg);
+                        FULLClient.ipc.sendToSB(msg);
                         break;
                     }
                 default:
@@ -234,7 +447,6 @@ console.log('Chat container...', nwUserAgent);
         handler: function(e) {
             var msg = arguments[0].name ? arguments[0] : arguments[1];
             var name = msg.name ? msg.name.toLowerCase() : false;
-            console.log('Message Recieved asa: ',msg)
             switch (name) {
                 case "fulloauth":
                     {
@@ -317,194 +529,12 @@ console.log('Chat container...', nwUserAgent);
             }
         }
     }
-    // var ipc = FULLClient.require('electron').ipcRenderer
-    // ipc.on('msg-to-Chat', msgModule.handler.bind(msgModule));
+    var ipc = FULLClient.require('electron').ipcRenderer
+    ipc.on('msg-to-Chat', msgModule.handler.bind(msgModule));
     util.subscribe('/msgModule/handler/', msgModule, msgModule.handler);
 
 
 })(this, util);
-
-var chat = {
-    toDropEvent: false,
-    isQuitable: false,
-    outerDiv: null,
-    appurl: null,
-    onloadDFD: $.Deferred(),
-    initObj: {
-        name: "init",
-        opt: "chat",
-        dcm: null,
-    },
-    name: 'chatMsgHandler',
-    setZoomLevelLimits: function() {
-        util.getCurrentWindow()
-            .webContents
-            .setZoomLevelLimits(1, 1);
-    },
-    onload: function() {
-        chat.setZoomLevelLimits();
-        chat.onloadDFD.resolve('Webview onload success');
-        chat.postToWebview(chat.initObj);
-
-        chat.registerMouse();
-
-        // Experimental Implementation for changing terminal-notifier file permission. 
-        // console.log("Checking terminal-notifier permission..!");
-        // util.publish("/notification/create/checkNotificationDependency");
-
-        jQuery(window).bind('resize', jQuery.debounce(20, false, function(event) {
-            console.log('On resize')
-            chat.getOuterDiv().height(window.innerHeight);
-        }));
-
-        // window.addEventListener("drop", function(e) {
-        //     console.log('*********** Drop ***********');
-        //     // Keep a boolean workaround.
-        //     chat.toDropEvent = true;
-        // }, false);
-
-        window.onfocus = function() {
-            var webView = chat.getView();
-            if (webView) {
-                util.document.shadowRootFocus(webView)
-                util.zoom.updateUIOnFocus(webView);
-            }
-        };
-    },
-    log: function() {
-        util.log.apply(this, arguments);
-    },
-    _canQuit: function(flag) {
-        this.isQuitable = flag;
-    },
-    getView: function() {
-        return document.querySelector('webview#chat_webview')
-    },
-    send_state: function(opt) {
-        var commObj = {
-            eType: 'getState',
-            opt: namespace.channel.CONTAINER_CHAT
-        }
-        FULLClient.ipc.send(commObj);
-    },
-    getOuterDiv: function() {
-        if (!this.outerDiv)
-            this.outerDiv = $('#chatContainer');
-        return this.outerDiv;
-    },
-     getUrl: function() {
-        if (this.appurl)
-            return this.appurl
-        else {
-            console.log('getting url for chat  ? ', FULLClient.getConfig());
-            // if (userDAO.getUser() && userDAO.getUser().email && FULLClient.getConfig() && FULLClient.getConfig().chat) {
-                this.appurl = FULLClient.getConfig().chat + userDAO.getUser().email + '&uniquepin=' + userDAO.getCompanyId() + '&isSingleWindow=false';
-                return this.appurl;
-            // }
-        }
-    },
-     mouseMenu: function(evt) {
-        if (evt && evt.menu) {
-            this.getView()[evt.menu]();
-        }
-    },
-    reloadchat: function() {
-        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'show');
-        var chatView = this.getView()
-        if (chatView) chatView.reload();
-    },
-    registerMouse: function() {
-        util.mouse.registerCB(this.mouseMenu, this);
-    },
-    onbeforeunload: function(e) {
-        console.log('onbefore unload is getting trigger ');
-
-        function onQuit() {
-            if (/^win/.test(process.platform)) {
-                console.log('minimizing window...')
-                    // windows should minimize
-                chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'minimize');
-            } else {
-                // All other platforms
-                console.log('Hiding window...')
-                chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'hide');
-            }
-        };
-
-        /* 
-            Removed this code, bcoz event for page reloadin is not firing
-            when drag and drop initiated on webview window.
-        */
-
-        // if (chat.toDropEvent) {
-        //     onQuit();
-        //     return (chat.toDropEvent = false);
-        // } 
-
-        if (!chat.isQuitable) {
-            onQuit();
-            return chat.isQuitable;
-        } else {
-            console.log('We are letting window to close ');
-            return undefined;
-        }
-    },
-    onClose: function() {
-        /**
-         *
-         * OnBeforeUnload will stop the window from closing in Electron.
-         * http://electron.atom.io/docs/v0.28.0/api/browser-window/
-         **/
-        // window.addEventListener("beforeunload", this.tmp);
-        window.onbeforeunload = this.onbeforeunload;
-    },
-    postToWebview: function(obj) {
-        this.onloadDFD
-            .done(function() {
-                console.log('Posting to webview ... ',obj)
-                var dom = chat.getView();
-                if (dom && obj) {
-                    dom.send('webapp-msg', obj);
-                }
-            });
-    },
-    postToBackground: function(title, eType, opt, count) {
-        var commObj = {
-            title: title ? title : namespace.channel.CONTAINER_CHAT,
-            eType: eType ? eType : false,
-            opt: opt ? opt : false,
-            count: count ? count : 0
-        };
-        if (commObj && commObj.eType) {
-            FULLClient.emitter.sendToMain(commObj);
-        }
-    },
-    sendToHost: function() {
-        messenger.broadCast(namespace.channel.Mediator, msg);
-    },
-    init: function() {
-        chat._canQuit(false);
-        this.initObj.dcm = JSON.stringify(userDAO.getUserDcmResponse());
-        this.createChatFrame(this.getUrl());
-        // this.onClose();
-        // Making v2 object for laststatus
-        // received null, we are getting status
-        // from this object to send to chat.
-        Locstor.set('v2', null);
-    },
-     createChatFrame: function(url) {
-        var chatDom = new WebviewProxy("chat_webview", url, "FULLClient:Chat");
-        chatDom.setContentloaded(chat.onload);
-        this.getOuterDiv().html(chatDom.getView());
-    },
-    messageListener: function(event) {
-        
-        console.log('Message received as ', event);
-    }
-}
-
-
-FULLClient.emitter.subscribe(namespace.channel.CHAT, chat.messageListener);
 
 util.subscribe('/chat/quit/flag', chat, chat._canQuit);
 util.subscribe('/chat/start', chat, chat.init);

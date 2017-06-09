@@ -27,17 +27,17 @@ mainModuleLoader.skillBasedLoader = function() {
 
 mainModuleLoader.customerExecutiveAssociate = function() {
     WindowManager.openWebContainer(true);
-    windowEventsController.eventHandler(emitterController.getContainer(namespace.CONTAINER_CHAT), 'show');
+    windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'show');
     if (/win/.test(process.platform))
-        windowEventsController.eventHandler(emitterController.getContainer(namespace.CONTAINER_CHAT), 'restore');
+        windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'restore');
     WindowManager.openV2Container(true);
 }
 
 mainModuleLoader.chatMode = function() {
     // show chat container
-    windowEventsController.eventHandler(emitterController.getContainer(namespace.CONTAINER_CHAT), 'show');
+    windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'show');
     if (/win/.test(process.platform))
-        windowEventsController.eventHandler(emitterController.getContainer(namespace.CONTAINER_CHAT), 'restore');
+        windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'restore');
     // start webContainer with show : false
     WindowManager.openWebContainer(false);
     WindowManager.openV2Container(false);
@@ -48,5 +48,5 @@ mainModuleLoader.callCenterMode = function() {
     WindowManager.openWebContainer(true);
     WindowManager.openV2Container(false);
     // Hide Chat Window 
-    windowEventsController.eventHandler(emitterController.getContainer(namespace.CONTAINER_CHAT), 'hide');
+    windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'hide');
 }
