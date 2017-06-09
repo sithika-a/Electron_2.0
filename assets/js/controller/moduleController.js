@@ -84,8 +84,8 @@ console.log('Onload in Chat container.. ..')
         // in main js thread, which
         // helps in quiting the app during
         // internet issue / when app is not logged in.
-        FULLClient.emitter.sendToMain({
-            eType: 'init'
+        util.publish(`/util/sendMessage/toMain`,{
+            eType: `init`
         })
 
         // APP_ID should be "AnyWhereWorks" chat to start

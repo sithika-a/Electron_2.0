@@ -12,7 +12,8 @@
             unSubscribe: messenger.unSubscribe,
             unSubscribeAll: messenger.unSubscribeAll,
             isValid(message) {
-                if (message && typeof message == `object`) return message;
+                if (message && typeof message == `object` && message.metaData && message.metaData.dest && message.metaData.dest.channel)
+                    return message;
             },
             wrap_msg(destination, message) {
                 if (destination && this.isValid(message))
@@ -22,14 +23,21 @@
                         message: message
                     }
             },
-            sendToMediator(message, destination = messenger.channel.Mediator) {
-                var msgObj = this.wrap_msg(destination, message);
-                console.log(`wrapper of message : ${JSON.stringify(msgObj)}`);
+            sendToMediator(message) {
+                // var msgObj = this.wrap_msg(destination, message);
+                // console.log(`wrapper of message : ${JSON.stringify(msgObj)}`);
+                console.log(`sendint to mediator ... from preload...${JSON.stringify(message)}`)
+                if (this.isValid(message)) {
+                    console.log('It is a valid message ...')
+                    messenger.sendToMediator(message);
+                } else {
+                    console.log('invalid valid message ...')
 
-                if (msgObj) messenger.sendToMediator(msgObj);
+                }
             },
             sendToMain(message) {
-                this.sendToMediator(message, messenger.channel.Main);
+                console.log(`send to main from preload ...`)
+                this.sendToMediator(message);
             },
             sendToV2(message) {
                 this.sendToMediator(message, messenger.channel.V2);

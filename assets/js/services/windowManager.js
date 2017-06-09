@@ -37,9 +37,9 @@ let WindowManager = {
         return hiddenWindow.get();
     },
     openWebContainer(isShowWindow) {
-        console.log('WebContainer is getting opened !! ');
         if (container.get('FULL'))
             return;
+        console.log('WebContainer is getting opened !! ');
 
         let WebContainer = new WindowCreator('file://' + util.getFilePath() + '/view/FULL.html', {
             "title": namespace.CONTAINER_CHAT,
@@ -50,7 +50,7 @@ let WindowManager = {
             "center": true,
             "minWidth": 1060,
             "minHeight": 680,
-            "show": false,
+            "show": true,
             "webPreferences": {
                 "preload": util.getContainerPreload(),
                 "webSecurity": false,

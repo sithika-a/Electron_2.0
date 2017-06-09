@@ -193,7 +193,7 @@ var crashManager = {
         isV2: false
     },
     log: function() {
-        util.log.apply(this, arguments);
+        console.log.apply(this, arguments);
     },
     proxy: function() {
         crashManager.notify.apply(crashManager, arguments);

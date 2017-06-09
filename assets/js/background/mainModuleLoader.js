@@ -9,10 +9,10 @@ var mainModuleLoader = {
 // mainModuleLoader.skillBasedLoader();
 
 mainModuleLoader.skillBasedLoader = function() {
-    console.log('skillBasedLoader ...')
+    console.log('skillBasedLoader ...',userInfo)
     // APP_ID should be "AnyWhereWorks" chat to start
     if (typeof userInfo != 'undefined' && Object.keys(userInfo).length) {
-        console.log('use contact available..')
+        console.log('user contact available..')
         Emitter.emit('/user/contact/available');
         if(userInfo.isCEA) {
             this.customerExecutiveAssociate();
@@ -27,17 +27,17 @@ mainModuleLoader.skillBasedLoader = function() {
 
 mainModuleLoader.customerExecutiveAssociate = function() {
     WindowManager.openWebContainer(true);
-    windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'show');
+    windowEventsController.eventHandler(container.get(namespace.CONTAINER_CHAT), 'show');
     if (/win/.test(process.platform))
-        windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'restore');
+        windowEventsController.eventHandler(container.get(namespace.CONTAINER_CHAT), 'restore');
     WindowManager.openV2Container(true);
 }
 
 mainModuleLoader.chatMode = function() {
     // show chat container
-    windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'show');
+    windowEventsController.eventHandler(container.get(namespace.CONTAINER_CHAT), 'show');
     if (/win/.test(process.platform))
-        windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'restore');
+        windowEventsController.eventHandler(container.get(namespace.CONTAINER_CHAT), 'restore');
     // start webContainer with show : false
     WindowManager.openWebContainer(false);
     WindowManager.openV2Container(false);
@@ -48,5 +48,5 @@ mainModuleLoader.callCenterMode = function() {
     WindowManager.openWebContainer(true);
     WindowManager.openV2Container(false);
     // Hide Chat Window 
-    windowEventsController.eventHandler(messageHandler.getContainer(namespace.CONTAINER_CHAT), 'hide');
+    windowEventsController.eventHandler(container.get(namespace.CONTAINER_CHAT), 'hide');
 }

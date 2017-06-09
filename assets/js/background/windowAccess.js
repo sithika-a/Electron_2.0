@@ -1,8 +1,14 @@
 var container = {
+     name : 'WindowAccess',
 	 cache: {
         v2: null,
         sb: null,
         chat: null
+    },
+     log(...args) {
+        // let tmp = [].slice.call(arguments);
+        // tmp.splice(0, 0, '[' + this.name + '] : ');
+        console.log.apply(console, [this.name,args]);
     },
 	get(title){
         if (title) {
@@ -53,7 +59,7 @@ var container = {
         return (parseInt(id) && typeof __BrowserWindow != 'undefined') ? __BrowserWindow.fromId(id) : false;
     },
     getTarget(lTarget) {
-        util.log('searching for Target : ', lTarget);
+        this.log('searching for Target : ', lTarget);
         let targetArray = this.getAll();
         for (let i = targetArray.length - 1; i >= 0; i--) {
             /*
@@ -63,7 +69,7 @@ var container = {
                 }
             */
             if (targetArray[i].getURL().indexOf(lTarget.title + '.html') !== -1) {
-                util.log('container["' + lTarget.title + '"], available ');
+                this.log('container["' + lTarget.title + '"], available ');
                 return targetArray[i];
             }
         };

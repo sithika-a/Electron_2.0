@@ -1,6 +1,7 @@
 (function(util) {
 
-    var argv = util.getSharedObject().cliArgs; // check main.js for globalObj setup
+    var sharedObject = util.getSharedObject();
+    var argv = sharedObject ? sharedObject.cliArgs : false; // check main.js for globalObj setup
     if (argv && argv['disable-network-check']){
         return false;
     }

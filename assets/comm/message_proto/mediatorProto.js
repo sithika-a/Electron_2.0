@@ -59,7 +59,7 @@ function WindowMessaging() {
             channel : 'channelName'
         }
     };
-    this.data = {
+    this.info = {
         name: 'StatusPanelController'
             // Actual Message
     };

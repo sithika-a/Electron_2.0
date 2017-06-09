@@ -16,10 +16,11 @@ let messageHandler = {
         }
     },
     decider (msg) {
-        this.log('Emitter message : ',msg)
-        this.log('Decider Block : ' + msg.eType);
-        if (msg && msg.eType) {
-            switch (msg.eType) {
+         if (msg  && msg.info && msg.info.eType) {
+        var message = msg.info
+        this.log('Decider Block : ',message.eType);
+       
+            switch (message.eType) {
                 case "menuActions":
                     {
                         Emitter.emit('switchZoomUI', msg.opt)
@@ -32,7 +33,7 @@ let messageHandler = {
                     }
                 case "userInfo":
                     {
-                        userInfo = msg.userObj;
+                        userInfo = message.userObj;
                         canQuitApp = false;
                         mainModuleLoader.skillBasedLoader();
                         break;
@@ -96,7 +97,7 @@ let messageHandler = {
                     }
                 case "activateNewV2":
                     {
-                        console.log('New v2 switch is on..')
+                        this.log('New v2 switch is on..')
                         ipc.removeAllListeners('msg-to-V2');
                         ipc.on('msg-to-V2', messageHandler.v2NewHandler);
                         /**
@@ -106,7 +107,7 @@ let messageHandler = {
                     }
                 case "activateOldV2":
                     {
-                        console.log('New v2 switch is off..')
+                        this.log('New v2 switch is off..')
                         ipc.removeAllListeners('msg-to-V2');
                         ipc.on('msg-to-V2', messageHandler.v2OldHandler);
                         /**

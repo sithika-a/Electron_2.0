@@ -116,13 +116,13 @@ util.showBadgeLabel = function(count) {
         // remote container is not serialized, so api
         // change will affect implementation.
         // check https://github.com/electron/electron/issues/4011
-        FULLClient.ipc.send({
+        util.subscribe(`/util/sendMessage/toMain`,{
             eType: 'setOverlayIcon',
             dataURL: canvas.toDataURL()
         });
         return text;
     } else {
-        FULLClient.ipc.send({
+        util.subscribe(`/util/sendMessage/toMain`,{
             eType: 'setOverlayIcon',
             count: null
         });
@@ -183,13 +183,13 @@ util.doNotBubble = function(e) {
 
 util.mocha = {
     sb: function() {
-        FULLClient.ipc.send({
+        util.subscribe(`/util/sendMessage/toMain`,{
             "eType": "open",
             "title": "sbMocha"
         });
     },
     v2: function() {
-        FULLClient.ipc.send({
+        util.subscribe(`/util/sendMessage/toMain`,{
             "eType": "open",
             "title": "v2Mocha"
         });
@@ -916,7 +916,7 @@ util.crashReporter = {
         /**
          * Send message to main container.....
          */
-        FULLClient.ipc.send({
+        util.subscribe(`/util/sendMessage/toMain`,{
             "eType": "crashReporter",
             "source": util.window.getName() == 'AnyWhereWorks' ? 'Chat' : util.window.getName(),
             "opt": "port"
@@ -959,7 +959,7 @@ util.crashReporter = {
 util.windowEvents = {
     show: function(containerName) {
         if (containerName) {
-            FULLClient.ipc.send({
+            util.subscribe(`/util/sendMessage/toMain`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'show'
@@ -968,7 +968,7 @@ util.windowEvents = {
     },
     focus: function(containerName) {
         if (containerName) {
-            FULLClient.ipc.send({
+            util.subscribe(`/util/sendMessage/toMain`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'focus'
@@ -977,7 +977,7 @@ util.windowEvents = {
     },
     restore: function(containerName) {
         if (containerName) {
-            FULLClient.ipc.send({
+            util.subscribe(`/util/sendMessage/toMain`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'restore'
@@ -986,7 +986,7 @@ util.windowEvents = {
     },
     minimize: function(containerName) {
         if (containerName) {
-            FULLClient.ipc.send({
+            util.subscribe(`/util/sendMessage/toMain`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'minimize'
@@ -995,7 +995,7 @@ util.windowEvents = {
     },
     hide: function(containerName) {
         if (containerName) {
-            FULLClient.ipc.send({
+            util.subscribe(`/util/sendMessage/toMain`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'hide'
@@ -1086,6 +1086,14 @@ util.app = {
 };
 
 util.sendMessage = {
+    contructMessage (actualMessage){
+        if(this.isValidMsg(actualMessage)) {
+            console.log('contructMessage  : ')
+             var msg = new WindowMessaging();
+              msg.info = actualMessage;
+                return msg;
+        }
+    },
     isValidMsg (message){
          return (message && typeof message == 'object') ? true : false;
     },
@@ -1093,7 +1101,13 @@ util.sendMessage = {
        if(this.isValidMsg(message)) FULLClient.emitter.sendToMediator(message);
     },
     toMain (message){
-        if(this.isValidMsg(message)) FULLClient.emitter.sendToMain(message);
+        console.log('intiating message to main from util:',message)
+        var msg = this.contructMessage(message)
+         if(msg){
+            console.log('after attaching message :'),msg
+            msg.metaData.dest.channel = namespace.channel.Main;
+          FULLClient.emitter.sendToMain(msg);
+         }
     },
     toSB (message){
         if(this.isValidMsg(message)) FULLClient.emitter.sendToSB(message);
@@ -1108,13 +1122,13 @@ util.sendMessage = {
             FULLClient.emitter.toWebview(message);
     }
 }
-util.subscribe('/util/sendMessage/toMediator', util.sendMessage, util.sendMessage.toMediator);
-util.subscribe('/util/sendMessage/toMain', util.sendMessage, util.sendMessage.toMain);
-util.subscribe('/util/sendMessage/toSB', util.sendMessage, util.sendMessage.toSB);
-util.subscribe('/util/sendMessage/toChat', util.sendMessage, util.sendMessage.toChat);
-util.subscribe('/util/sendMessage/toV2', util.sendMessage, util.sendMessage.toV2);
-util.subscribe('/util/sendMessage/toTimer', util.sendMessage, util.sendMessage.toTimer);
-util.subscribe('/util/sendMessage/toWebview', util.sendMessage, util.sendMessage.toWebview);
+util.subscribe(`/util/sendMessage/toMediator`, util.sendMessage, util.sendMessage.toMediator);
+util.subscribe(`/util/sendMessage/toMain`, util.sendMessage, util.sendMessage.toMain);
+util.subscribe(`/util/sendMessage/toSB`, util.sendMessage, util.sendMessage.toSB);
+util.subscribe(`/util/sendMessage/toChat`, util.sendMessage, util.sendMessage.toChat);
+util.subscribe(`/util/sendMessage/toV2`, util.sendMessage, util.sendMessage.toV2);
+util.subscribe(`/util/sendMessage/toTimer`, util.sendMessage, util.sendMessage.toTimer);
+util.subscribe(`/util/sendMessage/toWebview`, util.sendMessage, util.sendMessage.toWebview);
 
 
 util.checkForUpdates = {

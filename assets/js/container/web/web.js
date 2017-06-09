@@ -57,7 +57,7 @@ onload = function() {
     util.publish('/webview/controller/app/onload');
 
     // Send a message to main process
-    FULLClient.ipc.send({
+    util.subscribe(`/util/sendMessage/toMain`,{
         eType: 'isCrashed',
         container: namespace.CONTAINER_SB
     });

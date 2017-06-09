@@ -18,7 +18,7 @@ module.exports = function(grunt) {
                     async: false
                 }
             },
-            //    webworker: {
+            //  webworker: {
             //     command: 'uglifyjs assets/extra/webworker-banner.js' 
             //        + ' assets/js/libs/Dexie.min.js'
             //        + ' assets/js/DAO/dbDAO.js' 
@@ -47,17 +47,23 @@ module.exports = function(grunt) {
             },
              hiddenWindow : {
                 command: 'uglifyjs assets/js/container/hiddenWindow.js' 
+                   + ' assets/js/services/global.js'
+                   + ' assets/js/services/utilities.js' 
+                   + ' assets/js/DAO/oldCommDAO.js'
+                   + ' assets/comm/message_proto/message-proto.js'
+                   + ' assets/js/services/notification.js'
                    + ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
                     async: false
                 }
             },
                web: {
-                command: 'uglifyjs assets/extra/common-banner.js' 
-                   + ' assets/js/services/global.js'
+                command: 'uglifyjs assets/js/services/global.js'
+                   + ' assets/extra/common-banner.js' 
                    + ' assets/js/services/utilities.js' 
                    + ' assets/js/DAO/userDAO.js'
                    + ' assets/js/DAO/oldCommDAO.js'
+                   + ' assets/comm/message_proto/message-proto.js'
                    + ' assets/js/DAO/statusPanelDAO.js'
                    + ' assets/js/DAO/goClockDAO.js' 
                    + ' assets/js/container/web/web.js'
@@ -82,7 +88,7 @@ module.exports = function(grunt) {
                    + ' assets/js/services/localServer.js'
                    + ' assets/js/services/writePermissionChecker.js'
                    + ' assets/js/services/engineUpdater.js'
-                   + ' assets/js/services/notification.js'
+                   // + ' assets/js/services/notification.js'
                    + ' assets/js/services/privateBrowsing.js'
                    + ' assets/js/services/audioNotification.js'
                    + ' assets/js/services/processReduction.js'
@@ -104,10 +110,14 @@ module.exports = function(grunt) {
             },
              chat: {
                 command: 'uglifyjs assets/js/services/global.js' 
+                   + ' assets/extra/common-banner.js' 
                    + ' assets/js/services/utilities.js' 
                    + ' assets/js/DAO/oldCommDAO.js'
                    + ' assets/js/DAO/userDAO.js'
+                   + ' assets/comm/message_proto/message-proto.js'
                    + ' assets/js/services/fullAuth.js'
+                   + ' assets/js/container/chat/chat.js'
+                   + ' assets/js/controller/webviewController.js'
                    + ' assets/js/services/asarUpdater.js' 
                    + ' assets/js/services/appUpdater.js' 
                    + ' assets/js/services/updateHelper.js' 
@@ -154,7 +164,7 @@ module.exports = function(grunt) {
                 options: {
                     async: false
                 }
-            },
+            }
        },
         concat: {
             options: {
@@ -188,6 +198,7 @@ module.exports = function(grunt) {
             background: {
                 src: [
                     '<%= distFolder %>/background.min.js'
+                    ,'assets/js/background/export-module.js'
                 ],
                 dest: '<%= asarArchive %>/background.js'
             },

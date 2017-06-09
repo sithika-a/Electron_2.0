@@ -89,10 +89,10 @@
         },
         sendUserInfoToMainProcess() {
             console.log('sendUserInfoToMainProcess ...');
-            util.subscribe('/util/sendMessage/toMain',{
+            util.publish('/util/sendMessage/toMain',{
                 "eType": "userInfo",
                 "userObj": this.getUserInfoObj()
-            })
+            });
         },
         getLocalStorageUserData() {
             if (userDAO.getUser()) {

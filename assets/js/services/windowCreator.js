@@ -88,7 +88,7 @@ WindowCreator.prototype.onClose = function() {
     appWin.once('closed', function() {
         if (this && this.url) {
             console.log('onclosed ?? :: ' + this.url);
-            messageHandler.removeContainer(this.url);
+            container.remove(this.url);
         }
     }.bind(this));
 };
@@ -103,4 +103,3 @@ WindowCreator.prototype.hide = function() {
     var appWin = this.get();
     appWin.hide();
 };
-module.exports = WindowCreator;

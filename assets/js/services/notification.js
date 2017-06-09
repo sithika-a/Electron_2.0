@@ -347,7 +347,7 @@
             },
             checkNotificationDependency: function() {
                 if (/^darwin/.test(process.platform)) {
-                    console.log("tring to give pre");
+                    console.log("tring to give permission");
                     fs.access(FULLClient.getFilePath() + this.terminalNotifierPath, fs.W_OK && fs.R_OK && fs.X_OK, function(err, res) {
                         if (err) {
                             console.log("Error File down have permissions:", err);

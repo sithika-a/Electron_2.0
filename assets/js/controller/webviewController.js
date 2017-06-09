@@ -278,6 +278,7 @@
              * https://github.com/atom/electron/blob/master/docs/api/web-view-tag.md
              **/
             this.getView().addEventListener('ipc-message', function(event) {
+                console.log('Message received in webview...',event)
                 util.publish('/msgModule/handler/', event.args[0], event.channel);
             });
         },

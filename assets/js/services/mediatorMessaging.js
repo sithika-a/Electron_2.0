@@ -1,58 +1,82 @@
-// function MediatorCommunication(option){
-//     this.name = 'MediatorCommunication',
-//     this.action =  option;
-//     this.userInfo = {
-//         name : 'userInfo'
-//     }
-
-// }
     var messageHandler = {
-        byPass(){
-
-        },
-        self(){
-
-        },
-        reStructure : function(){
-
-        },
-        decider(event){
-            var msg = event.data;
-            if(msg.metaData.dest.channel == namespace.channel.Mediator){
-                this.self();
-            }else {
-                this.byPass(msg)
-            }
-        },
-        listener(event) {
-            console.log('Message received as ', event);
-            switch (event.data.destination) {
+        byPass(destinationChannel) {
+            switch (destinationChannel) {
                 case namespace.channel.CHAT:
                     {
                         console.log('sending to chat.. ');
-                        FULLClient.emitter.sendToChat(event.data.message);
+                        FULLClient.emitter.sendToChat(message);
                         break;
                     }
                 case namespace.channel.V2:
                     {
-                        FULLClient.emitter.sendToV2(event.data.message);
+                        FULLClient.emitter.sendToV2(message);
                         break;
                     }
                 case namespace.channel.SB:
                     {
-                        FULLClient.emitter.sendToSB(event.data.message);
+                        FULLClient.emitter.sendToSB(message);
                         break;
                     }
                 case namespace.channel.Main:
                     {
-                        console.log('to main ',FULLClient.emitter.sendToMain,':',event.data.message)
-                        FULLClient.emitter.sendToMain(event.data.message);
+                        console.log(`Bypassing message to main`, FULLClient.emitter.sendToMain, ':', message)
+                        FULLClient.emitter.sendToMain(message);
                         break;
                     }
-                     case namespace.channel.Mediator:
+                case namespace.channel.Mediator:
                     {
-                        console.log('to HiddenWindow:',event.data.message)
-                        // FULLClient.emitter.sendToMediator(event.data.message);
+                        console.log('to HiddenWindow:', message)
+                        break;
+                    }
+                default:
+                    {
+                        console.log('default captured ==== ')
+                    }
+            }
+        },
+        toSelf(msg) {
+            console.log(`Message received for hidden window : ${msg}`);
+        },
+        reStructure: function() {
+
+        },
+        decider(event) {
+            let msg = event.data;
+            console.log('ACK : ', msg);
+            if (msg.metaData.dest.channel == namespace.channel.Mediator) {
+                this.toSelf(msg);
+            } else {
+                this.byPass(msg.metaData.dest.channel)
+            }
+        },
+        listener(message) {
+            console.log('Message received as ', message.info);
+            switch (message.metaData.dest.channel) {
+                case namespace.channel.CHAT:
+                    {
+                        console.log(`sending to chat.. `);
+                        FULLClient.emitter.sendToChat(message);
+                        break;
+                    }
+                case namespace.channel.V2:
+                    {
+                        FULLClient.emitter.sendToV2(message);
+                        break;
+                    }
+                case namespace.channel.SB:
+                    {
+                        FULLClient.emitter.sendToSB(message);
+                        break;
+                    }
+                case namespace.channel.Main:
+                    {
+                        console.log('to main ', FULLClient.emitter.sendToMain, ':', message)
+                        FULLClient.emitter.sendToMain(message);
+                        break;
+                    }
+                case namespace.channel.Mediator:
+                    {
+                        console.log('to HiddenWindow:', message)
                         break;
                     }
                 default:
@@ -63,8 +87,8 @@
 
         }
     }
-   
-    FULLClient.emitter.subscribe(namespace.channel.Mediator, function(event) {
-      console.log('ACK : ',event.data.message)
-        messageHandler.listener(event);
+
+    FULLClient.emitter.subscribe(namespace.channel.Mediator, event => {
+        console.log('ACK : ', event)
+        messageHandler.decider(event);
     });

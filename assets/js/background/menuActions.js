@@ -20,9 +20,9 @@
          }
      },
      setNativeMenuForWin: function(template) {
-         console.log('setting native menu for windows..', ipcController.getContainer(namespace.CONTAINER_CHAT))
-         console.log('is fn available ? ', ipcController.getContainer(namespace.CONTAINER_CHAT).setMenu)
-         ipcController.getContainer(namespace.CONTAINER_CHAT).setMenu(new this.menu(this.template))
+         console.log('setting native menu for windows..', container.get(namespace.CONTAINER_CHAT))
+         console.log('is fn available ? ', container.get(namespace.CONTAINER_CHAT).setMenu)
+         container.get(namespace.CONTAINER_CHAT).setMenu(new this.menu(this.template))
      },
      sendSignalToChat: function(_event) {
          var msg = new Thinclient('menu');
