@@ -68,7 +68,7 @@
 
     shortcuts('command+h', function(event) {
         util.preventEvent(event);
-        if (/^darwin/.test(process.platform))
+        if (util.platform.isMac())
             util.windowEvents.hide(util.window.getName());
     });
 

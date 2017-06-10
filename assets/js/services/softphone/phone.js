@@ -285,7 +285,7 @@ h. stop switch - done
                             util.publish('/check/audio/ping/status', status);
                             util.publish('/status/UIController/auto/status/change', status);
 
-                            if (status == 'CallingCustomer' && /^win/.test(process.platform))
+                            if (status == 'CallingCustomer' && util.platform.isWin())
                                 util.notification.create({ title: 'Outbound Call', body: 'Dialing...' });
                             
                             logoutUI.restrictReloadV2(status);

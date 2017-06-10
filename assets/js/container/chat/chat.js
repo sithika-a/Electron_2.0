@@ -124,7 +124,7 @@ console.log('Chat container...', nwUserAgent);
                 case 'badgelabel':
                 case 'count':
                     {
-                        if (/^win32/.test(process.platform))
+                        if (util.platform.isWin())
                             msg[msg.opt].count ? util.showBadgeLabel(msg[msg.opt].count.toString()) : util.showBadgeLabel('');
                         else
                             chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'setBadge', '', msg[msg.opt].count);
@@ -132,7 +132,7 @@ console.log('Chat container...', nwUserAgent);
                     }
                 case 'requestattention': //needed for showing counts on new messsage arrived
                     {
-                        if (/^darwin/.test(process.platform)) {
+                        if (util.platform.isMac()) {
                             // var obj = {
                             //     eType: 'bounce',
                             //     opt: msg[msg.opt].isContinuous
@@ -385,7 +385,7 @@ var chat = {
             eType: 'getState',
             opt: namespace.channel.CONTAINER_CHAT
         }
-        util.publish(`/util/sendMessage/toMain`,commObj);
+        util.publish(`/util/sendMessage/to/main`,commObj);
     },
     getOuterDiv: function() {
         if (!this.outerDiv)
@@ -420,7 +420,7 @@ var chat = {
         console.log('onbefore unload is getting trigger ');
 
         function onQuit() {
-            if (/^win/.test(process.platform)) {
+            if (util.platform.isWin()) {
                 console.log('minimizing window...')
                     // windows should minimize
                 chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'minimize');

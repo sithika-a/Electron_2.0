@@ -4,7 +4,7 @@ function quitAppFaster(e) {
          *  Hiding SB window rather closing it
          *  with window X-Btn click
          */
-        if (/^win/.test(process.platform) && (!userDAO.getSkillByName('FullWork') || namespace.APP_ID != namespace.CONTAINER_CHAT)) {
+        if (util.platform.isWin() && (!userDAO.getSkillByName('FullWork') || namespace.APP_ID != namespace.CONTAINER_CHAT)) {
             util.publish('/util/window/events/minimize', namespace.CONTAINER_SB);
         } else {
             util.publish('/util/window/events/hide', namespace.CONTAINER_SB);
@@ -57,7 +57,7 @@ onload = function() {
     util.publish('/webview/controller/app/onload');
 
     // Send a message to main process
-    util.subscribe(`/util/sendMessage/toMain`,{
+    util.subscribe(`/util/sendMessage/to/main`,{
         eType: 'isCrashed',
         container: namespace.CONTAINER_SB
     });
@@ -109,7 +109,7 @@ onload = function() {
     });
 
     sbwin.on('restore', function() {
-        if (/^win/.test(process.platform))
+        if (util.platform.isWin())
             util.publish('/timer/hwnd/hide');
     });
 

@@ -84,7 +84,7 @@ console.log('Onload in Chat container.. ..')
         // in main js thread, which
         // helps in quiting the app during
         // internet issue / when app is not logged in.
-        util.publish(`/util/sendMessage/toMain`,{
+        util.publish(`/util/sendMessage/to/main`,{
             eType: `init`
         })
 

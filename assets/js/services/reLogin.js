@@ -52,7 +52,7 @@
 
             util.publish('/util/window/events/show', namespace.CONTAINER_CHAT);
 
-            if (/^win/.test(process.platform)) {
+            if (util.platform.isWin()) {
                 util.publish('/util/window/events/restore', namespace.CONTAINER_CHAT);
             };
         },

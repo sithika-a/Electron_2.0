@@ -89,7 +89,7 @@
         },
         sendUserInfoToMainProcess() {
             console.log('sendUserInfoToMainProcess ...');
-            util.publish('/util/sendMessage/toMain',{
+            util.publish('/util/sendMessage/to/main',{
                 "eType": "userInfo",
                 "userObj": this.getUserInfoObj()
             });

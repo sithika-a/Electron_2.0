@@ -1,7 +1,7 @@
 (function($, util) {
     try {
         var mailhelper = {
-            mailSend: function(data, callback) {
+            mailSend(data, callback) {
                 console.log("Pushing Mail to Dev" + JSON.stringify(data));
                 return $.ajax({
                     url: 'http://beta.sb.a-cti.com/InitialAccountAction/sendFailureNotification.do',
@@ -27,13 +27,13 @@
                     }
                 }.bind(this));
             },
-            isTabClose: function(data) {
+            isTabClose(data) {
                 if (data.type == 'tab-XClose') return true;
             },
-            isErrMail: function(data) {
+            isErrMail(data) {
                 if (data.type == 'Error Log') return true;
             },
-            generateEMailHTML: function(data) {
+            generateEMailHTML(data) {
                 var logsHTML = "";
                 logsHTML += "<html>";
                 logsHTML += "<head>";
@@ -55,7 +55,7 @@
                 logsHTML += "</html>";
                 return logsHTML;
             },
-            getElectronTemplate: function() {
+            getElectronTemplate() {
                 var elecTemp = '';
                 if (!/Electron/.test(navigator.userAgent) || /Tc-webkit/.test(navigator.userAgent))
                     return elecTemp;

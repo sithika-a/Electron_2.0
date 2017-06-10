@@ -86,7 +86,7 @@
                 })
                 .done(function(res) {
                     this.externalUrl = res.id;
-                    process.platform == "darwin" ? this.runMacCode() : this.runWinCode();
+                    util.platform.isMac() ? this.runMacCode() : this.runWinCode();
                 }.bind(this))
                 .fail(function() {
                     this.runExistMethod();
@@ -248,7 +248,7 @@
             }
         },
         init: function() {
-            if (/^win/.test(process.platform)) {
+            if (util.platform.isWin()) {
                 this.getBrowserPathFromRegistry();
             }
         }

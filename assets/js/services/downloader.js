@@ -267,7 +267,7 @@ var options = {
             return util.storage.set(key, value);
         },
         updateProgressBar: function(percentage) {
-            if (!/^darwin/.test(process.platform)) {
+            if (!util.platform.isMac()) {
                 setTimeout(function() {
                     win.setProgressBar(percentage);
                 }, 0);

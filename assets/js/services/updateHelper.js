@@ -123,9 +123,9 @@
                 child = FULLClient.require('child_process');
 
             if (path.extname(src) == '.zip') {
-                if (/^win/.test(process.platform)) {
+                if (util.platform.isWin()) {
                     unzipTool = path.resolve(FULLClient.getFilePath(), 'tools', 'unzip.exe');
-                } else if (/darwin/.test(process.platform)) {
+                } else if (util.platform.isMac()) {
                     unzipTool = 'unzip';
                 }
 

@@ -37,8 +37,8 @@
                 if (err) {
                     console.warn('Error in Writing appMode in Engine Updation');
                 }
-                if (process.platform == "darwin") this.replaceMacApp(appPath, infoJSON.downloadUrl.mac.filename);
-                else if (process.platform == "win32") this.replaceWinApp(appPath, infoJSON.downloadUrl.win.filename);
+                if (util.platform.isMac()) this.replaceMacApp(appPath, infoJSON.downloadUrl.mac.filename);
+                else if (util.platform.isWin()) this.replaceWinApp(appPath, infoJSON.downloadUrl.win.filename);
             }.bind(this));
         },
         deleteTmpConfig: function(config) {
@@ -271,11 +271,11 @@
                 unzipChildProcessCmd,
                 dest;
 
-            if (process.platform == 'darwin') {
+            if (util.platform.isMac()) {
                 dest = util.getTempDirectory() + 'EngineUpdates';
 
                 unzipChildProcessCmd = 'unzip -oq "' + src + '" -d "' + dest + '" ';
-            } else if (process.platform == 'win32') {
+            } else if (util.platform.isWin()) {
                 dest = path.resolve(process.env.TEMP + '/EngineUpdates');
                 unzipChildProcessCmd = ' "' + path.resolve(FULLClient.getFilePath(), 'tools/unzip.exe') + '" -o "' + src + '" -d "' + dest + '" ';
             }
@@ -359,7 +359,7 @@
             Method to get downloadZip url Depends on platform
         */
         getDownloadZipUrl: function(response) {
-            if (process.platform == 'darwin')
+            if (util.platform.isMac())
                 return response.downloadUrl.mac.url;
             else
                 return response.downloadUrl.win.url;

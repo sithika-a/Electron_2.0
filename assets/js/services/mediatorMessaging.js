@@ -1,6 +1,6 @@
-    var messageHandler = {
-        byPass(destinationChannel) {
-            switch (destinationChannel) {
+  var messageHandler = {
+        byPass(message) {
+            switch (message.metaData.dest.channel) {
                 case namespace.channel.CHAT:
                     {
                         console.log('sending to chat.. ');
@@ -46,7 +46,7 @@
             if (msg.metaData.dest.channel == namespace.channel.Mediator) {
                 this.toSelf(msg);
             } else {
-                this.byPass(msg.metaData.dest.channel)
+                this.byPass(msg)
             }
         },
         listener(message) {

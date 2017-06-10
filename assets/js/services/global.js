@@ -116,7 +116,7 @@ Object.merge = function(o1, o2) {
     }
 
     FULLClient.getAppName = function() {
-        if (/^darwin/.test(process.platform))
+        if (util.platform.isMac())
             return path.basename(process.execPath).substring(0, path.basename(process.execPath).lastIndexOf(' '));
         else
             return path.basename(process.execPath).substring(0, (process.execPath).lastIndexOf('\\'));

@@ -39,7 +39,7 @@
                 path = require('path');
 
             // Windows, restarting of application  
-            if (/^win/.test(process.platform)) {
+            if (util.platform.isWin()) {
                 var quietTool = path.resolve(process.resourcesPath, "app", "tools", "Quiet.exe");
                 var scriptPath = path.resolve(process.resourcesPath, "app", "scripts", this.getScriptName());
                 child('START " "  "' + quietTool + '"  "' + scriptPath + '"', function(err) {
@@ -49,7 +49,7 @@
             }
 
             // Mac, code for restarting Application
-            else if (/^darwin/.test(process.platform)) {
+            else if (util.platform.isMac()) {
                 var applicationPath, endIndex = process.resourcesPath.indexOf('/Contents');
                 var appName = namespace.APP_ID == 'FULL' ? 'FULLClient-Electron' : FULLClient.getAppName();
                 var scriptPath = path.resolve(process.resourcesPath, "app", "scripts", "restart.sh");

@@ -126,7 +126,7 @@
             addContentEditable: function(mainTMP) {
                 // In case windows we are taking out
                 // paste and match style.
-                if (/^win/.test(process.platform))
+                if (util.platform.isWin())
                     DEFAULT_EDITABLE_TPL.splice(6, 1);
                 mainTMP.push.apply(mainTMP, DEFAULT_EDITABLE_TPL);
                 return mainTMP;

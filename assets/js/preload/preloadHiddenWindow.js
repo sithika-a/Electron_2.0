@@ -3,8 +3,7 @@
     let domain = location.host || location.href;
     let path = require(`path`);
     console.debug(`Domain : ${domain}`);
-    const messenger = require("electron").remote.require(path.join(process.cwd(), `/assets/comm/messenger.js`));
-    console.log('messenger  :', messenger)
+    const messenger = require(`electron`).remote.require(path.join(process.cwd(), `/assets/comm/messenger.js`));
     R[`FULLClient`] = {
         require,
         emitter: {
@@ -18,7 +17,6 @@
                 }
             },
             sendToMain(msg) {
-                console.log(`sending to main from win`)
                 if (this.isValid(msg))
                     messenger.sendToMain(msg);
             },

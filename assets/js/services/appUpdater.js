@@ -142,7 +142,7 @@
             }
         },
         updateVersionInPlist: function() {
-            if (/^darwin/.test(process.platform)) {
+            if (util.platform.isMac()) {
                 var fs = require("fs"),
                     plistPath = FULLClient.getFilePath().replace('/Resources/app', '/Info.plist');
                 fs.readFile(plistPath, 'utf8', function(err, data) {

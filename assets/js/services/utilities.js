@@ -116,13 +116,13 @@ util.showBadgeLabel = function(count) {
         // remote container is not serialized, so api
         // change will affect implementation.
         // check https://github.com/electron/electron/issues/4011
-        util.subscribe(`/util/sendMessage/toMain`,{
+        util.subscribe(`/util/sendMessage/to/main`,{
             eType: 'setOverlayIcon',
             dataURL: canvas.toDataURL()
         });
         return text;
     } else {
-        util.subscribe(`/util/sendMessage/toMain`,{
+        util.subscribe(`/util/sendMessage/to/main`,{
             eType: 'setOverlayIcon',
             count: null
         });
@@ -183,13 +183,13 @@ util.doNotBubble = function(e) {
 
 util.mocha = {
     sb: function() {
-        util.subscribe(`/util/sendMessage/toMain`,{
+        util.subscribe(`/util/sendMessage/to/main`,{
             "eType": "open",
             "title": "sbMocha"
         });
     },
     v2: function() {
-        util.subscribe(`/util/sendMessage/toMain`,{
+        util.subscribe(`/util/sendMessage/to/main`,{
             "eType": "open",
             "title": "v2Mocha"
         });
@@ -402,7 +402,7 @@ util.notification = {
     prevent: function() {
         // In windows native notifications are causing problem
         // We are fixing it with this patch.
-        if (/^win/.test(process.platform)) {
+        if (util.platform.isWin()) {
             console.warn('preventing native notifications');
             util.getCurrentWindow().webContents.session.setPermissionRequestHandler(function(webContents, permission, callback) {
                 if (permission === 'notifications') {
@@ -417,6 +417,15 @@ util.notification = {
     }
 };
 
+
+util.platform = {
+    isMac (){
+        if (/^darwin/.test(process.platform)) return true;
+    },
+    isWin (){
+         if (/^win/.test(process.platform)) return true;
+    }
+}
 util.caching = {
     windows: {
         v2: null,
@@ -916,7 +925,7 @@ util.crashReporter = {
         /**
          * Send message to main container.....
          */
-        util.subscribe(`/util/sendMessage/toMain`,{
+        util.subscribe(`/util/sendMessage/to/main`,{
             "eType": "crashReporter",
             "source": util.window.getName() == 'AnyWhereWorks' ? 'Chat' : util.window.getName(),
             "opt": "port"
@@ -959,7 +968,7 @@ util.crashReporter = {
 util.windowEvents = {
     show: function(containerName) {
         if (containerName) {
-            util.subscribe(`/util/sendMessage/toMain`,{
+            util.subscribe(`/util/sendMessage/to/main`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'show'
@@ -968,7 +977,7 @@ util.windowEvents = {
     },
     focus: function(containerName) {
         if (containerName) {
-            util.subscribe(`/util/sendMessage/toMain`,{
+            util.subscribe(`/util/sendMessage/to/main`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'focus'
@@ -977,7 +986,7 @@ util.windowEvents = {
     },
     restore: function(containerName) {
         if (containerName) {
-            util.subscribe(`/util/sendMessage/toMain`,{
+            util.subscribe(`/util/sendMessage/to/main`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'restore'
@@ -986,7 +995,7 @@ util.windowEvents = {
     },
     minimize: function(containerName) {
         if (containerName) {
-            util.subscribe(`/util/sendMessage/toMain`,{
+            util.subscribe(`/util/sendMessage/to/main`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'minimize'
@@ -995,7 +1004,7 @@ util.windowEvents = {
     },
     hide: function(containerName) {
         if (containerName) {
-            util.subscribe(`/util/sendMessage/toMain`,{
+            util.subscribe(`/util/sendMessage/to/main`,{
                 title: containerName,
                 eType: 'windowEvents',
                 opt: 'hide'
@@ -1122,13 +1131,13 @@ util.sendMessage = {
             FULLClient.emitter.toWebview(message);
     }
 }
-util.subscribe(`/util/sendMessage/toMediator`, util.sendMessage, util.sendMessage.toMediator);
-util.subscribe(`/util/sendMessage/toMain`, util.sendMessage, util.sendMessage.toMain);
-util.subscribe(`/util/sendMessage/toSB`, util.sendMessage, util.sendMessage.toSB);
-util.subscribe(`/util/sendMessage/toChat`, util.sendMessage, util.sendMessage.toChat);
-util.subscribe(`/util/sendMessage/toV2`, util.sendMessage, util.sendMessage.toV2);
-util.subscribe(`/util/sendMessage/toTimer`, util.sendMessage, util.sendMessage.toTimer);
-util.subscribe(`/util/sendMessage/toWebview`, util.sendMessage, util.sendMessage.toWebview);
+util.subscribe(`/util/sendMessage/to/mediator`, util.sendMessage, util.sendMessage.toMediator);
+util.subscribe(`/util/sendMessage/to/main`, util.sendMessage, util.sendMessage.toMain);
+util.subscribe(`/util/sendMessage/to/sb`, util.sendMessage, util.sendMessage.toSB);
+util.subscribe(`/util/sendMessage/to/chat`, util.sendMessage, util.sendMessage.toChat);
+util.subscribe(`/util/sendMessage/to/v2`, util.sendMessage, util.sendMessage.toV2);
+util.subscribe(`/util/sendMessage/to/timer`, util.sendMessage, util.sendMessage.toTimer);
+util.subscribe(`/util/sendMessage/to/webview`, util.sendMessage, util.sendMessage.toWebview);
 
 
 util.checkForUpdates = {
