@@ -1,5 +1,6 @@
 var windowEventsController = {
     eventHandler: function(container, eType, paramsObj) {
+        console.log('container  :',container)
         if (container)
             switch (eType.toLowerCase()) {
                 case "enableontop":
@@ -66,7 +67,11 @@ var windowEventsController = {
                     }
                 case "bounce":
                     {
-                        container.flashFrame(true);
+                        if(paramsObj.platform == `darwin`){
+                            paramsObj.isContinuous ? app.dock.bounce(`critical`) : app.dock.bounce();
+                        }else {
+                            container.flashFrame(true);
+                        }
                     }
                 default:
                     {

@@ -27,34 +27,34 @@
 //     }
 // }
 
-    var clientListenerHandler = {
-        handler: function(msg) {
-            switch (msg.opt) {
-                case 'setv2status':
-                    {
-                        // send the status to V2
-                        util.publish('/util/v2/statusPush', {
-                            status: msg[msg.opt].status
-                        });
-                        break;
-                    }
-                case "loadwebsite":
-                    {
-                        if (msg[msg.opt].isBrowserLoad) {
-                            // load in browser and get back
-                            util.loadWebSiteInBrowser(msg[msg.opt].url);
-                        } else if (msg[msg.opt].isFullwork) {
-                            // load in our client
-                            util.publish('/tab/controller/load/fullwork', msg[msg.opt].url);
-                        } else {
-                            util.loadWebSiteInNewWindow(msg[msg.opt].url);
-                        }
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-    }
+    // var clientListenerHandler = {
+    //     handler: function(msg) {
+    //         switch (msg.opt) {
+    //             case 'setv2status':
+    //                 {
+    //                     // send the status to V2
+    //                     util.publish('/util/v2/statusPush', {
+    //                         status: msg[msg.opt].status
+    //                     });
+    //                     break;
+    //                 }
+    //             case "loadwebsite":
+    //                 {
+    //                     if (msg[msg.opt].isBrowserLoad) {
+    //                         // load in browser and get back
+    //                         util.loadWebSiteInBrowser(msg[msg.opt].url);
+    //                     } else if (msg[msg.opt].isFullwork) {
+    //                         // load in our client
+    //                         util.publish('/tab/controller/load/fullwork', msg[msg.opt].url);
+    //                     } else {
+    //                         util.loadWebSiteInNewWindow(msg[msg.opt].url);
+    //                     }
+    //                     break;
+    //                 }
+    //             default:
+    //                 {
+    //                     break;
+    //                 }
+    //         }
+    //     }
+    // }

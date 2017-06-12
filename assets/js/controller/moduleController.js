@@ -85,7 +85,8 @@ console.log('Onload in Chat container.. ..')
         // helps in quiting the app during
         // internet issue / when app is not logged in.
         util.publish(`/util/sendMessage/to/main`,{
-            eType: `init`
+            moduleName : namespace.moduleName.moduleControl,
+            actionType: "init"
         })
 
         // APP_ID should be "AnyWhereWorks" chat to start

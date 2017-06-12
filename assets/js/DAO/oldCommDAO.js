@@ -1,5 +1,17 @@
 var namespace = {
-      channel: {
+        moduleName: {
+            chatUtils: `chatUtils`,
+            moduleControl: `moduleController`,
+            web: `webContainer`,
+            chat: `chatContainer`,
+            appQuit: `appQuit`,
+            loginModule: `loginModule`,
+            reLogin: `reLogin`,
+            clientListener: `clientListener`,
+            userLoginRegister: `userLoginRegister`,
+            utils: `utilities`,
+        },
+        channel: {
             SB: 'msg-to-FULL', // SB container
             CHAT: 'msg-to-Chat', // AnyWhereWorks container
             V2: 'msg-to-V2', // v2 container
@@ -7,7 +19,7 @@ var namespace = {
             Main: 'msg-to-Main' // BackGround
         },
         APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? 'FULL' : 'AnywhereWorks', // "AnyWhereWorks || FULL" any branding app will behave based on it.
-        HIDDEN_CONTAINER :'HiddenWindow',
+        HIDDEN_CONTAINER: 'HiddenWindow',
         CONTAINER_CHAT: 'AnyWhereWorks',
         CONTAINER_CHAT_ALIAS: 'Chat',
         CONTAINER_SB: 'FULL',
@@ -48,12 +60,65 @@ var namespace = {
     /* Main Process Communication Object */
 function PostToBackground(operationType) {
     this.name = 'PostToBackground';
-    this.choice = operationType; // accountOpt or statusPush Operation.
+    this.choice = operationType;
+    this.actionType = 'windowEvents';
     this.menuActions = {
         name: 'menuActions',
         eType: 'menuActions',
         opt: null
     };
+    this.show = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'show'
+    };
+
+    this.hide = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'hide'
+    };
+    this.focus = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'focus'
+    };
+
+    this.enableOnTop = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'enableontop'
+    };
+
+    this.disableOnTop = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'disableontop'
+    };
+    this.restore = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'restore'
+    };
+     this.minimize = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'minimize'
+    };
+     this.maximize = {
+        moduleName: namespace.moduleName.utils,
+        title: null,
+        actionType: this.actionType,
+        opt: 'maximize'
+    };
+
 }
 var analytics = {
     TAB_LOAD: 'TabLoad', // switchboard tab load
@@ -82,7 +147,7 @@ var analytics = {
     NETWORK_STRENGTH_CLICKED: 'NetworkStrengthClicked',
     UPDATE_BTN_CLICKED: 'UpdateButtonClicked',
     UPDATE_LATER_CLICKED: "UpdateLaterClicked",
-    WIPE_DATA:"AppWipeData"
+    WIPE_DATA: "AppWipeData"
 };
 
 function ImageCapture(frameName, encodedImg, feedbackId) {
@@ -487,7 +552,7 @@ function LogsAck(id) {
     }
 
     this['clearLogs'] = {
-        name : 'clearLogs'
+        name: 'clearLogs'
     }
 }
 
@@ -496,12 +561,12 @@ function LogACK(opt) {
     this.name = 'LogACK';
     this.opt = opt;
     this['captureLogs'] = {
-        name : 'captureLogs',
+        name: 'captureLogs',
         uniqueId: null
     }
 
     this['clearLogs'] = {
-        name : 'clearLogs'
+        name: 'clearLogs'
     }
 }
 

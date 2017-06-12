@@ -67,7 +67,8 @@
 
                     $('webview').remove();
                     FULLClient.ipc.send({
-                        "eType": "appQuit",
+                        moduleName : namespace.moduleName.appQuit,
+                        "actionType": "appQuit",
                         "name": "appQuit"
                     });
                     Locstor.set("AppQuitType", 'normal');

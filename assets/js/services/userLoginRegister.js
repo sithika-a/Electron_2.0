@@ -6,8 +6,7 @@
 
 ((R, $, util) => {
 
-    let childProcess = require(`child_process`);
-
+    let specs, childProcess = require(`child_process`);
     let getOS = {
         getSystemInfo() {
             let defer = $.Deferred();
@@ -47,8 +46,8 @@
         },
         mac() {
 
-            let kernalVer = this.getRelease(),
-                kernalVer = /\d*/.exec(kernalVer)[0];
+            let osVer = this.getRelease(),
+                kernalVer = /\d*/.exec(osVer)[0];
 
             switch (kernalVer) {
                 case `13`:
@@ -65,9 +64,8 @@
         }
     }
 
-
     try {
-        let specs, os_details = FULLClient.require(`os`);
+        let os_details = FULLClient.require(`os`);
         // specs = "Hostname         : " + os_details.hostname() + "\n OS platform      : " + getOS.platform() + "\n CPU model        : " + os_details.cpus()[0].model + "\n OS architecture  : " + os_details.arch() + "\n Total memory     : " + Math.round((os_details.totalmem() / (1024 * 1024 * 1024))) + "GB" + "\n Free Memory      : " + Math.round((os_details.freemem() / (1024 * 1024))) + "MB" + "\n Exec Path : " + process.execPath + "\n Env Path : " + process.env.PATH;
         specs = `Hostname         :  ${os_details.hostname()}  \n OS platform      :   ${getOS.platform()}  \n CPU model        :   ${os_details.cpus()[0].model}  \n OS architecture  :   ${os_details.arch()}  \n Total memory     :   ${Math.round((os_details.totalmem() / (1024 * 1024 * 1024)))}  GB  \n Free Memory      :   ${Math.round((os_details.freemem() / (1024 * 1024)))}  MB  \n Exec Path :   ${process.execPath}  \n Env Path :   ${process.env.PATH}`;
     } catch (e) {
@@ -94,8 +92,10 @@
             };
         },
         getSpecDetails(cb){
+            console.log('namespace : ',namespace)
             if (cb) {
                 cb.call(this,{
+                    moduleName : namespace.moduleName.userLoginRegister,
                     appVersion: FULLClient.manifest.version,
                     engine: process.versions.electron,
                     platform: process.platform,

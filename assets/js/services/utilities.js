@@ -116,13 +116,14 @@ util.showBadgeLabel = function(count) {
         // remote container is not serialized, so api
         // change will affect implementation.
         // check https://github.com/electron/electron/issues/4011
-        util.subscribe(`/util/sendMessage/to/main`,{
+        util.publish(`/util/sendMessage/to/main`, {
+            moduleName: namespace.module.utils,
             eType: 'setOverlayIcon',
             dataURL: canvas.toDataURL()
         });
         return text;
     } else {
-        util.subscribe(`/util/sendMessage/to/main`,{
+        util.publish(`/util/sendMessage/to/main`, {
             eType: 'setOverlayIcon',
             count: null
         });
@@ -183,13 +184,13 @@ util.doNotBubble = function(e) {
 
 util.mocha = {
     sb: function() {
-        util.subscribe(`/util/sendMessage/to/main`,{
+        util.publish(`/util/sendMessage/to/main`, {
             "eType": "open",
             "title": "sbMocha"
         });
     },
     v2: function() {
-        util.subscribe(`/util/sendMessage/to/main`,{
+        util.publish(`/util/sendMessage/to/main`, {
             "eType": "open",
             "title": "v2Mocha"
         });
@@ -273,10 +274,10 @@ util.getParameters = function(url) {
     return (keyValue);
 };
 
-util.isFetch = function(params){
- if (params && (params.fetch || params.isAgentResearch)) {
-                    return true;
-                }
+util.isFetch = function(params) {
+    if (params && (params.fetch || params.isAgentResearch)) {
+        return true;
+    }
 };
 
 util.isEmail = function(email) {
@@ -419,11 +420,11 @@ util.notification = {
 
 
 util.platform = {
-    isMac (){
+    isMac() {
         if (/^darwin/.test(process.platform)) return true;
     },
-    isWin (){
-         if (/^win/.test(process.platform)) return true;
+    isWin() {
+        if (/^win/.test(process.platform)) return true;
     }
 }
 util.caching = {
@@ -762,11 +763,12 @@ util.gmail = {
                 return;
             }
 
-            var len = cookies.filter(function(cookie) {return /HID|SSID/.test(cookie.name) }).length;
+            var len = cookies.filter(function(cookie) {
+                return /HID|SSID/.test(cookie.name)
+            }).length;
             if (!len) {
                 console.warn('Gmail session InActive.');
-            }
-            else{
+            } else {
                 console.log('Gmail session active.');
             }
         })
@@ -820,7 +822,7 @@ util.v2 = {
     passOriginalEvent: function(originalObject) {
         if (!this.isV2Available())
             return;
-        
+
         if (typeof originalObject == "object" && originalObject.name == 'v2Communication') {
             // util.caching.windows.getV2().send('msg-to-' + namespace.CONTAINER_V2, originalObject);
             // TODO Inbuilt Routing System has to written.
@@ -925,7 +927,7 @@ util.crashReporter = {
         /**
          * Send message to main container.....
          */
-        util.subscribe(`/util/sendMessage/to/main`,{
+        util.publish(`/util/sendMessage/to/main`, {
             "eType": "crashReporter",
             "source": util.window.getName() == 'AnyWhereWorks' ? 'Chat' : util.window.getName(),
             "opt": "port"
@@ -967,51 +969,54 @@ util.crashReporter = {
 
 util.windowEvents = {
     show: function(containerName) {
-        if (containerName) {
-            util.subscribe(`/util/sendMessage/to/main`,{
-                title: containerName,
-                eType: 'windowEvents',
-                opt: 'show'
-            });
-        }
+        this.sendToMainProcess(this.constructMsg('show', containerName))
     },
     focus: function(containerName) {
-        if (containerName) {
-            util.subscribe(`/util/sendMessage/to/main`,{
-                title: containerName,
-                eType: 'windowEvents',
-                opt: 'focus'
-            });
-        }
-    },
-    restore: function(containerName) {
-        if (containerName) {
-            util.subscribe(`/util/sendMessage/to/main`,{
-                title: containerName,
-                eType: 'windowEvents',
-                opt: 'restore'
-            });
-        }
-    },
-    minimize: function(containerName) {
-        if (containerName) {
-            util.subscribe(`/util/sendMessage/to/main`,{
-                title: containerName,
-                eType: 'windowEvents',
-                opt: 'minimize'
-            });
-        }
+        this.sendToMainProcess(this.constructMsg('focus', containerName))
     },
     hide: function(containerName) {
-        if (containerName) {
-            util.subscribe(`/util/sendMessage/to/main`,{
-                title: containerName,
-                eType: 'windowEvents',
-                opt: 'hide'
-            });
+        this.sendToMainProcess(this.constructMsg('hide', containerName))
+    },
+    restore: function(containerName) {
+        this.sendToMainProcess(this.constructMsg('restore', containerName))
+    },
+    maximize(containerName) {
+        this.sendToMainProcess(this.constructMsg('maximize', containerName))
+    },
+    minimize: function(containerName) {
+        this.sendToMainProcess(this.constructMsg('minimize', containerName))
+    },
+    enableOnTop: function(containerName) {
+        this.sendToMainProcess(this.constructMsg('enableOnTop', containerName))
+    },
+    disableOnTop: function(containerName) {
+        this.sendToMainProcess(this.constructMsg('disableOnTop', containerName))
+    },
+    constructMsg(operationType, containerName) {
+        if (operationType && containerName) {
+            var msg = new PostToBackground(operationType);
+            if (msg[msg.choice]) {
+                msg[msg.choice].title = containerName;
+                return msg[msg.choice];
+            }
+        }
+    },
+    sendToMainProcess(msg) {
+        if (msg) {
+            console.log('is msg present ? ',msg)
+            util.publish(`/util/sendMessage/to/main`, msg);
         }
     }
+
 };
+util.subscribe('/util/window/events/show', util.windowEvents, util.windowEvents.show);
+util.subscribe('/util/window/events/hide', util.windowEvents, util.windowEvents.hide);
+util.subscribe('/util/window/events/focus', util.windowEvents, util.windowEvents.focus);
+util.subscribe('/util/window/events/restore', util.windowEvents, util.windowEvents.restore);
+util.subscribe('/util/window/events/minimize', util.windowEvents, util.windowEvents.minimize);
+util.subscribe('/util/window/events/minimize', util.windowEvents, util.windowEvents.maximize);
+util.subscribe('/util/window/events/minimize', util.windowEvents, util.windowEvents.enableOnTop);
+util.subscribe('/util/window/events/minimize', util.windowEvents, util.windowEvents.disableOnTop);
 
 util.config = {
     getSBurl: function() {
@@ -1095,40 +1100,42 @@ util.app = {
 };
 
 util.sendMessage = {
-    contructMessage (actualMessage){
-        if(this.isValidMsg(actualMessage)) {
-            console.log('contructMessage  : ')
-             var msg = new WindowMessaging();
-              msg.info = actualMessage;
-                return msg;
+    contructMessage(actualMessage, channel) {
+        var msg = new WindowMessaging();
+        msg.info = actualMessage;
+        msg.metaData.src.moduleName = actualMessage.moduleName || actualMessage.name || null;
+        msg.metaData.dest.channel = channel;
+        console.log('contructMessage  : ', msg)
+
+        return msg;
+    },
+    isValidMsg(message) {
+        return (message && typeof message == 'object') ? true : false;
+    },
+    toMediator(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.Mediator));
+    },
+    toMain(message) {
+        console.log('isValidMsg in  send to main ...',FULLClient.emitter.sendToMain)
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToMain(this.contructMessage(message, namespace.channel.Main));
+    },
+    toSB(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToSB(this.contructMessage(message, namespace.channel.SB));
+    },
+    toChat(message) {
+        console.log('what is emitter obj ? ',FULLClient.emitter)
+
+        if (this.isValidMsg(message)){                
+            console.log('isValidMsg in  send to chat ...',FULLClient.emitter.sendToChat)
+
+         FULLClient.emitter.sendToChat.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.CHAT));
         }
     },
-    isValidMsg (message){
-         return (message && typeof message == 'object') ? true : false;
-    },
-    toMediator (message){
-       if(this.isValidMsg(message)) FULLClient.emitter.sendToMediator(message);
-    },
-    toMain (message){
-        console.log('intiating message to main from util:',message)
-        var msg = this.contructMessage(message)
-         if(msg){
-            console.log('after attaching message :'),msg
-            msg.metaData.dest.channel = namespace.channel.Main;
-          FULLClient.emitter.sendToMain(msg);
-         }
-    },
-    toSB (message){
-        if(this.isValidMsg(message)) FULLClient.emitter.sendToSB(message);
-    },
-    toChat (message){
-        if(this.isValidMsg(message)) FULLClient.emitter.toChat(message);
-    },
-    toV2 (message){
-         if(this.isValidMsg(message)) FULLClient.emitter.toV2(message);
+    toV2(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToV2(this.contructMessage(message, namespace.channel.V2));
     },
     toWebview(message) {
-            FULLClient.emitter.toWebview(message);
+        FULLClient.emitter.toWebview(message);
     }
 }
 util.subscribe(`/util/sendMessage/to/mediator`, util.sendMessage, util.sendMessage.toMediator);
@@ -1293,12 +1300,6 @@ util.engine = {
         return parseInt(process.versions['electron'].split('.')[0])
     }
 }
-
-util.subscribe('/util/window/events/show', util.windowEvents, util.windowEvents.show);
-util.subscribe('/util/window/events/hide', util.windowEvents, util.windowEvents.hide);
-util.subscribe('/util/window/events/restore', util.windowEvents, util.windowEvents.restore);
-util.subscribe('/util/window/events/focus', util.windowEvents, util.windowEvents.focus);
-util.subscribe('/util/window/events/minimize', util.windowEvents, util.windowEvents.minimize);
 
 util.init = function() {
     this.crashReporter.init();

@@ -52,14 +52,11 @@
         },
         broadCast(target, message) {
             if (this.isValid(message)) {
-                console.log('its a valid message', message);
                 if (target) {
-                    console.log('BroadCasting ....', target)
                     this.bridge.emit(target, message)
                     return true;
                 }
                 throw new Error('[messenger.broadCast] : target not provided');
-
             }
             throw new Error('[messenger.broadCast] : MessageData is not an Object :' + message);
         },

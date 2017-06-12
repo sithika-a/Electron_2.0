@@ -1,5 +1,5 @@
 ;
-(function(R, util) {
+((R, util) => {
     /**
      *
      * 1. Flush userDAO data in all container
@@ -9,14 +9,14 @@
      */
     var reLogin = {
         googleAppScript: 'https://script.google.com/macros/s/AKfycbzHu2EQVazW4LQdns9i8KcHDwzX37_73cO_O7vldwwe-OCdlu95/exec?',
-        wipeData: function() {
+        wipeData() {
             this.removeUserFromSheet(userDAO.getEmail());
             userDAO.clear();
             // util.subscribe('/app/cookies/cleared', reLogin, reLogin.reset);
             this.reset();
             util.subscribe('/app/loginModule/onload/recieved', reLogin, reLogin.removeWebview);
         },
-        reset: function() {
+        reset() {
             util.publish('module/controller/reset');
 
             util.notification.create({
@@ -32,22 +32,19 @@
             util.publish('/util/v2/windows/caching/reset');
 
         },
-        removeWebview: function() {
+        removeWebview() {
             $('webview:not(#LoginModule)').remove();
             // Remove any existing, badgelabel in 
             // app, which have not been read.
             util.publish('/msgModule/handler/', new ClientListener('badgelabel'));
             util.unsubscribe('/app/loginModule/onload/recieved', reLogin, reLogin.removeWebview);
-            setTimeout(function() {
+            setTimeout(() => {
                 console.log('Sending reLogin message to main ...');
-                FULLClient.emitter.sendToMain({
-                    "eType": "reLogin",
-                    "name": "reLogin"
+                util.publish(`/util/sendMessage/to/main`, {
+                    moduleName : namespace.moduleName.reLogin,
+                    actionType : namespace.moduleName.reLogin,
+                    name : namespace.moduleName.reLogin
                 });
-                // FULLClient.ipc.send({
-                //     "eType": "reLogin",
-                //     "name": "reLogin"
-                // });
             }, 0);
 
             util.publish('/util/window/events/show', namespace.CONTAINER_CHAT);
@@ -56,7 +53,7 @@
                 util.publish('/util/window/events/restore', namespace.CONTAINER_CHAT);
             };
         },
-        removeUserFromSheet: function(email) {
+        removeUserFromSheet(email) {
             /*
                 this function will be called from two 
                 sources
@@ -67,7 +64,7 @@
             if (email && util.isEmail(email)) {
                 var url = this.googleAppScript + 'userEmail=' + email + '&mode=' + FULLClient.getMode() + '&engine=' + process.versions['electron'] + '&remove=true'
                 $.getJSON(url)
-                    .done(function(infoJSON) {
+                    .done((infoJSON) => {
                         if (infoJSON && /success/.test(infoJSON.status)) {
                             util
                             .getCurrentWindow()
@@ -75,7 +72,7 @@
                             .session
                             .flushStorageData(true);
                             
-                            setTimeout(function(){
+                            setTimeout(() => {
                                 util.app.restart();
                             },3000);
                         }
@@ -86,7 +83,7 @@
     util.subscribe('/app/user/data/wipe', reLogin, reLogin.wipeData);
     util.subscribe('/app/remove/user/from/sheet', reLogin, reLogin.removeUserFromSheet);
 
-    util.subscribe('/app/cookies/cleared', function() {
+    util.subscribe('/app/cookies/cleared',() => {
         reLogin.wipeData();
         util.clear.isCleared = false;
     });

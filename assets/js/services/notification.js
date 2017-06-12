@@ -5,10 +5,13 @@
         let nodeNotifier = FULLClient.require(`node-notifier`);
 
         class FullNotification {
-            constructor(clientListenerObj) {
+            constructor(message) {
+                console.log(`clientlistener Obj :`, message.info)
                 this.name = `FULLNotification`;
-                this.source = clientListenerObj != null ? clientListenerObj : location.origin;
-                this.container = util.window.getName();
+                this.source = message.info != null ? message.info : location.origin;
+                console.log(`clientlistener source :`, this.source)
+
+                this.container = message.metaData.src.windowName;
                 this.title = this.getTitlefromObject();
                 this.body = this.getBodyfromObject();
                 this.icon = this.getIconfromObject();
@@ -46,6 +49,7 @@
                 return this.source.notify.body && this._isValid() ? this.replaceSlash(this.source.notify.body) : `Fullclient_Message`;
             }
             getIconfromObject() {
+                console.log('what is this  ? ', this)
                 return this.source.notify.icon && this._isValid() ? this.source.notify.icon : ``;
             }
             getSilentOption() {
@@ -57,9 +61,9 @@
             replaceSlash(str) {
                 return str.replace(/\\/g, `.`).replace(/\r?\n|\r/g, `.`);
             }
-            getSourceObj(nObj){
-               let sourceObj;
-                 if (nObj.source.name == `clientlistener` && nObj.source.opt == `notify` && nObj.source.notify)
+            getSourceObj(nObj) {
+                let sourceObj;
+                if (nObj.source.name == `clientlistener` && nObj.source.opt == `notify` && nObj.source.notify)
                     sourceObj = nObj.source.notify;
                 else
                     sourceObj = nObj.source;
@@ -67,10 +71,10 @@
             }
             macNotification(nObj) {
                 let notificatioObj, containerName, options, _keys, _tc;
-               
+
                 notificatioObj = this.getnotifyObject(this.getSourceObj(nObj));
                 if (notificationController.canUseTerminlNotifier) {
-                    console.log(`macTerminalNotification:${notificatioObj}`)
+                    console.log(`macTerminalNotification: `, notificatioObj)
                     this.macTerminalNotification(notificatioObj, nObj);
                 } else {
                     console.warn(`Falling back to backup notification`);
@@ -103,11 +107,11 @@
                 });
 
                 nc.once(`click`, (notifierObject, options) => {
-                    let currentWin = util.getCurrentWindow();
-                    currentWin.setAlwaysOnTop(true);
+                    let targetWin = this.getContainer();
+                    targetWin.setAlwaysOnTop(true);
 
                     setTimeout(() => {
-                        currentWin.setAlwaysOnTop(false);
+                        targetWin.setAlwaysOnTop(false);
                     }, 200);
                     this.sendClickeventHelper(notificatioObj, nObj);
                     notificationController.activeNotification = null;
@@ -128,6 +132,7 @@
 
             }
             sendClickeventHelper(notificatioObj, nObj) {
+                let _keys, _tc;
                 if (nObj.container && nObj.focusContainer) {
                     this.showAppropriateWindow(nObj.container); // showing appropriate window.
                 }
@@ -138,14 +143,14 @@
                     _tc[_tc.opt][_keys[i]] = notificatioObj[_keys[i]];
                 }
                 _tc[_tc.opt].type = `click`;
+                console.log(`sendClickeventHelper  tc obj : `, _tc)
                 this.sendClickEventToContainer(nObj.container, _tc);
             }
             windowsNotification(nObj) {
                 let notificatioObj, containerName, _keys, _tc;
                 let nc = new nodeNotifier.WindowsBalloon();
-                
+
                 notificatioObj = this.getnotifyObject(this.getSourceObj(nObj));
-                // containerName = this.getContainer(this.source);
                 setTimeout(() => {
                     /**
                      *  Onclose event is not triggering . if user closes notification by x-close, after that point
@@ -165,13 +170,13 @@
                 }).on(`click`, (...args) => {
                     notificationController.activeNotification = null;
 
-                    let currentWin = util.getCurrentWindow();
-                    currentWin.setAlwaysOnTop(true);
-
-                    setTimeout(() => {
-                        currentWin.setAlwaysOnTop(false);
-                    }, 0);
-
+                    let targetWin = this.getContainer();
+                    if (targetWin) {
+                        targetWin.setAlwaysOnTop(true);
+                        setTimeout(() => {
+                            targetWin.setAlwaysOnTop(false);
+                        }, 0);
+                    }
 
                     if (nObj.container && nObj.focusContainer) {
                         this.showAppropriateWindow(nObj.container); // showing appropriate window.
@@ -192,7 +197,6 @@
                 });
 
             }
-
             truncate(str, charRestrictionCount) {
                 if (str && typeof str == `string`) {
                     if (charRestrictionCount && str.length > charRestrictionCount) {
@@ -203,7 +207,7 @@
                 }
             }
             getnotifyObject(ClientListenerObject) {
-                function NotifyObject (ClientListenerObject){
+                function NotifyObject(ClientListenerObject) {
                     let _keys = Object.keys(ClientListenerObject);
                     for (let i = _keys.length - 1; i >= 0; i--) {
                         this[_keys[i]] = ClientListenerObject[_keys[i]];
@@ -222,31 +226,31 @@
                 return;
             }
             getContainer() {
-                if (this.source && this.source.notify.container)
-                    return this.source.notify.container;
-                else
-                    return false;
+                if (this.container) {
+                    return util.caching.windows.getTarget(this.container)
+                }
             }
             showAppropriateWindow(containerName) {
                 switch (containerName) {
                     case `V2`:
                         {
-                            util.windowEvents.show(`V2`);
+                            util.publish(`/util/window/events/show`, `V2`);
                             break;
                         }
                     case `FULL`:
                         {
-                            util.windowEvents.show(`FULL`);
+                            util.publish(`/util/window/events/show`, `FULL`);
                             break;
                         }
                     case `AnyWhereWorks`:
                         {
                             let chatWindow = util.caching.windows.getChat();
                             if (util.platform.isWin() && chatWindow.isMinimized()) {
-                                util.windowEvents.restore(`Chat`);
-                                util.windowEvents.show(`Chat`);
+                                util.publish(`/util/window/events/restore`, `Chat`);
+                                util.publish(`/util/window/events/show`, `Chat`);
                             } else {
-                                util.windowEvents.show(`Chat`);
+                                util.publish(`/util/window/events/show`, `Chat`);
+
                             }
                             break;
                         }
@@ -259,22 +263,25 @@
 
             }
             sendClickEventToContainer(containerName, msg) {
+                console.log(`sendClickEventToContainer : containerName : `, containerName, `:`, msg);
                 switch (containerName) {
                     case `AnyWhereWorks`:
                         {
-                            FULLClient.ipc.sendToChat(msg);
+                            util.publish(`/util/sendMessage/to/chat`, msg);
                             break;
                         }
 
                     case `FULL`:
                         {
-                            FULLClient.ipc.sendToSB(msg);
+                            util.publish(`/util/sendMessage/to/sb`, msg);
+
                             break;
                         }
 
                     case `V2`:
                         {
-                            FULLClient.ipc.sendToV2(msg);
+                            util.publish(`/util/sendMessage/to/v2`, msg);
+
                             break;
                         }
 
@@ -300,10 +307,11 @@
             canUseTerminlNotifier: false,
             // userPermissionToWriteFile: false,
             create() {
-                console.log(`notificationController : create : ${this.activeNotification}`)
+                console.log(`notificationController : create : ${this.activeNotification}`, arguments)
                 if (!this.activeNotification) {
                     this.activeNotification = true;
-                    new(FullNotification.bind.apply(FullNotification, [FullNotification,...arguments]))();
+                    // console.log(`notificationController : create : ${...arguments}`)
+                    new(FullNotification.bind.apply(FullNotification, [FullNotification, ...arguments]))();
                 }
             },
             checkNotificationDependency() {

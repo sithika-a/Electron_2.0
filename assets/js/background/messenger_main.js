@@ -1,9 +1,4 @@
 (function(R) {
-    console.log(`Loading PRELOAD ..`);
-    let domain = location.host || location.href;
-    var path = require(`path`);
-    console.debug(`Domain : ${domain}`);
-    const messenger = require(`electron`).remote.require(path.join(process.cwd(), `/assets/comm/messenger.js`));
     R["FULLClient"] = {
         require,
         emitter: {
@@ -16,6 +11,8 @@
                     return message;
             },
             sendToMediator(message) {
+                // var msgObj = this.wrap_msg(destination, message);
+                console.log(`wrapper of message : `,message);
                 if (this.isValid(message)) {
                     console.log('It is a valid message ...')
                     messenger.sendToMediator(message);

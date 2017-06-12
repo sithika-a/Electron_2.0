@@ -5,180 +5,7 @@ console.log('Chat container...', nwUserAgent);
 
 // TODO : 1 , Add Shortcuts code
 
-(function(R, util) {
-
-    var clientlistener = {
-        handler: function(msg) {
-            console.log('handler :',msg)
-            var val = msg.opt.trim();
-            switch (val) {
-                case 'accessToken':
-                    {
-                        console.log('Setting Access Token ', msg[msg.opt].token);
-                        userDAO.setAccessToken(msg[msg.opt].token)
-                        break;
-                    }
-                case "showUpdatePopup":
-                    {
-                        util.publish('updateUI/guestPage/msgHandler', msg[msg.opt])
-                        break;
-                    }
-                case "readFromClipboard":
-                    {
-                        chat.postToWebview(util.clipboard.read());
-                        break;
-                    }
-                case "getv2status":
-                    {
-                        // when chat frame requesting for status
-                        // of v2, we will get it from localstorage
-                        // and send chatcontainer -> chatframe
-                        var toChat = new Thinclient('v2Status');
-                        toChat[toChat.opt].status = util.v2.getV2LastReceivedStatus();
-                        chat.postToWebview(toChat);
-
-                        break;
-                    }
-                case 'showsbcontainer':
-                    {
-                        util.publish('/util/window/events/show', namespace.channel.CONTAINER_SB);
-                        break;
-                    }
-                case 'toGuestPage':
-                    {
-                        chat.postToWebview(msg);
-                        break;
-                    }
-                case 'setv2status':
-                    {
-                        //Forwarding status to SB container...
-                        FULLClient.emitter.sendToSB(msg);
-                        break;
-                    }
-                case 'feedback':
-                    {
-                        var feedbackSend = new Application('collectfeedback');
-                        console.log('Feedback text:', msg[msg.opt].text);
-                        feedbackSend[feedbackSend.opt].userFeedback = msg[msg.opt].text;
-                        feedbackSend[feedbackSend.opt].isFromChatModule = true;
-                        feedbackSend[feedbackSend.opt].token = msg[msg.opt].token
-                        FULLClient.emitter.sendToSB(feedbackSend);
-                        break;
-                    }
-                case 'notify':
-                    {
-                        // route this msg to Notification API.
-                        util.publish('/notification/create/show', msg);
-                        break;
-                    }
-                case "clearCache":
-                    {
-                        console.log("ClearCache: user doing sign-out in chat window.");
-                        FULLClient.emitter.sendToSB({
-                            name: "analytics",
-                            accountNumber: null,
-                            eventAction: analytics.APP_CLEAR_CACHE,
-                            connId: FULLClient.getMode() + " " + FULLClient.getManifest().version + " " + process.platform,
-                            metaInfo: "Clearing Cache for App from chatwindow"
-                        });
-                        util.clear();
-                        break;
-                    }
-                case 'show':
-                    {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'show');
-
-                        break;
-                    }
-                case 'hide':
-                    {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'hide');
-
-                        break;
-                    }
-                case "restart":
-                    {
-                        chat.reloadchat();
-                        break;
-                    }
-                case 'quit':
-                    {
-                        /* Request from chat application to quit FC App*/
-                        var commObj = {
-                            name: 'appQuit',
-                            sender: namespace.channel.CONTAINER_CHAT
-                        };
-                        FULLClient.emitter.sendToSB(commObj);
-                        break;
-                    }
-                case 'getstate':
-                    {
-                        chat.send_state();
-                        break;
-                    }
-                case "download":
-                    {
-                        util.publish('/file/download/Start/', msg[msg.opt]);
-                        break;
-                    }
-                case 'badgelabel':
-                case 'count':
-                    {
-                        if (util.platform.isWin())
-                            msg[msg.opt].count ? util.showBadgeLabel(msg[msg.opt].count.toString()) : util.showBadgeLabel('');
-                        else
-                            chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'setBadge', '', msg[msg.opt].count);
-                        break;
-                    }
-                case 'requestattention': //needed for showing counts on new messsage arrived
-                    {
-                        if (util.platform.isMac()) {
-                            // var obj = {
-                            //     eType: 'bounce',
-                            //     opt: msg[msg.opt].isContinuous
-                            // };
-                            chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'bounce', msg[msg.opt].isContinuous);
-                        } else {
-                            chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'bounce');
-                        }
-                        break;
-                    }
-
-                case 'enableOnTop':
-                    {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'enableontop');
-                        break;
-                    }
-                case 'restore':
-                    {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'restore');
-
-                        break;
-                    }
-                case 'maximize':
-                    {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'maximize');
-                        break;
-                    }
-                case 'disableOnTop':
-                    {
-                        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'disableontop');
-                        break;
-                    }
-                case 'loadwebsite':
-                    {
-                        // send to sb
-                        FULLClient.emitter.sendToMediator(msg);
-                        break;
-                    }
-                default:
-                    {
-                        console.warn("Unknown routine in channel listener ", msg);
-                        break;
-                    }
-            }
-        }
-    };
+((R, util, FULLClient) => {
 
     var application = {
         handler: function(msg) {
@@ -270,7 +97,7 @@ console.log('Chat container...', nwUserAgent);
                     }
                 case "capturelogs":
                     {
-                        chat.postToWebview(msg);
+                       util.publish(`chatUtils/postToWebview`,msg);
                         break;
                     }
                 case "application":
@@ -280,13 +107,13 @@ console.log('Chat container...', nwUserAgent);
                     }
                 case 'thinclient':
                     {
-                        chat.postToWebview(msg);
+                        util.publish(`chatUtils/postToWebview`,msg);
                         break;
                     }
                 case 'windowstate':
                     {
                         // Response from main Process which contains chat Window state object 
-                        chat.postToWebview(msg);
+                       util.publish(`chatUtils/postToWebview`,msg);
                         break;
                     }
                 case "appquit":
@@ -301,7 +128,7 @@ console.log('Chat container...', nwUserAgent);
                     }
                 case 'clientlistener':
                     {
-                        clientlistener.handler(msg);
+                        util.publish('/clientlistener/handler/',msg);
                         break;
                     }
                 case 'setmode':
@@ -320,10 +147,6 @@ console.log('Chat container...', nwUserAgent);
     // var ipc = FULLClient.require('electron').ipcRenderer
     // ipc.on('msg-to-Chat', msgModule.handler.bind(msgModule));
     util.subscribe('/msgModule/handler/', msgModule, msgModule.handler);
-
-
-})(this, util);
-
 var chat = {
     toDropEvent: false,
     isQuitable: false,
@@ -344,7 +167,7 @@ var chat = {
     onload: function() {
         chat.setZoomLevelLimits();
         chat.onloadDFD.resolve('Webview onload success');
-        chat.postToWebview(chat.initObj);
+        util.publish(`chatUtils/postToWebview`,chat.initObj);
 
         chat.registerMouse();
 
@@ -382,7 +205,8 @@ var chat = {
     },
     send_state: function(opt) {
         var commObj = {
-            eType: 'getState',
+            moduleName : namespace.moduleName.chat,
+            actionType: 'getState',
             opt: namespace.channel.CONTAINER_CHAT
         }
         util.publish(`/util/sendMessage/to/main`,commObj);
@@ -396,7 +220,6 @@ var chat = {
         if (this.appurl)
             return this.appurl
         else {
-            console.log('getting url for chat  ? ', FULLClient.getConfig());
             // if (userDAO.getUser() && userDAO.getUser().email && FULLClient.getConfig() && FULLClient.getConfig().chat) {
                 this.appurl = FULLClient.getConfig().chat + userDAO.getUser().email + '&uniquepin=' + userDAO.getCompanyId() + '&isSingleWindow=false';
                 return this.appurl;
@@ -409,7 +232,7 @@ var chat = {
         }
     },
     reloadchat: function() {
-        chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'show');
+         util.subscribe(`chatUtils/postToBackground`, namespace.channel.CONTAINER_CHAT, 'windowEvents', 'show');
         var chatView = this.getView()
         if (chatView) chatView.reload();
     },
@@ -417,17 +240,15 @@ var chat = {
         util.mouse.registerCB(this.mouseMenu, this);
     },
     onbeforeunload: function(e) {
-        console.log('onbefore unload is getting trigger ');
-
         function onQuit() {
             if (util.platform.isWin()) {
                 console.log('minimizing window...')
                     // windows should minimize
-                chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'minimize');
+                 util.subscribe(`chatUtils/postToBackground`, namespace.channel.CONTAINER_CHAT, 'windowEvents', 'minimize');
             } else {
                 // All other platforms
                 console.log('Hiding window...')
-                chat.postToBackground(namespace.channel.CONTAINER_CHAT, 'windowEvents', 'hide');
+                 util.subscribe(`chatUtils/postToBackground`,namespace.channel.CONTAINER_CHAT, 'windowEvents', 'hide');
             }
         };
 
@@ -458,31 +279,31 @@ var chat = {
         // window.addEventListener("beforeunload", this.tmp);
         window.onbeforeunload = this.onbeforeunload;
     },
-    postToWebview: function(obj) {
-        this.onloadDFD
-            .done(function() {
-                console.log('Posting to webview ... ',obj)
-                var dom = chat.getView();
-                if (dom && obj) {
-                    dom.send('webapp-msg', obj);
-                }
-            });
-    },
-    postToBackground: function(title, eType, opt, count) {
+    // postToWebview: function(obj) {
+    //     this.onloadDFD
+    //         .done(() => {
+    //             console.log('Posting to webview ... ',obj)
+    //             var dom = chat.getView();
+    //             if (dom && obj) {
+    //                 dom.send('webapp-msg', obj);
+    //             }
+    //         });
+    // },
+    postToBackground: function(title, actionType, opt, count) {
         var commObj = {
             title: title ? title : namespace.channel.CONTAINER_CHAT,
-            eType: eType ? eType : false,
+            actionType: actionType ? actionType : false,
             opt: opt ? opt : false,
             count: count ? count : 0
         };
-        if (commObj && commObj.eType) {
+        if (commObj && commObj.actionType) {
             FULLClient.emitter.sendToMain(commObj);
         }
     },
     sendToHost: function() {
         messenger.broadCast(namespace.channel.Mediator, msg);
     },
-    init: function() {
+    init() {
         console.log('chat init ')
         chat._canQuit(false);
         this.initObj.dcm = JSON.stringify(userDAO.getUserDcmResponse());
@@ -493,14 +314,17 @@ var chat = {
         // from this object to send to chat.
         Locstor.set('v2', null);
     },
-     createChatFrame: function(url) {
+     createChatFrame(url) {
         var chatDom = new WebviewProxy("chat_webview", url, "FULLClient:Chat");
         chatDom.setContentloaded(chat.onload);
         this.getOuterDiv().html(chatDom.getView());
     },
-    messageListener: function(event) {
+    messageListener(event) {
         
         console.log('Message received as ', event);
+        if(event && event.data && event.data.info){
+        msgModule.handler.call(msgModule,event.data.info)
+        }
     }
 }
 
@@ -509,3 +333,6 @@ FULLClient.emitter.subscribe(namespace.channel.CHAT, chat.messageListener);
 
 util.subscribe('/chat/quit/flag', chat, chat._canQuit);
 util.subscribe('/chat/start', chat, chat.init);
+
+})(this, util, FULLClient);
+

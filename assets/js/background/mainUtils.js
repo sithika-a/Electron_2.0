@@ -74,4 +74,44 @@ let util = {
         return path.join(this.getFilePath(), asarPath, namespace.preload.webview); // getting asar path
     }
 }
+
+
+
+util.sendMessage = {
+    contructMessage(actualMessage, channel) {
+        var msg = new WindowMessaging();
+        msg.info = actualMessage;
+        msg.metaData.src.moduleName = actualMessage.moduleName || actualMessage.name || null;
+        msg.metaData.dest.channel = channel;
+        console.log('contructMessage  : ', msg)
+
+        return msg;
+    },
+    isValidMsg(message) {
+        return (message && typeof message == 'object') ? true : false;
+    },
+    toMediator(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.Mediator));
+    },
+    toMain(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToMain(this.contructMessage(message, namespace.channel.Main));
+    },
+    toSB(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToSB(this.contructMessage(message, namespace.channel.SB));
+    },
+    toChat(message) {
+        if (this.isValidMsg(message)){                
+         FULLClient.emitter.sendToChat.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.CHAT));
+        }
+    },
+    toV2(message) {
+        if (this.isValidMsg(message)) FULLClient.emitter.sendToV2(this.contructMessage(message, namespace.channel.V2));
+    }
+}
+util.subscribe(`/util/sendMessage/to/mediator`, util.sendMessage, util.sendMessage.toMediator);
+util.subscribe(`/util/sendMessage/to/sb`, util.sendMessage, util.sendMessage.toSB);
+util.subscribe(`/util/sendMessage/to/chat`, util.sendMessage, util.sendMessage.toChat);
+util.subscribe(`/util/sendMessage/to/v2`, util.sendMessage, util.sendMessage.toV2);
+util.subscribe(`/util/sendMessage/to/timer`, util.sendMessage, util.sendMessage.toTimer);
+
     

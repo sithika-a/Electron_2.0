@@ -9,7 +9,7 @@ var mainModuleLoader = {
 // mainModuleLoader.skillBasedLoader();
 
 mainModuleLoader.skillBasedLoader = function() {
-    console.log('skillBasedLoader ...',userInfo)
+    // console.log('skillBasedLoader ...',userInfo)
     // APP_ID should be "AnyWhereWorks" chat to start
     if (typeof userInfo != 'undefined' && Object.keys(userInfo).length) {
         console.log('user contact available..')

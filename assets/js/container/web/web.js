@@ -58,7 +58,8 @@ onload = function() {
 
     // Send a message to main process
     util.subscribe(`/util/sendMessage/to/main`,{
-        eType: 'isCrashed',
+        moduleName : namespace.moduleName.web,
+        actionType: 'isCrashed',
         container: namespace.CONTAINER_SB
     });
 

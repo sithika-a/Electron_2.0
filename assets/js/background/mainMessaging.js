@@ -16,14 +16,15 @@ let messageHandler = {
         }
     },
     decider (msg) {
-         if (msg  && msg.info && msg.info.eType) {
-        var message = msg.info
-        this.log('Decider Block : ',message.eType);
+        console.log('msg info : ',JSON.stringify(msg.info))
+         if (msg  && msg.info && msg.info.actionType) {
+        var info = msg.info
+        this.log('Decider Block : ',info.actionType);
        
-            switch (message.eType) {
+            switch (info.actionType) {
                 case "menuActions":
                     {
-                        Emitter.emit('switchZoomUI', msg.opt)
+                        Emitter.emit('switchZoomUI', info.opt)
                         break;
                     }
                 case "transerInfo":
@@ -33,7 +34,7 @@ let messageHandler = {
                     }
                 case "userInfo":
                     {
-                        userInfo = message.userObj;
+                        userInfo = info.userObj;
                         canQuitApp = false;
                         mainModuleLoader.skillBasedLoader();
                         break;
@@ -58,22 +59,22 @@ let messageHandler = {
                     }
                 case "bounce":
                     {
-                        this.bounce(msg.opt);
+                        this.bounce(info.opt);
                         break;
                     }
                 case "dockHide":
                     {
-                        this.hideDockIcon(msg.opt);
+                        this.hideDockIcon(info.opt);
                         break;
                     }
                 case "setBadge":
                     {
-                        this.setBadge(msg.count);
+                        this.setBadge(info.count);
                         break;
                     }
                 case "setOverlayIcon":
                     {
-                        this.setOverlayIcon(msg);
+                        this.setOverlayIcon(info);
                         break;
                     }
                 case "getState":
@@ -84,15 +85,15 @@ let messageHandler = {
                     }
                 case "windowEvents":
                     {
-                        let container;
+                        let _container;
                         if (msg.id && parseInt(msg.id))
-                            container = WindowManager.getWindowById(msg.id);
+                            _container = WindowManager.getWindowById(msg.id);
                         else
-                            container = this.getContainer(msg.title);
+                            _container = container.get(info.title);
 
-                        windowEventsController.eventHandler(container, msg.opt, msg.paramObj);
+                        windowEventsController.eventHandler(_container, info.opt, info.paramObj);
                         // msg.title  may be Chat ,V2,FULL
-                        // msg.opt may be window events like bounce,enableontop etc
+                        // msg.opt may be window events like boutnce,enableontop etc
                         break;
                     }
                 case "activateNewV2":
@@ -229,6 +230,39 @@ let messageHandler = {
                         break;
                     }
             }
+        }
+    },
+      setBadge: function(count) {
+        if (/^darwin/.test(process.platform)) {
+            count ?
+                app.dock.setBadge(count.toString()) :
+                app.dock.setBadge('');
+        }
+    },
+     setOverlayIcon: function(msg) {
+        try {
+            if (/^win32/.test(process.platform) && msg) {
+
+                if (!nativeImage)
+                    nativeImage = require('electron').nativeImage;
+
+                if (msg.dataURL) {
+                    // In 1.x we have to send it to main container,
+                    // remote container is not serialized, so api
+                    // change will affect implementation.
+                    // check https://github.com/electron/electron/issues/4011
+                    this.getContainer('Chat')
+                        .setOverlayIcon(nativeImage.createFromDataURL(msg.dataURL), "");
+                    return true;
+                } else
+                    this.getContainer('Chat')
+                    .setOverlayIcon(null, "");
+
+                return false;
+            }
+        } catch (e) {
+            console.log('SetoverLay error ', e.message);
+            console.log('SetoverLay error ', e.stack);
         }
     },
     transerInfo(msg) {
