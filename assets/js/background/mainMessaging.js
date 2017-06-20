@@ -1,7 +1,15 @@
-let messenger = require(namespace.messengerPath);
+
+
+  module.exports = function(util, messenger) {
+
+// var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
+var WindowManager = util.getModule(`assets/js/services/WindowManager.js`)
+var windowEventsController = util.getModule(`assets/js/services/windowEvents.js`)
+var container = util.getModule(`assets/js/background/windowAccess.js`)
+var moduleLoader = util.getModule(`assets/js/background/mainModuleLoader.js`)
 
 let messageHandler = {
-    name: namespace.module.messageHandler,
+    name: `mainMessagingModule`,
     log(...args) {
         // let tmp = [].slice.call(arguments);
         // tmp.splice(0, 0, '[' + this.name + '] : ');
@@ -51,7 +59,7 @@ let messageHandler = {
                         canQuitApp = true;
                         this.passInfo('Chat', msg);
                         this.passInfo('V2', msg);
-                        this.passInfo(namespace.CONTAINER_TIMER, msg);
+                        this.passInfo(utils.namespace.CONTAINER_TIMER, msg);
                         // Making No more message reach from main daemon
                         // thread to any other browser windows.
                         this.passInfo = function() {};
@@ -138,7 +146,7 @@ let messageHandler = {
                         this.passInfo('FULL', msg);
                         this.passInfo('Chat', msg);
                         this.passInfo('V2', msg);
-                        this.passInfo(namespace.CONTAINER_TIMER, msg);
+                        this.passInfo(utils.namespace.CONTAINER_TIMER, msg);
                         Emitter.emit('/network/boot/startup');
                         break;
                     }
@@ -146,17 +154,17 @@ let messageHandler = {
                     {
                         if (msg.container) {
                             switch (msg.container) {
-                                case namespace.CONTAINER_V2:
+                                case utils.namespace.CONTAINER_V2:
                                     {
                                         crashManager.track.isV2 = false;
                                         break;
                                     }
-                                case namespace.CONTAINER_SB:
+                                case utils.namespace.CONTAINER_SB:
                                     {
                                         crashManager.track.isSB = false;
                                         break;
                                     }
-                                case namespace.CONTAINER_CHAT:
+                                case utils.namespace.CONTAINER_CHAT:
                                     {
                                         crashManager.track.isChat = false;
                                         break;
@@ -174,25 +182,25 @@ let messageHandler = {
                     {
                         if (msg.container) {
                             switch (msg.container) {
-                                case namespace.CONTAINER_V2:
+                                case utils.namespace.CONTAINER_V2:
                                     {
-                                        this.passInfo(namespace.CONTAINER_V2, {
+                                        this.passInfo(utils.namespace.CONTAINER_V2, {
                                             name: 'crashed',
                                             crashed: crashManager.track.isV2
                                         });
                                         break;
                                     }
-                                case namespace.CONTAINER_SB:
+                                case utils.namespace.CONTAINER_SB:
                                     {
-                                        this.passInfo(namespace.CONTAINER_SB, {
+                                        this.passInfo(utils.namespace.CONTAINER_SB, {
                                             name: 'crashed',
                                             crashed: crashManager.track.isSB
                                         });
                                         break;
                                     }
-                                case namespace.CONTAINER_CHAT:
+                                case utils.namespace.CONTAINER_CHAT:
                                     {
-                                        this.passInfo(namespace.CONTAINER_CHAT, {
+                                        this.passInfo(utils.namespace.CONTAINER_CHAT, {
                                             name: 'crashed',
                                             crashed: crashManager.track.isChat
                                         });
@@ -277,7 +285,7 @@ let messageHandler = {
     v2NewHandler(event, msg) {
         if (msg && /object/i.test(typeof msg)) {
             msg.isForV2 = true;
-            messageHandler.passInfo(namespace.CONTAINER_V2_SOFTPHONE, msg);
+            messageHandler.passInfo(utils.namespace.CONTAINER_V2_SOFTPHONE, msg);
         }
     },
     sbHandler(event, msg) {
@@ -290,13 +298,16 @@ let messageHandler = {
         messageHandler.decider(msg);
     },
     timerHandler(event, msg) {
-        messageHandler.passInfo(namespace.CONTAINER_TIMER, msg);
+        messageHandler.passInfo(utils.namespace.CONTAINER_TIMER, msg);
     }
 };
 
-  messenger.subscribe(namespace.channel.Main, (event) => {
-
+   messenger.subscribe(utils.namespace.channel.Main, (event) => {
         console.log(`message received  in main : ${event}`);
     messageHandler.mainHandler(event.data);
 
     });
+   return messageHandler;
+}
+
+

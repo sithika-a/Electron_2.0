@@ -1,7 +1,7 @@
 {
   "name": "AW_version2",
   "version": "0.1.0",
-  "main": "compiled/background.min.js",
+  "main": "archive/background.js",
   "scripts": {
     "test": "node main.js"
   },

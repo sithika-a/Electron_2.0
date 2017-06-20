@@ -6,7 +6,8 @@
   Yes it is boilerplate code.
 *
 **/
-// var path = require('path');
+var path = require('path');
+
 var __BrowserWindow = getBrowserWindowConstructor();
 
 function getBrowserWindowConstructor() {
@@ -103,3 +104,5 @@ WindowCreator.prototype.hide = function() {
     var appWin = this.get();
     appWin.hide();
 };
+
+module.exports = WindowCreator;

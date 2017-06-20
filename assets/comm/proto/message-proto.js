@@ -1,4 +1,4 @@
-function WindowMessaging() {
+module.exports = function WindowMessaging() {
    this.name = `WindowMessaging`;
    this.metaData = {
         messagingProtocol: `eventEmitter`,

@@ -118,3 +118,4 @@ var container = {
         }
     }
 }
+module.exports = container;

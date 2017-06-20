@@ -1101,6 +1101,7 @@ util.app = {
 
 util.sendMessage = {
     contructMessage(actualMessage, channel) {
+        var WindowMessaging = require(path.join(process.cwd(),`assets/comm/proto/message-proto.js`))
         var msg = new WindowMessaging();
         msg.info = actualMessage;
         msg.metaData.src.moduleName = actualMessage.moduleName || actualMessage.name || null;

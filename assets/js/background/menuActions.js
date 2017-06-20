@@ -1,3 +1,5 @@
+ var container = require(path.join(process.cwd(),`assets/js/background/windowAccess.js`))
+
  var menuActions = {
      menu: null,
      template: null,

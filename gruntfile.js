@@ -29,18 +29,18 @@ module.exports = function(grunt) {
             //     }
             // },
                background_page : {
-                command: 'uglifyjs assets/js/background/mainUtils.js' 
+                command: 'uglifyjs' 
                    + ' assets/js/background/main.js' //es6 
-                   + ' assets/js/services/windowCreator.js'
-                   + ' assets/js/services/windowEvents.js'
-                   + ' assets/js/background/windowAccess.js' //es6
-                   + ' assets/js/services/WindowManager.js' //es6
-                   + ' assets/js/background/mainMessaging.js' //es6
-                   + ' assets/js/background/mainModuleLoader.js'
-                   + ' assets/js/background/mainCrashManager.js'
-                   + ' assets/js/background/mac-menuList.js'
-                   + ' assets/js/background/win-menuList.js'
-                   + ' assets/js/background/menuActions.js -o compiled/background.min.js',
+                   // + ' assets/js/services/windowCreator.js'
+                   // + ' assets/js/services/windowEvents.js'
+                   // + ' assets/js/background/windowAccess.js' //es6
+                   // + ' assets/js/services/WindowManager.js' //es6
+                   // + ' assets/js/background/mainModuleLoader.js'
+                   // + ' assets/js/background/mainCrashManager.js'
+                   // + ' assets/js/background/mac-menuList.js'
+                   // + ' assets/js/background/win-menuList.js'
+                   // + ' assets/js/background/menuActions.js'
+                   + ' -o compiled/background.min.js',
                 options: {
                     async: false
                 }
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
                    + ' assets/js/services/global.js'
                    + ' assets/js/services/utilities.js' 
                    + ' assets/js/DAO/oldCommDAO.js'
-                   + ' assets/comm/message_proto/message-proto.js'
+                   + ' assets/comm/proto/message-proto.js'
                    + ' assets/js/services/notification.js'
                    + ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
                    + ' assets/js/services/utilities.js' 
                    + ' assets/js/DAO/oldCommDAO.js'
                    + ' assets/js/DAO/userDAO.js'
-                   + ' assets/comm/message_proto/message-proto.js'
+                   + ' assets/comm/proto/message-proto.js'
                    + ' assets/js/services/fullAuth.js'
                    + ' assets/js/container/chat/chatUtils.js'
                    + ' assets/js/container/chat/chat.js'

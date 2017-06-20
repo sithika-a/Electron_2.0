@@ -1,4 +1,5 @@
-var windowEventsController = {
+
+let windowEvents = {
     eventHandler: function(container, eType, paramsObj) {
         console.log('container  :',container)
         if (container)
@@ -80,4 +81,6 @@ var windowEventsController = {
                     }
             }
     }
-};
+}
+
+    module.exports = windowEvents;
