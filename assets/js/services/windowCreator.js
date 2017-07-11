@@ -7,6 +7,7 @@
 *
 **/
 var path = require('path');
+var container=require(`../../js/background/windowAccess.js`);
 
 var __BrowserWindow = getBrowserWindowConstructor();
 

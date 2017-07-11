@@ -570,7 +570,7 @@ function LogACK(opt) {
     }
 }
 
-function Thinclient(lOpt, eventType, extension) {
+var Thinclient = function(lOpt, eventType, extension) {
     this.name = 'thinclient';
     this.opt = (lOpt) ? lOpt : false;
     this.state = {
@@ -652,3 +652,7 @@ function Thinclient(lOpt, eventType, extension) {
         downloadedMB: null
     };
 }
+
+
+
+module.exports = Thinclient;

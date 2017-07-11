@@ -72,7 +72,7 @@ var util = {
     },
     getModule(relativePath){
         if(relativePath){
-            return require(path.join(this.getFilePath(), relativePath))(this);
+            return require(path.join(this.getFilePath(), relativePath));
         }
     },
     getwebPreload() {

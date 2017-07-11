@@ -8,6 +8,9 @@
 module.exports = (util) => {
  let WindowCreator = util.getModule(`assets/js/services/windowCreator.js`)
 // var WindowCreator = require(path.join(process.cwd(), `assets/js/services/windowCreator.js`))
+var Emitter = new(require(`events`).EventEmitter);
+var Thinclient=util.getModule('assets/js/DAO/oldCommDAO.js');
+var messenger=util.getModule('assets/js/background/mainMessaging.js');
 var WindowManager = {
         name: "WindowManager",
         log() {
@@ -113,7 +116,7 @@ var WindowManager = {
             winRef.on('minimize', () => {
                 let _tc = new Thinclient('state');
                 _tc[_tc.opt]['window']['isMinimized'] = true;
-                emitterController.chatHandler(null, _tc);
+                messenger.messageHandler.chatHandler(null, _tc);
             });
             winRef.on('focus', () => {
                 Emitter.emit("onFocus", {
@@ -122,13 +125,13 @@ var WindowManager = {
                 lastFocussedWindow = util.namespace.CONTAINER_CHAT;
                 let _tc = new Thinclient('state');
                 _tc[_tc.opt]['window']['isFocused'] = true;
-                emitterController.chatHandler(null, _tc);
+                messenger.messageHandler.chatHandler(null, _tc);
             });
             winRef.on('blur', () => {
                 Emitter.emit("onBlur");
                 let _tc = new Thinclient('state');
                 _tc[_tc.opt]['window']['isBlured'] = true;
-                emitterController.chatHandler(null, _tc);
+                 messenger.messageHandler.chatHandler(null, _tc);
             });
             winRef.webContents.on('new-window', e => {
                 /*
@@ -140,11 +143,12 @@ var WindowManager = {
             });
         },
         openChatContainer() {
-            // if (container.get('AnyWhereWorks'))
-            //     return;
+             //if (container.get('AnyWhereWorks'))
+              //  return;
 
             console.log('ChatContainer is getting opened !! ');
             let filepath = util.getFilePath();
+            console.log('filepath',filepath);
             let chatContainer = new WindowCreator('file://' + util.getFilePath() + '/view/AnyWhereWorks.html', {
                 "title": util.namespace.CONTAINER_CHAT,
                 "width": 1100,
@@ -161,7 +165,8 @@ var WindowManager = {
                     allowDisplayingInsecureContent: true
                 }
             });
-            // this.setChatHandler(chatContainer.get());
+          //  return chatContainer.open();
+            this.setChatHandler(chatContainer.get());
         },
         openTimerWidget(options) {
             if (container.get(util.namespace.CONTAINER_TIMER))

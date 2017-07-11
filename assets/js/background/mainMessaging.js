@@ -1,6 +1,6 @@
 
 
-  module.exports = function(util, messenger) {
+  module.exports = function(util) {
 
 // var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
 var WindowManager = util.getModule(`assets/js/services/WindowManager.js`)
