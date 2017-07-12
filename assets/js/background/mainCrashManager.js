@@ -1,3 +1,7 @@
+var util=require('assets/js/background/mainUtils.js');
+var messenger=util.getModule(`/assets/comm/messenger.js`);
+var messageHandler=require(`./mainMessaging.js`)(util, messenger);
+
 try {
 
     var crashReporter,
@@ -204,10 +208,10 @@ var crashManager = {
                 {
                     this.track.isV2 = true;
                     if (/^win32/.test(process.platform) && /1.4/.test(process.versions.electron)) {
-                        ipcController.getContainer(namespace.CONTAINER_V2).close();
+                        messageHandler.getContainer(namespace.CONTAINER_V2).close();
                         Emitter.emit('/windowManager/open/v2/container', true);
                     } else {
-                        ipcController.getContainer(namespace.CONTAINER_V2).webContents.reloadIgnoringCache();
+                         messageHandler.getContainer(namespace.CONTAINER_V2).webContents.reloadIgnoringCache();
                     }
                     console.log("V2 Window got crashed.");
                     break;
@@ -216,10 +220,10 @@ var crashManager = {
                 {
                     this.track.isSB = true;
                     if (/^win32/.test(process.platform) && /1.4/.test(process.versions.electron)) {
-                        ipcController.getContainer(namespace.CONTAINER_SB).close();
+                        messageHandler.getContainer(namespace.CONTAINER_SB).close();
                         Emitter.emit('/windowManager/open/sb/container', true);
                     } else {
-                        ipcController.getContainer(namespace.CONTAINER_SB).webContents.reloadIgnoringCache();
+                         messageHandler.getContainer(namespace.CONTAINER_SB).webContents.reloadIgnoringCache();
                     }
                     console.log("FULL Window got crashed.");
                     break;
@@ -228,10 +232,10 @@ var crashManager = {
                 {
                     this.track.isChat = true;
                     if (/^win32/.test(process.platform) && /1.4/.test(process.versions.electron)) {
-                        ipcController.getContainer(namespace.CONTAINER_CHAT).close();
+                         messageHandler.getContainer(namespace.CONTAINER_CHAT).close();
                         Emitter.emit('/windowManager/open/chat/container', true);
                     } else {
-                        ipcController.getContainer(namespace.CONTAINER_CHAT).webContents.reloadIgnoringCache();
+                        messageHandler.getContainer(namespace.CONTAINER_CHAT).webContents.reloadIgnoringCache();
                     }
                     console.log("Chat Window got crashed");
                     break;

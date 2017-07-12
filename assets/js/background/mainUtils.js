@@ -11,7 +11,7 @@ var util = {
             Main: `msg-to-Main` // BackGround
         },
         preload: {
-            container: `assets/js/preload/preloadContainer.js`,
+            container: `asar/full.asar/preloadContainer.min.js`,
             mediator: `assets/js/preload/preloadHiddenWindow.js`,
             webview: `webPreload.min.js`,
         },
@@ -72,7 +72,7 @@ var util = {
     },
     getModule(relativePath){
         if(relativePath){
-            return require(path.join(this.getFilePath(), relativePath))(this);
+            return require(path.join(this.getFilePath(), relativePath));
         }
     },
     getwebPreload() {

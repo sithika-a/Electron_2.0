@@ -1,3 +1,7 @@
+var util = require(`assets/js/background/mainUtils.js`);
+ var messageHandler=util.getModule('assets/js/background/mainMessaging.js');
+
+
 try {
     var argv = global.sharedObject.cliArgs;
     if (argv && argv['disable-network-check'])
@@ -19,7 +23,7 @@ try {
             }
         },
         getContainer: function() {
-            return ipcController.getContainer(namespace.CONTAINER_CHAT);
+            return messageHandler.getContainer(namespace.CONTAINER_CHAT);
         },
         resetPromise: function() {
             boot.promise = null;

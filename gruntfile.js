@@ -2,10 +2,10 @@ module.exports = function(grunt) {
     grunt.initConfig({
         asarArchive: 'archive',
         pkg: grunt.file.readJSON('package.json'),
-        distFolder : 'compiled',
+        distFolder: 'compiled',
         jsVersion: '<%= pkg.version %> - <%= grunt.template.today("mmm,dd yyyy HH:MM") %>',
         mode: '<%= pkg.mode %>',
-           shell: {
+        shell: {
             //    kDebug: {
             //     command: 'uglifyjs assets/js/services/logging/kDebug.js -c -m -o compiled/kDebugLogging.min.js',
             //     options: {
@@ -28,31 +28,32 @@ module.exports = function(grunt) {
             //         async: false
             //     }
             // },
-               background_page : {
-                command: 'uglifyjs' 
-                   + ' assets/js/background/main.js' //es6 
-                   // + ' assets/js/services/windowCreator.js'
-                   // + ' assets/js/services/windowEvents.js'
-                   // + ' assets/js/background/windowAccess.js' //es6
-                   // + ' assets/js/services/WindowManager.js' //es6
-                   // + ' assets/js/background/mainModuleLoader.js'
-                   // + ' assets/js/background/mainCrashManager.js'
-                   // + ' assets/js/background/mac-menuList.js'
-                   // + ' assets/js/background/win-menuList.js'
-                   // + ' assets/js/background/menuActions.js'
-                   + ' -o compiled/background.min.js',
-                options: {
-                    async: false
-                }
-            },
-             hiddenWindow : {
-                command: 'uglifyjs assets/js/container/hiddenWindow.js' 
-                   + ' assets/js/services/global.js'
-                   + ' assets/js/services/utilities.js' 
-                   + ' assets/js/DAO/oldCommDAO.js'
-                   + ' assets/comm/proto/message-proto.js'
-                   + ' assets/js/services/notification.js'
-                   + ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
+            // background_page: {
+            //     command: 'uglifyjs' +
+            //         ' assets/js/background/main.js' //es6 
+            //         // + ' assets/js/services/windowCreator.js'
+            //         // + ' assets/js/services/windowEvents.js'
+            //         // + ' assets/js/background/windowAccess.js' //es6
+            //         // + ' assets/js/services/WindowManager.js' //es6
+            //         // + ' assets/js/background/mainModuleLoader.js'
+            //         // + ' assets/js/background/mainCrashManager.js'
+            //         // + ' assets/js/background/mac-menuList.js'
+            //         // + ' assets/js/background/win-menuList.js'
+            //         // + ' assets/js/background/menuActions.js'
+            //         +
+            //         ' -o compiled/background.min.js',
+            //     options: {
+            //         async: false
+            //     }
+            // },
+            hiddenWindow: {
+                command: 'uglifyjs assets/js/container/hiddenWindow.js' +
+                    ' assets/js/services/global.js' +
+                    ' assets/js/services/utilities.js' +
+                    ' assets/js/DAO/oldCommDAO.js' +
+                    ' assets/comm/proto/message-proto.js' +
+                    ' assets/js/services/notification.js' +
+                    ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
                     async: false
                 }
@@ -108,102 +109,101 @@ module.exports = function(grunt) {
             //         async: false
             //     }
             // },
-             chat: {
-                command: 'uglifyjs assets/js/services/global.js' 
-                   + ' assets/extra/common-banner.js' 
-                   + ' assets/js/services/utilities.js' 
-                   + ' assets/js/DAO/oldCommDAO.js'
-                   + ' assets/js/DAO/userDAO.js'
-                   + ' assets/comm/proto/message-proto.js'
-                   + ' assets/js/services/fullAuth.js'
-                   + ' assets/js/container/chat/chatUtils.js'
-                   + ' assets/js/container/chat/chat.js'
-                   + ' assets/js/container/chat/clientListener.js'
-                   + ' assets/js/controller/webviewController.js'
-                   + ' assets/js/services/asarUpdater.js' 
-                   + ' assets/js/services/appUpdater.js' 
-                   + ' assets/js/services/updateHelper.js' 
-                   + ' assets/js/services/appRestart.js'
-                   + ' assets/js/controller/moduleController.js'
-                   + ' assets/js/services/login.js'
-                   + ' assets/js/services/userLoginRegister.js'
-                   + ' assets/js/services/downloader.js'
-                   + ' assets/js/services/notification.js'
-                   + ' assets/js/services/privateBrowsing.js'
-                   + ' assets/js/services/reLogin.js'
-                   + ' assets/js/services/mousemenu.js'
-                   + ' assets/js/services/writePermissionChecker.js'
-                   + ' assets/js/services/engineUpdater.js'
-                   + ' assets/js/services/updateUI.js'
-                   + ' assets/js/services/mailSender.js'
-                   + ' assets/js/services/removeAccess.js'
-                   + ' -o compiled/chatContainer.min.js',
+            chat: {
+                command: 'uglifyjs assets/js/services/global.js' +
+                    ' assets/extra/common-banner.js' +
+                    ' assets/js/services/utilities.js' +
+                    ' assets/js/DAO/oldCommDAO.js' +
+                    ' assets/js/DAO/userDAO.js' +
+                    ' assets/comm/proto/message-proto.js' +
+                    ' assets/js/services/fullAuth.js' +
+                    ' assets/js/container/chat/chatUtils.js' +
+                    ' assets/js/container/chat/chat.js' +
+                    ' assets/js/container/chat/clientListener.js' +
+                    ' assets/js/controller/webviewController.js' +
+                    ' assets/js/services/asarUpdater.js' +
+                    ' assets/js/services/appUpdater.js' +
+                    ' assets/js/services/updateHelper.js' +
+                    ' assets/js/services/appRestart.js' +
+                    ' assets/js/controller/moduleController.js' +
+                    ' assets/js/services/login.js' +
+                    ' assets/js/services/userLoginRegister.js' +
+                    ' assets/js/services/downloader.js' +
+                    ' assets/js/services/notification.js' +
+                    ' assets/js/services/privateBrowsing.js' +
+                    ' assets/js/services/reLogin.js' +
+                    ' assets/js/services/mousemenu.js' +
+                    ' assets/js/services/writePermissionChecker.js' +
+                    ' assets/js/services/engineUpdater.js' +
+                    ' assets/js/services/updateUI.js' +
+                    ' assets/js/services/mailSender.js' +
+                    ' assets/js/services/removeAccess.js' +
+                    ' -o compiled/chatContainer.min.js',
                 options: {
                     async: false
                 }
             },
-       //      v2: {
-       //          command: 'uglifyjs assets/js/services/global.js' 
-       //             + ' assets/js/DAO/oldCommDAO.js' 
-       //             + ' assets/js/services/utilities.js'
-       //             + ' assets/js/controller/webviewController.js'
-       //             + ' assets/js/services/shortcut.js' 
-       //             + ' assets/js/services/mousemenu.js' 
-       //             + ' assets/js/services/v2.js -o compiled/v2Container.min.js',
-       //          options: {
-       //              async: false
-       //          }
-       //      },
-       //       timer: {
-       //          command: 'uglifyjs assets/js/services/global.js' 
-       //             + ' assets/js/DAO/oldCommDAO.js' 
-       //             + ' assets/js/services/utilities.js'
-       //             + ' assets/js/DAO/userDAO.js'
-       //             + ' assets/js/APIs/widgetCreator.js' 
-       //             + ' assets/js/services/timer/externalWidget.js' 
-       //             + ' assets/js/controller/webviewController.js'
-       //             + ' assets/js/services/analytics/analytics.js -o compiled/timerContainer.min.js',
-       //          options: {
-       //              async: false
-       //          }
-       //      }
-       },
+            //      v2: {
+            //          command: 'uglifyjs assets/js/services/global.js' 
+            //             + ' assets/js/DAO/oldCommDAO.js' 
+            //             + ' assets/js/services/utilities.js'
+            //             + ' assets/js/controller/webviewController.js'
+            //             + ' assets/js/services/shortcut.js' 
+            //             + ' assets/js/services/mousemenu.js' 
+            //             + ' assets/js/services/v2.js -o compiled/v2Container.min.js',
+            //          options: {
+            //              async: false
+            //          }
+            //      },
+            //       timer: {
+            //          command: 'uglifyjs assets/js/services/global.js' 
+            //             + ' assets/js/DAO/oldCommDAO.js' 
+            //             + ' assets/js/services/utilities.js'
+            //             + ' assets/js/DAO/userDAO.js'
+            //             + ' assets/js/APIs/widgetCreator.js' 
+            //             + ' assets/js/services/timer/externalWidget.js' 
+            //             + ' assets/js/controller/webviewController.js'
+            //             + ' assets/js/services/analytics/analytics.js -o compiled/timerContainer.min.js',
+            //          options: {
+            //              async: false
+            //          }
+            //      }
+        },
         concat: {
             options: {
                 separator: ';',
                 stripBanners: true
             },
             libs: {
-              src:[ 
-                   'assets/js/libs/compare-versions.js'
-                    ,'assets/js/libs/jquery.min.js'
-                    ,'assets/js/libs/lodash.min.js'
-                    ,'assets/js/libs/jquery-debounce.js'
-                    ,'assets/js/libs/amplify.min.js'
-                    ,'assets/js/libs/keymaster.min.js'
-                    ,'assets/js/libs/locstor.js'
-                    ,'assets/js/libs/tooltipster.js'
-                    ,'assets/js/libs/uuid.js'
-                    ,'assets/js/libs/Dexie.min.js'
-                    ,'assets/js/DAO/dbDAO.js'
-                    , '<%= distFolder %>/webworker.min.js'
-                    ,'<%= distFolder %>/kDebugLogging.min.js'
-               ],
-               dest : '<%= distFolder %>/libs.min.js'
-           },
-            preloadContainer: {
                 src: [
-                    'assets/js/preload/preloadContainer.js'
+                    'assets/js/libs/compare-versions.js', 'assets/js/libs/jquery.min.js', 'assets/js/libs/lodash.min.js', 'assets/js/libs/jquery-debounce.js', 'assets/js/libs/amplify.min.js', 'assets/js/libs/keymaster.min.js', 'assets/js/libs/locstor.js', 'assets/js/libs/tooltipster.js', 'assets/js/libs/uuid.js', 'assets/js/libs/Dexie.min.js', 'assets/js/DAO/dbDAO.js', '<%= distFolder %>/webworker.min.js', '<%= distFolder %>/kDebugLogging.min.js'
                 ],
-                dest: '<%= asarArchive %>/preloadContainer.min.js'
+                dest: '<%= distFolder %>/libs.min.js'
             },
-            background: {
-                src: [
-                    '<%= distFolder %>/background.min.js'
-                    ,'assets/js/background/export-module.js'
-                ],
-                dest: '<%= asarArchive %>/background.js'
-            },
+            // preloadContainer: {
+            //     src: [
+            //         'assets/js/preload/preloadContainer.js'
+            //     ],
+            //     dest: '<%= asarArchive %>/preloadContainer.min.js'
+            // },
+            // preloadHiddenWindow: {
+            //     src: [
+            //         'assets/js/preload/preloadHiddenWindow.js'
+            //     ],
+            //     dest: '<%= asarArchive %>/preloadHiddenWindow.min.js'
+            // },
+            //  preloadWebview: {
+            //     src: [
+            //         'assets/js/preload/preloadWebview.js'
+            //     ],
+            //     dest: '<%= asarArchive %>/preloadWebview.min.js'
+            // },
+            // background: {
+            //     src: [
+            //          'assets/js/background/*.js'
+            //     ],
+            //     dest: '<%= asarArchive %>/background.js'
+            // },
             // web: {
             //     src:[
             //         '<%= distFolder %>/libs.min.js'
@@ -249,10 +249,10 @@ module.exports = function(grunt) {
         },
         cssmin: {
             web: {
-              options: {
-                report:'min'
-              },
-              src: [
+                options: {
+                    report: 'min'
+                },
+                src: [
                     'assets/css/libs/font-awesome.min.css',
                     'assets/css/libs/switchery.css',
                     'assets/css/libs/tooltipster.css',
@@ -260,8 +260,8 @@ module.exports = function(grunt) {
                     'assets/css/web.css',
                     'assets/css/popup.css',
                     'assets/css/timer.css'
-                    ],
-              dest: '<%= distFolder %>/webContainer.css'
+                ],
+                dest: '<%= distFolder %>/webContainer.css'
             },
             // v2: {
             //   options: {
@@ -293,32 +293,32 @@ module.exports = function(grunt) {
                 dest: '<%= distFolder %>/chatContainer.css'
             },
             websites: {
-              options: {
-                report:'min'
-              },
-              src: [
+                options: {
+                    report: 'min'
+                },
+                src: [
                     'assets/css/websites.css',
-                    ],
-              dest: '<%= distFolder %>/websitesContainer.css'
+                ],
+                dest: '<%= distFolder %>/websitesContainer.css'
             }
-        }
-        ,
+        },
         mkdir: {
             all: {
                 options: {
-                    create: ['asar/appDir']
+                    create: ['asar']
                 }
             }
         },
-        // copy: {
-        //     main: {
-        //         files: [{
-        //             expand: true,
-        //             src: ['app.asar'],
-        //             dest: 'asar/appDir'
-        //         }]
-        //     }
-        // },
+        copy: {
+            main: {
+                files: [{
+                    expand: true,
+                    src: ['full.asar'],
+                    dest: ['asar']
+                }]
+            }
+        }
+        //,
         // shell: {
         //     sha: {
         //         command: 'openssl sha1 app.asar',
@@ -333,16 +333,20 @@ module.exports = function(grunt) {
         //             cwd: 'asar/appDir'
         //         }
         //     },
-        //     asar: {
-        //         command: 'asar pack archive app.asar',
-        //     }
-        // }
+            // asar: {
+            //     command: 'asar pack <%= asarArchive %>/ asar/full.asar ',
+            //     // command: 'asar pack <%= asarArchive %>/ asar/assets/js/background/preloadContainer.asar'
+            // }
+            // asar1: {
+            //     command: 'asar pack <%= asarArchive %>/ asar/assets/js/preload/preloadContainer.asar'
+            // }
+       // }
     });
     grunt.loadNpmTasks('grunt-shell-spawn');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-mkdir');
 
-    grunt.registerTask('app', ['shell','concat','cssmin','mkdir']);
+    grunt.registerTask('app', ['shell' , 'concat', 'cssmin', 'mkdir']);
 
 };

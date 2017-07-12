@@ -1,4 +1,6 @@
  var container = require(path.join(process.cwd(),`assets/js/background/windowAccess.js`))
+ var util = require(`assets/js/background/mainUtils.js`);
+ var messageHandler=util.getModule('assets/js/background/mainMessaging.js');
 
  var menuActions = {
      menu: null,
@@ -48,7 +50,7 @@
      },
      contactRenderer: function(containerTitle, message) {
          if (containerTitle && message) {
-             ipcController.passInfo(containerTitle, message);
+             messageHandler.passInfo(containerTitle, message);
          }
      },
      checkForUpdates: function() {

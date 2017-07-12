@@ -1,7 +1,7 @@
 var path = require(`path`);
 
 var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
-var WindowManager = require(path.join(process.cwd(),`assets/js/services/WindowManager.js`))
+var WindowManager = require(path.join(process.cwd(),`assets/js/background/WindowManager.js`))
 var container = require(path.join(process.cwd(),`assets/js/background/windowAccess.js`))
 var mainModuleLoader = {
     name: 'mainModuleLoader',
