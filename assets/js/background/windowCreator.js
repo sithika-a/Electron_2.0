@@ -8,6 +8,7 @@
 **/
 
 var path = require('path');
+var container=require(`../../js/background/windowAccess.js`);
 
 var container=require(`../../js/background/windowAccess.js`);
 

@@ -652,7 +652,9 @@ function Thinclient(lOpt, eventType, extension) {
         downloadedPercentage: null,
         downloadedMB: null
     };
+
 };
   module.exports=Thinclient;
 
 //module.exports=Thinclient;
+

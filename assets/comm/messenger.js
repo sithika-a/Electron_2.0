@@ -77,5 +77,7 @@
             this.broadCast(this.channel.SB, msg);
         }
     }
+
     module.exports = messenger;
+    
 })();

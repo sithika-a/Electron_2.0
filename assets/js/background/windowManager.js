@@ -17,6 +17,7 @@ let messenger = util.getModule(`/assets/comm/messenger.js`);
 var messageHandler=util.getModule('assets/js/background/mainMessaging.js')(util,messenger);
 console.log('messageHandler :'+messageHandler);
 // var WindowCreator = require(path.join(process.cwd(), `assets/js/services/windowCreator.js`))
+
 var WindowManager = {
         name: "WindowManager",
         log() {
@@ -127,6 +128,7 @@ var WindowManager = {
                 let _tc = new Thinclient('state');
                 _tc[_tc.opt]['window']['isMinimized'] = true;
                messageHandler.chatHandler(null, _tc);
+
             });
             winRef.on('focus', (event) =>  {
                 Emitter.emit("onFocus", {
@@ -138,12 +140,15 @@ var WindowManager = {
                 // console.log('tc :'+ _tc[_tc.opt]['window']['isFocused'] );
                 _tc[_tc.opt]['window']['isFocused'] = true;
                messageHandler.chatHandler(null, _tc);
+
             });
             winRef.on('blur', (event) => {
                 Emitter.emit("onBlur");
                 let _tc = new Thinclient('state');
                 _tc[_tc.opt]['window']['isBlured'] = true;
+
                 messageHandler.chatHandler(null, _tc);
+
             });
             winRef.webContents.on('new-window', e => {
                 /*
@@ -161,6 +166,7 @@ var WindowManager = {
             console.log('ChatContainer is getting opened !! ');
             let filepath = util.getFilePath();
             console.log('FilePath :'+'file://' + util.getFilePath() + '/view/AnyWhereWorks.html');
+
             let chatContainer = new WindowCreator('file://' + util.getFilePath() + '/view/AnyWhereWorks.html', {
                 "title": util.namespace.CONTAINER_CHAT,
                 "width": 1100,
@@ -180,6 +186,7 @@ var WindowManager = {
             //return chatContainer.open();
             console.log('chatContainer :'+chatContainer.title);
              this.setChatHandler(chatContainer.get());
+
         },
         openTimerWidget(options) {
             if (container.get(util.namespace.CONTAINER_TIMER))

@@ -1,12 +1,14 @@
 
 
-  module.exports = function(util, messenger) {
+  module.exports = function(util) {
 
 // var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
 var WindowManager = util.getModule(`assets/js/background/windowManager.js`)
 var windowEventsController = util.getModule(`assets/js/background/windowEvents.js`)
 var container = util.getModule(`assets/js/background/windowAccess.js`)
 var moduleLoader = util.getModule(`assets/js/background/mainModuleLoader.js`)
+
+let messenger = util.getModule(`/assets/comm/messenger.js`);
 
 var namespace=util.getModule('assets/js/DAO/oldCommDAO.js');
 console.log('namespace :'+namespace);
