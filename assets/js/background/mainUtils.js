@@ -11,9 +11,9 @@ var util = {
             Main: `msg-to-Main` // BackGround
         },
         preload: {
-            container: `asar/full.asar/preloadContainer.min.js`,
+            container: `assets/js/preload/preloadContainer.js`,
             mediator: `assets/js/preload/preloadHiddenWindow.js`,
-            webview: `webPreload.min.js`,
+            webview: `assets/js/preload/preloadWebview.js`,
         },
         APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? `FULL` : `AnywhereWorks`, // "AnyWhereWorks || FULL" any branding app will behave based on it.
         HIDDEN_CONTAINER: `HiddenWindow`,

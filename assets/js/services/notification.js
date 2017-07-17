@@ -267,20 +267,20 @@
                 switch (containerName) {
                     case `AnyWhereWorks`:
                         {
-                            util.publish(`/util/sendMessage/to/chat`, msg);
+util.publish(`/sendMessage/to/chat`,msg);
                             break;
                         }
 
                     case `FULL`:
                         {
-                            util.publish(`/util/sendMessage/to/sb`, msg);
+                            util.publish(`/sendMessage/to/sb`,msg);
 
                             break;
                         }
 
                     case `V2`:
                         {
-                            util.publish(`/util/sendMessage/to/v2`, msg);
+                            util.publish(`/sendMessage/to/v2`,msg);
 
                             break;
                         }

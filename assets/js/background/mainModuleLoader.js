@@ -1,8 +1,10 @@
-var path = require(`path`);
+module.exports= function(utils){
+    var path = require(`path`);
 
-var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
-var WindowManager = require(path.join(process.cwd(),`assets/js/background/WindowManager.js`))
-var container = require(path.join(process.cwd(),`assets/js/background/windowAccess.js`))
+// var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
+// utils.getModule(`assets/js/background/WindowManager.js`)
+// var WindowManager = require(path.join(process.cwd(),`assets/js/background/WindowManager.js`))
+// var container = require(path.join(process.cwd(),`assets/js/background/windowAccess.js`))
 var mainModuleLoader = {
     name: 'mainModuleLoader',
     log: function() {
@@ -56,4 +58,5 @@ mainModuleLoader.callCenterMode = function() {
     windowEventsController.eventHandler(container.get(utils.namespace.CONTAINER_CHAT), 'hide');
 }
 
-module.exports = mainModuleLoader;
+return mainModuleLoader;
+}

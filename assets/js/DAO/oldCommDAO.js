@@ -1,17 +1,5 @@
 
 var namespace = {
-        moduleName: {
-            chatUtils: `chatUtils`,
-            moduleControl: `moduleController`,
-            web: `webContainer`,
-            chat: `chatContainer`,
-            appQuit: `appQuit`,
-            loginModule: `loginModule`,
-            reLogin: `reLogin`,
-            clientListener: `clientListener`,
-            userLoginRegister: `userLoginRegister`,
-            utils: `utilities`,
-        },
         channel: {
             SB: 'msg-to-FULL', // SB container
             CHAT: 'msg-to-Chat', // AnyWhereWorks container
@@ -69,52 +57,52 @@ function PostToBackground(operationType) {
         opt: null
     };
     this.show = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'show'
     };
 
     this.hide = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'hide'
     };
     this.focus = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'focus'
     };
 
     this.enableOnTop = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'enableontop'
     };
 
     this.disableOnTop = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'disableontop'
     };
     this.restore = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'restore'
     };
      this.minimize = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'minimize'
     };
      this.maximize = {
-        moduleName: namespace.moduleName.utils,
+        moduleName: `utilities`,
         title: null,
         actionType: this.actionType,
         opt: 'maximize'

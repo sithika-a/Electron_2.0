@@ -49,6 +49,7 @@
             }
         },
         isValid(dataObj) {
+            console.log('isValid message',dataObj)
             return dataObj && typeof dataObj == 'object' ? true : false;
         },
         broadCast(target, message) {
@@ -58,10 +59,14 @@
                     return true;
                 }
                 throw new Error('[messenger.broadCast] : target not provided');
+            }else {
+                            console.log('is inValid message',message)
+
             }
-            throw new Error('[messenger.broadCast] : MessageData is not an Object :' + message);
+            // throw new Error('[messenger.broadCast] : MessageData is not an Object :' + message);
         },
         sendToMain(msg) {
+            console.log('broadCast to main in messenger...',msg)
             this.broadCast(this.channel.Main, msg)
         },
         sendToV2(msg) {

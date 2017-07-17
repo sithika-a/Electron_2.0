@@ -49,10 +49,8 @@ module.exports = function(grunt) {
             hiddenWindow: {
                 command: 'uglifyjs assets/js/container/hiddenWindow.js' +
                     ' assets/js/services/global.js' +
-                    ' assets/js/services/utilities.js' +
-                    ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/comm/proto/message-proto.js' +
-                    ' assets/js/services/notification.js' +
+                    ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
                     async: false
@@ -115,9 +113,9 @@ module.exports = function(grunt) {
                     ' assets/js/services/utilities.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/js/DAO/userDAO.js' +
+                    ' assets/js/services/sendMessage.js' +
                     ' assets/comm/proto/message-proto.js' +
                     ' assets/js/services/fullAuth.js' +
-                    ' assets/js/container/chat/chatUtils.js' +
                     ' assets/js/container/chat/chat.js' +
                     ' assets/js/container/chat/clientListener.js' +
                     ' assets/js/controller/webviewController.js' +

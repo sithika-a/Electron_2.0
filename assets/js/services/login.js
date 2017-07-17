@@ -5,6 +5,7 @@
  **/
 (function(R, M) {
     var loginModule = {
+        name : `loginModule`,
         userLoginInfo: null,
         log() {
             util.log.apply(this, arguments);
@@ -88,8 +89,8 @@
         },
         sendUserInfoToMainProcess() {
             console.log('sendUserInfoToMainProcess ...');
-            util.publish('/util/sendMessage/to/main',{
-                "moduleName" : namespace.moduleName.userLoginRegister,
+            util.publish(`/sendMessage/to/main`,{
+                "moduleName" : this.name,
                 "actionType": "userInfo",
                 "userObj": this.getUserInfoObj()
             });

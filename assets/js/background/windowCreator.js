@@ -8,20 +8,20 @@
 **/
 
 var path = require('path');
-var container=require(`../../js/background/windowAccess.js`);
 
 var container=require(`../../js/background/windowAccess.js`);
 
 var __BrowserWindow = getBrowserWindowConstructor();
 
-function getBrowserWindowConstructor() {
-    if (require && typeof window == "undefined") {
-        return require('electron').BrowserWindow;
-    } else if (FULLClient.require) {
-        var remote = util.getRemote();
-        return require('electron').remote.BrowserWindow;
+    function getBrowserWindowConstructor() {
+        if (require && typeof window == "undefined") {
+            return require('electron').BrowserWindow;
+        } else if (FULLClient.require) {
+            var remote = util.getRemote();
+            return require('electron').remote.BrowserWindow;
+        }
     }
-}
+
 /**
  *
  * Window Creation Manager

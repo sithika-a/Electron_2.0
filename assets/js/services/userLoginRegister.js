@@ -77,7 +77,7 @@
 
     let registerUser = {
         ip: `0.0.0.0`,
-        name: `RegisterUserInSpreadsheet`,
+        name: `userLoginRegister`,
         log() {
             util.log.apply(this, arguments);
         },
@@ -95,7 +95,7 @@
             console.log('namespace : ',namespace)
             if (cb) {
                 cb.call(this,{
-                    moduleName : namespace.moduleName.userLoginRegister,
+                    moduleName : this.name,
                     appVersion: FULLClient.manifest.version,
                     engine: process.versions.electron,
                     platform: process.platform,

@@ -116,14 +116,14 @@ util.showBadgeLabel = function(count) {
         // remote container is not serialized, so api
         // change will affect implementation.
         // check https://github.com/electron/electron/issues/4011
-        util.publish(`/util/sendMessage/to/main`, {
-            moduleName: namespace.module.utils,
+        util.publish(`/sendMessage/to/main`,{
+            moduleName: util.name,
             eType: 'setOverlayIcon',
             dataURL: canvas.toDataURL()
         });
         return text;
     } else {
-        util.publish(`/util/sendMessage/to/main`, {
+        util.publish(`/sendMessage/to/main`,{
             eType: 'setOverlayIcon',
             count: null
         });
@@ -184,13 +184,13 @@ util.doNotBubble = function(e) {
 
 util.mocha = {
     sb: function() {
-        util.publish(`/util/sendMessage/to/main`, {
+        util.publish(`/sendMessage/to/main`,{
             "eType": "open",
             "title": "sbMocha"
-        });
+        })
     },
     v2: function() {
-        util.publish(`/util/sendMessage/to/main`, {
+        util.publish(`/sendMessage/to/main`,{
             "eType": "open",
             "title": "v2Mocha"
         });
@@ -293,7 +293,7 @@ util.loadWebSiteInBrowser = function(url) {
 
 util.loadWebSiteInNewWindow = function(url) {
     if (util.isUrl(url)) {
-        FULLClient.emitter.sendToMain({
+        util.publish(`/sendMessage/to/main`,{
             "eType": "loadWebsiteInNewWindow",
             "url": url
         });
@@ -927,7 +927,7 @@ util.crashReporter = {
         /**
          * Send message to main container.....
          */
-        util.publish(`/util/sendMessage/to/main`, {
+        util.publish(`/sendMessage/to/main`,{
             "eType": "crashReporter",
             "source": util.window.getName() == 'AnyWhereWorks' ? 'Chat' : util.window.getName(),
             "opt": "port"
@@ -1004,7 +1004,7 @@ util.windowEvents = {
     sendToMainProcess(msg) {
         if (msg) {
             console.log('is msg present ? ',msg)
-            util.publish(`/util/sendMessage/to/main`, msg);
+            util.publish(`/sendMessage/to/main`,msg);
         }
     }
 
@@ -1099,55 +1099,6 @@ util.app = {
     }
 };
 
-util.sendMessage = {
-    contructMessage(actualMessage, channel) {
-        var WindowMessaging = require(path.join(process.cwd(),`assets/comm/proto/message-proto.js`))
-        var msg = new WindowMessaging();
-        msg.info = actualMessage;
-        msg.metaData.src.moduleName = actualMessage.moduleName || actualMessage.name || null;
-        msg.metaData.dest.channel = channel;
-        console.log('contructMessage  : ', msg)
-
-        return msg;
-    },
-    isValidMsg(message) {
-        return (message && typeof message == 'object') ? true : false;
-    },
-    toMediator(message) {
-        if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.Mediator));
-    },
-    toMain(message) {
-        console.log('isValidMsg in  send to main ...',FULLClient.emitter.sendToMain)
-        if (this.isValidMsg(message)) FULLClient.emitter.sendToMain(this.contructMessage(message, namespace.channel.Main));
-    },
-    toSB(message) {
-        if (this.isValidMsg(message)) FULLClient.emitter.sendToSB(this.contructMessage(message, namespace.channel.SB));
-    },
-    toChat(message) {
-        console.log('what is emitter obj ? ',FULLClient.emitter)
-
-        if (this.isValidMsg(message)){                
-            console.log('isValidMsg in  send to chat ...',FULLClient.emitter.sendToChat)
-
-         FULLClient.emitter.sendToChat.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.CHAT));
-        }
-    },
-    toV2(message) {
-        if (this.isValidMsg(message)) FULLClient.emitter.sendToV2(this.contructMessage(message, namespace.channel.V2));
-    },
-    toWebview(message) {
-        FULLClient.emitter.toWebview(message);
-    }
-}
-util.subscribe(`/util/sendMessage/to/mediator`, util.sendMessage, util.sendMessage.toMediator);
-util.subscribe(`/util/sendMessage/to/main`, util.sendMessage, util.sendMessage.toMain);
-util.subscribe(`/util/sendMessage/to/sb`, util.sendMessage, util.sendMessage.toSB);
-util.subscribe(`/util/sendMessage/to/chat`, util.sendMessage, util.sendMessage.toChat);
-util.subscribe(`/util/sendMessage/to/v2`, util.sendMessage, util.sendMessage.toV2);
-util.subscribe(`/util/sendMessage/to/timer`, util.sendMessage, util.sendMessage.toTimer);
-util.subscribe(`/util/sendMessage/to/webview`, util.sendMessage, util.sendMessage.toWebview);
-
-
 util.checkForUpdates = {
     isFromMenu: function() {
         var update = util.storage.get('update');
@@ -1230,7 +1181,7 @@ util.zoom = {
         if (switchType && option) {
             var bg = new PostToBackground("menuActions");
             bg[bg.choice].opt = switchType + option;
-            FULLClient.emitter.sendToMain(bg[bg.choice]);
+            util.publish(`/sendMessage/to/main`,bg[bg.choice]);
         }
     },
     getActiveTab: function() {

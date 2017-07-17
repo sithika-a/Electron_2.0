@@ -1,17 +1,13 @@
 
 
-  module.exports = function(util) {
+  module.exports = function(util,messenger) {
+var Emitter = new(require(`events`).EventEmitter);
 
 // var utils = require(path.join(process.cwd(),`assets/js/background/mainUtils.js`))
-var WindowManager = util.getModule(`assets/js/background/windowManager.js`)
-var windowEventsController = util.getModule(`assets/js/background/windowEvents.js`)
-var container = util.getModule(`assets/js/background/windowAccess.js`)
-var moduleLoader = util.getModule(`assets/js/background/mainModuleLoader.js`)
-
-let messenger = util.getModule(`/assets/comm/messenger.js`);
-
-var namespace=util.getModule('assets/js/DAO/oldCommDAO.js');
-console.log('namespace :'+namespace);
+// var WindowManager = util.getModule(`assets/js/background/windowManager.js`)
+var windowEventsController = util.getModule(`assets/js/background/windowEvents.js`);
+var container = util.getModule(`assets/js/background/windowAccess.js`)(util)
+var mainModuleLoader = util.getModule(`assets/js/background/mainModuleLoader.js`)(util)
 
 let messageHandler = {
     name: `mainMessagingModule`,
@@ -21,8 +17,9 @@ let messageHandler = {
         // tmp.splice(0, 0, '[' + this.name + '] : ');
         console.log.apply(console, [this.name,args]);
     },
-    
     passInfo (containerTitle, msg) {
+    
+        // console.log(' container in passInfo  :',container.get)
         if (typeof containerTitle == 'string' && typeof msg == 'object') {
             let targetWindow = container.get(containerTitle);
             if (targetWindow && targetWindow.send) {
@@ -30,10 +27,9 @@ let messageHandler = {
             }
         }
     },
-    decider (msg) {
-        console.log('msg info : ',JSON.stringify(msg.info))
-         if (msg  && msg.info && msg.info.actionType) {
-        var info = msg.info
+    decider (info) {
+        // console.log('msg info : ',JSON.stringify(info))
+         if (info  && info.actionType) {
         this.log('Decider Block : ',info.actionType);
        
             switch (info.actionType) {
@@ -310,7 +306,6 @@ let messageHandler = {
 };
 
    messenger.subscribe(util.namespace.channel.Main, (event) => {
-        console.log(`message received  in main : ${event}`);
     messageHandler.mainHandler(event.data);
 
     });

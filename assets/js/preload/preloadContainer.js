@@ -12,8 +12,10 @@
             unSubscribe: messenger.unSubscribe,
             unSubscribeAll: messenger.unSubscribeAll,
             isValid(message) {
-                if (message && typeof message == `object` && message.metaData && message.metaData.dest && message.metaData.dest.channel)
+                if (message && typeof message == `object`) {
                     return message;
+                }
+                // if (message && typeof message == `object` && message.metaData && message.metaData.dest && message.metaData.dest.channel)
             },
             sendToMediator(message) {
                 if (this.isValid(message)) {

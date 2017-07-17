@@ -16,15 +16,10 @@
                     return msg;
                 }
             },
-              sendToChat(msg) {
+            sendToChat(msg) {
                 console.log(`hey sending to chat from hidden window preload...`,msg)
                 if (this.isValid(msg)){
                     messenger.sendToChat(msg);
-                }
-            },
-            sendToMain(msg) {
-                if (this.isValid(msg)){
-                    messenger.sendToMain(msg);
                 }
             },
             sendToV2(msg) {
@@ -34,6 +29,10 @@
             sendToSB(msg) {
                 if (this.isValid(msg))
                     messenger.sendToSB(msg);
+            },sendToMain(msg) {
+                if (this.isValid(msg)){
+                    messenger.sendToMain(msg);
+                }
             }
         }
     };

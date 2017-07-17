@@ -57,7 +57,7 @@ onload = function() {
     util.publish('/webview/controller/app/onload');
 
     // Send a message to main process
-    util.subscribe(`/util/sendMessage/to/main`,{
+    util.publish(`/sendMessage/to/main`,{
         moduleName : namespace.moduleName.web,
         actionType: 'isCrashed',
         container: namespace.CONTAINER_SB

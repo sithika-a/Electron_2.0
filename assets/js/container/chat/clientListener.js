@@ -1,7 +1,13 @@
 ((R, util, FULLClient) => {
-	 let clientlistener = {
-        handler (msg) {
-            console.log('handler :',msg)
+    let clientlistener = {
+        name : `clientListener`,
+        getv2status() {
+            let toChat = new Thinclient('v2Status');
+            toChat[toChat.opt].status = util.v2.getV2LastReceivedStatus();
+            util.publish(`/chat/postToWebview`, toChat);
+        },
+        handler(msg) {
+            console.log('handler :', msg)
             let val = msg.opt.trim();
             switch (val) {
                 case 'accessToken':
@@ -17,7 +23,7 @@
                     }
                 case "readFromClipboard":
                     {
-                        util.publish(`chatUtils/postToWebview`,util.clipboard.read());
+                        util.publish(`/chat/postToWebview`, util.clipboard.read());
                         break;
                     }
                 case "getv2status":
@@ -25,9 +31,7 @@
                         // when chat frame requesting for status
                         // of v2, we will get it from localstorage
                         // and send chatcontainer -> chatframe
-                        let toChat = new Thinclient('v2Status');
-                        toChat[toChat.opt].status = util.v2.getV2LastReceivedStatus();
-                        util.publish(`chatUtils/postToWebview`,toChat);
+                        this.getv2status();
 
                         break;
                     }
@@ -38,13 +42,13 @@
                     }
                 case 'toGuestPage':
                     {
-                        util.publish(`chatUtils/postToWebview`,msg);
+                        util.publish(`/chat/postToWebview`, msg);
                         break;
                     }
                 case 'setv2status':
                     {
                         //Forwarding status to SB container...
-                        FULLClient.emitter.sendToSB(msg);
+                        util.publish(`/sendMessage/to/sb`,msg)
                         break;
                     }
                 case 'feedback':
@@ -54,7 +58,8 @@
                         feedbackSend[feedbackSend.opt].userFeedback = msg[msg.opt].text;
                         feedbackSend[feedbackSend.opt].isFromChatModule = true;
                         feedbackSend[feedbackSend.opt].token = msg[msg.opt].token
-                        FULLClient.emitter.sendToSB(feedbackSend);
+                                                util.publish(`/sendMessage/to/sb`,feedbackSend)
+
                         break;
                     }
                 case 'notify':
@@ -62,14 +67,13 @@
                         console.log(`Notify : client :`);
                         R["noti"] = msg;
                         // route this msg to Notification API.
-                        util.publish(`/util/sendMessage/to/mediator`,msg)
-                        // util.publish('/notification/create/show', msg);
+                        util.publish('/notification/create/show', msg);
                         break;
                     }
                 case "clearCache":
                     {
                         console.log("ClearCache: user doing sign-out in chat window.");
-                        FULLClient.emitter.sendToSB({
+                       util.publish(`/sendMessage/to/sb`,{
                             name: "analytics",
                             accountNumber: null,
                             eventAction: analytics.APP_CLEAR_CACHE,
@@ -81,17 +85,17 @@
                     }
                 case 'show':
                     {
-                        util.subscribe('/util/window/events/show',namespace.channel.CONTAINER_CHAT);
+                        util.subscribe('/util/window/events/show', namespace.channel.CONTAINER_CHAT);
                         break;
                     }
                 case 'hide':
                     {
-                        util.subscribe('/util/window/events/hide',namespace.channel.CONTAINER_CHAT);
+                        util.subscribe('/util/window/events/hide', namespace.channel.CONTAINER_CHAT);
                         break;
                     }
                 case "restart":
                     {
-                        chat.reloadchat();
+                        util.publish('/chat/reloadChat');
                         break;
                     }
                 case 'quit':
@@ -101,55 +105,55 @@
                             name: 'appQuit',
                             sender: namespace.channel.CONTAINER_CHAT
                         };
-                        FULLClient.emitter.sendToSB(commObj);
+                       util.publish(`/sendMessage/to/sb`,commObj);
                         break;
                     }
                 case 'getstate':
                     {
-                        chat.send_state();
+                        util.publish(`/chat/getState`);
                         break;
                     }
                 case "download":
                     {
-                        util.publish('/file/download/Start/', msg[msg.opt]);
+                        util.publish(`/file/download/Start/`, msg[msg.opt]);
                         break;
                     }
-                case 'badgelabel':
+                    // case 'badgelabel':
                 case 'count':
                     {
-                        util.publish(`chatUtils/setBadge`, msg[msg.opt].count);
+                        // util.publish(`chat/setBadge`, msg[msg.opt].count);
                         break;
                     }
                 case 'requestattention': //needed for showing counts on new messsage arrived
                     {
-                         util.publish(`chatUtils/bounce`, msg[msg.opt].isContinuous);
+                        util.publish(`chat/bounce`, msg[msg.opt].isContinuous);
                         break;
                     }
                 case 'enableOnTop':
                     {
-                        util.subscribe('/util/window/events/enableOnTop',namespace.channel.CONTAINER_CHAT);
+                        util.subscribe('/util/window/events/enableOnTop', namespace.channel.CONTAINER_CHAT);
                         break;
                     }
                 case 'restore':
                     {
-                        util.subscribe('/util/window/events/restore',namespace.channel.CONTAINER_CHAT);
+                        util.subscribe('/util/window/events/restore', namespace.channel.CONTAINER_CHAT);
 
                         break;
                     }
                 case 'maximize':
                     {
-                        util.subscribe('/util/window/events/maximize',namespace.channel.CONTAINER_CHAT);
+                        util.subscribe('/util/window/events/maximize', namespace.channel.CONTAINER_CHAT);
                         break;
                     }
                 case 'disableOnTop':
                     {
-                        util.subscribe('/util/window/events/disableOnTop',namespace.channel.CONTAINER_CHAT);
+                        util.subscribe('/util/window/events/disableOnTop', namespace.channel.CONTAINER_CHAT);
                         break;
                     }
                 case 'loadwebsite':
                     {
-                        // send to sb
-                        FULLClient.emitter.sendToMediator(msg);
+                        // send to Mediator - hidden window
+                      util.publish(`/sendMessage/to/mediator`,msg);
                         break;
                     }
                 default:
@@ -160,6 +164,6 @@
             }
         }
     };
-    util.subscribe('/clientlistener/handler/',clientlistener,clientlistener.handler)
+    util.subscribe('/clientlistener/handler/', clientlistener, clientlistener.handler)
 
 })(this, util, FULLClient)

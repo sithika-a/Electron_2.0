@@ -8,6 +8,7 @@
      * 
      */
     var reLogin = {
+        name  :`reLogin`,
         googleAppScript: 'https://script.google.com/macros/s/AKfycbzHu2EQVazW4LQdns9i8KcHDwzX37_73cO_O7vldwwe-OCdlu95/exec?',
         wipeData() {
             this.removeUserFromSheet(userDAO.getEmail());
@@ -40,10 +41,10 @@
             util.unsubscribe('/app/loginModule/onload/recieved', reLogin, reLogin.removeWebview);
             setTimeout(() => {
                 console.log('Sending reLogin message to main ...');
-                util.publish(`/util/sendMessage/to/main`, {
-                    moduleName : namespace.moduleName.reLogin,
+                util.publish(`/sendMessage/to/main`,{
+                    moduleName : this.name,
                     actionType : namespace.moduleName.reLogin,
-                    name : namespace.moduleName.reLogin
+                    name : this.name
                 });
             }, 0);
 

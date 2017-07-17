@@ -9,13 +9,10 @@ module.exports = (util) => {
 
  let WindowCreator = util.getModule(`assets/js/background/windowCreator.js`)
 //var container=require(`../../js/background/windowAccess.js`);
-console.log("Title :"+util.namespace.CONTAINER_CHAT);
-var Emitter = new(require(`events`).EventEmitter);
-var Thinclient=util.getModule('assets/js/DAO/oldCommDAO.js');
-console.log("Thinclient :"+Thinclient);
+var Emitter = new (require(`events`).EventEmitter);
+var Thinclient=util.getModule(`assets/js/DAO/oldCommDAO.js`);
 let messenger = util.getModule(`/assets/comm/messenger.js`);
 var messageHandler=util.getModule('assets/js/background/mainMessaging.js')(util,messenger);
-console.log('messageHandler :'+messageHandler);
 // var WindowCreator = require(path.join(process.cwd(), `assets/js/services/windowCreator.js`))
 
 var WindowManager = {
@@ -184,9 +181,7 @@ var WindowManager = {
                 }
             });
             //return chatContainer.open();
-            console.log('chatContainer :'+chatContainer.title);
              this.setChatHandler(chatContainer.get());
-
         },
         openTimerWidget(options) {
             if (container.get(util.namespace.CONTAINER_TIMER))
