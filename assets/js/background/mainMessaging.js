@@ -52,7 +52,8 @@ let messageHandler = {
                     }
                 case "init":
                     {
-                        Emitter.emit('attachAppListeners');
+                        console.log('init message',JSON.stringify(info))
+                        // Emitter.emit('attachAppListeners');
                         break;
                     }
                 case "appQuit":

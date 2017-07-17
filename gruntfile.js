@@ -56,57 +56,58 @@ module.exports = function(grunt) {
                     async: false
                 }
             },
-            //    web: {
-            //     command: 'uglifyjs assets/js/services/global.js'
-            //        + ' assets/extra/common-banner.js' 
-            //        + ' assets/js/services/utilities.js' 
-            //        + ' assets/js/DAO/userDAO.js'
-            //        + ' assets/js/DAO/oldCommDAO.js'
-            //        + ' assets/comm/message_proto/message-proto.js'
-            //        + ' assets/js/DAO/statusPanelDAO.js'
-            //        + ' assets/js/DAO/goClockDAO.js' 
-            //        + ' assets/js/container/web/web.js'
-            //        + ' assets/js/controller/webviewController.js' 
-            //        + ' assets/js/services/statusPanel/statusPanelController.js'
-            //        + ' assets/js/services/statusPanel/statusPanelUI.js'
-            //        + ' assets/js/services/goClock/goClockCore.js'
-            //        + ' assets/js/services/linkPreview.js'
-            //        + ' assets/js/services/restoration.js' 
-            //        + ' assets/js/services/messageListener.js'
-            //        + ' assets/js/services/menuBar.js' 
-            //        + ' assets/js/services/tabs.js'
-            //        + ' assets/js/services/tabLock.js'
-            //        + ' assets/js/services/options.js'
-            //        + ' assets/js/services/shortcut.js'
-            //        + ' assets/js/services/mousemenu.js'
-            //        + ' assets/js/services/answerPhrase.js'
-            //        + ' assets/js/services/appRestart.js'
-            //        + ' assets/js/services/appQuit.js'
-            //        + ' assets/js/services/afkModule.js'
-            //        + ' assets/js/services/feedback/feedbackCollector.js'
-            //        + ' assets/js/services/localServer.js'
-            //        + ' assets/js/services/writePermissionChecker.js'
-            //        + ' assets/js/services/engineUpdater.js'
-            //        // + ' assets/js/services/notification.js'
-            //        + ' assets/js/services/privateBrowsing.js'
-            //        + ' assets/js/services/audioNotification.js'
-            //        + ' assets/js/services/processReduction.js'
-            //        + ' assets/js/services/analytics/analytics.js'
-            //        + ' assets/js/APIs/widgetCreator.js'
-            //        + ' assets/js/services/timer/timer.js'
-            //        + ' assets/js/services/softphone/phone.js'
-            //        + ' assets/js/services/removeAccess.js'
-            //        + ' assets/js/services/resizeTabs.js'
-            //        + ' assets/js/services/networkDetect.js'
-            //        + ' assets/js/services/networkStrength.js'
-            //        + ' assets/js/services/maxTabCounter.js'
-            //        + ' assets/js/services/findInPage.js'
-            //        + ' assets/js/services/mailSender.js'
-            //        + ' -o compiled/webContainer.min.js',
-            //     options: {
-            //         async: false
-            //     }
-            // },
+               web: {
+                command: 'uglifyjs assets/js/services/global.js'
+                   + ' assets/extra/common-banner.js' 
+                   + ' assets/js/services/utilities.js' 
+                   + ' assets/js/DAO/userDAO.js'
+                   + ' assets/js/services/sendMessage.js'
+                   + ' assets/js/DAO/oldCommDAO.js'
+                   + ' assets/comm/proto/message-proto.js'
+                   + ' assets/js/DAO/statusPanelDAO.js'
+                   + ' assets/js/DAO/goClockDAO.js' 
+                   + ' assets/js/container/web/web.js'
+                   + ' assets/js/controller/webviewController.js' 
+                   + ' assets/js/services/statusPanel/statusPanelController.js'
+                   + ' assets/js/services/statusPanel/statusPanelUI.js'
+                   + ' assets/js/services/goClock/goClockCore.js'
+                   + ' assets/js/services/linkPreview.js'
+                   + ' assets/js/services/restoration.js' 
+                   + ' assets/js/services/messageListener.js'
+                   + ' assets/js/services/menuBar.js' 
+                   + ' assets/js/services/tabs.js'
+                   + ' assets/js/services/tabLock.js'
+                   + ' assets/js/services/options.js'
+                   + ' assets/js/services/shortcut.js'
+                   + ' assets/js/services/mousemenu.js'
+                   + ' assets/js/services/answerPhrase.js'
+                   + ' assets/js/services/appRestart.js'
+                   + ' assets/js/services/appQuit.js'
+                   + ' assets/js/services/afkModule.js'
+                   + ' assets/js/services/feedback/feedbackCollector.js'
+                   + ' assets/js/services/localServer.js'
+                   + ' assets/js/services/writePermissionChecker.js'
+                   + ' assets/js/services/engineUpdater.js'
+                   // + ' assets/js/services/notification.js'
+                   + ' assets/js/services/privateBrowsing.js'
+                   + ' assets/js/services/audioNotification.js'
+                   + ' assets/js/services/processReduction.js'
+                   + ' assets/js/services/analytics/analytics.js'
+                   + ' assets/js/APIs/widgetCreator.js'
+                   + ' assets/js/services/timer/timer.js'
+                   + ' assets/js/services/softphone/phone.js'
+                   + ' assets/js/services/removeAccess.js'
+                   + ' assets/js/services/resizeTabs.js'
+                   + ' assets/js/services/networkDetect.js'
+                   + ' assets/js/services/networkStrength.js'
+                   + ' assets/js/services/maxTabCounter.js'
+                   + ' assets/js/services/findInPage.js'
+                   + ' assets/js/services/mailSender.js'
+                   + ' -o compiled/webContainer.min.js',
+                options: {
+                    async: false
+                }
+            },
             chat: {
                 command: 'uglifyjs assets/js/services/global.js' +
                     ' assets/extra/common-banner.js' +
@@ -202,13 +203,13 @@ module.exports = function(grunt) {
             //     ],
             //     dest: '<%= asarArchive %>/background.js'
             // },
-            // web: {
-            //     src:[
-            //         '<%= distFolder %>/libs.min.js'
-            //         ,'<%= distFolder %>/webContainer.min.js'
-            //         ],
-            //     dest: '<%= distFolder %>/webContainer.js'
-            // },
+            web: {
+                src:[
+                    '<%= distFolder %>/libs.min.js'
+                    ,'<%= distFolder %>/webContainer.min.js'
+                    ],
+                dest: '<%= distFolder %>/webContainer.js'
+            },
             // v2: {
             //     src:[
             //         '<%= distFolder %>/libs.min.js'

@@ -20,4 +20,5 @@ app.on(`ready`, () => {
    
          WindowManager.openChatContainer();
             // Emitter.emit('mainOnload');
+            WindowManager.openWebContainer();
 });

@@ -49,8 +49,8 @@ var WindowManager = {
             return hiddenWindow.get();
         },
         openWebContainer(isShowWindow) {
-            if (container.get('FULL'))
-                return;
+            // if (container.get('FULL'))
+            //     return;
             console.log('WebContainer is getting opened !! ');
 
             let WebContainer = new WindowCreator('file://' + util.getFilePath() + '/view/FULL.html', {

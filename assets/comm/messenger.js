@@ -58,7 +58,7 @@
                     this.bridge.emit(target, message)
                     return true;
                 }
-                throw new Error('[messenger.broadCast] : target not provided');
+                // throw new Error('[messenger.broadCast] : target not provided');
             }else {
                             console.log('is inValid message',message)
 
