@@ -9,7 +9,9 @@
 
 var path = require('path');
 
-var container=require(`../../js/background/windowAccess.js`);
+var util = require(`./mainUtils.js`);
+
+var container= util.getModule(`assets/js/background/windowAccess.js`)(util);
 
 var __BrowserWindow = getBrowserWindowConstructor();
 
