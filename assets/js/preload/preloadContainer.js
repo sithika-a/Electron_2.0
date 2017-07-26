@@ -36,6 +36,7 @@
                 this.sendToMediator(message, messenger.channel.CHAT);
             },
             sendToSB(message) {
+                console.log('In preload container :'+message);
                 this.sendToMediator(message, messenger.channel.SB);
             }
         }

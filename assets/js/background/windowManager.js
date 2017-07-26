@@ -14,7 +14,8 @@ var Thinclient=util.getModule(`assets/js/DAO/oldCommDAO.js`);
 let messenger = util.getModule(`/assets/comm/messenger.js`);
 var messageHandler=util.getModule('assets/js/background/mainMessaging.js')(util,messenger);
 // var WindowCreator = require(path.join(process.cwd(), `assets/js/services/windowCreator.js`))
-
+var container=util.getModule('assets/js/background/windowAccess.js')(util);
+console.log('Container :'+container);
 var WindowManager = {
         name: "WindowManager",
         log() {
@@ -120,33 +121,33 @@ var WindowManager = {
             this.setV2Handler(v2Container.get());
         },
         setChatHandler(winRef) {
-            winRef.on('minimize', () => {
+            // winRef.on('minimize', () => {
                
-                let _tc = new Thinclient('state');
-                _tc[_tc.opt]['window']['isMinimized'] = true;
-               messageHandler.chatHandler(null, _tc);
+            //     let _tc = new Thinclient('state');
+            //     _tc[_tc.opt]['window']['isMinimized'] = true;
+            //    messageHandler.chatHandler(null, _tc);
 
-            });
-            winRef.on('focus', (event) =>  {
-                Emitter.emit("onFocus", {
-                    container: 'Chat'
-                });
-                lastFocussedWindow = util.namespace.CONTAINER_CHAT;
+            // });
+            // winRef.on('focus', (event) =>  {
+            //     Emitter.emit("onFocus", {
+            //         container: 'Chat'
+            //     });
+            //     lastFocussedWindow = util.namespace.CONTAINER_CHAT;
                 
-                let _tc = new Thinclient('state');
-                // console.log('tc :'+ _tc[_tc.opt]['window']['isFocused'] );
-                _tc[_tc.opt]['window']['isFocused'] = true;
-               messageHandler.chatHandler(null, _tc);
+            //     let _tc = new Thinclient('state');
+            //     // console.log('tc :'+ _tc[_tc.opt]['window']['isFocused'] );
+            //     _tc[_tc.opt]['window']['isFocused'] = true;
+            //    messageHandler.chatHandler(null, _tc);
 
-            });
-            winRef.on('blur', (event) => {
-                Emitter.emit("onBlur");
-                let _tc = new Thinclient('state');
-                _tc[_tc.opt]['window']['isBlured'] = true;
+            // });
+            // winRef.on('blur', (event) => {
+            //     Emitter.emit("onBlur");
+            //     let _tc = new Thinclient('state');
+            //     _tc[_tc.opt]['window']['isBlured'] = true;
 
-                messageHandler.chatHandler(null, _tc);
+            //     messageHandler.chatHandler(null, _tc);
 
-            });
+            // });
             winRef.webContents.on('new-window', e => {
                 /*
                  * new Window opening should be prevented from main process 

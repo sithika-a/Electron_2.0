@@ -2,7 +2,7 @@ var shell = FULLClient.require('electron').shell;
 var path = FULLClient.require('path');
 var clipboard = require('electron').clipboard;
 var remote = require('electron').remote;
-
+//var utils=require('../js/background/mainUtils.js');
 var util = {
     name: "utilities",
     log: function() {
@@ -995,6 +995,7 @@ util.windowEvents = {
     constructMsg(operationType, containerName) {
         if (operationType && containerName) {
             var msg = new PostToBackground(operationType);
+            console.log('In util.windowevents :'+msg);
             if (msg[msg.choice]) {
                 msg[msg.choice].title = containerName;
                 return msg[msg.choice];
@@ -1005,6 +1006,7 @@ util.windowEvents = {
         if (msg) {
             console.log('is msg present ? ',msg)
             util.publish(`/sendMessage/to/main`,msg);
+            //messenger.broadCast(namespace.channel.Main ,msg);
         }
     }
 
@@ -1267,3 +1269,5 @@ util.subscribe('/util/v2/dialNumber', util.v2, util.v2.dial);
 
 // resets all the cached window.
 util.subscribe('/util/v2/windows/caching/reset', util.caching.windows, util.caching.windows.reset);
+
+module.exports=util;

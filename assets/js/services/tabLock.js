@@ -266,7 +266,7 @@
          updateStatusInUI: function(statusText) {
              console.log('Updating status text :', statusText)
              if (statusText) {
-                 closeTabDecider.closeTabBtn.text(statusText);
+                 phidd.closeTabBtn.text(statusText);
              }
          },
          fetchStatusInfo: function(connId) {

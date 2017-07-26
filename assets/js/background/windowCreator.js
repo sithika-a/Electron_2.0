@@ -8,8 +8,9 @@
 **/
 
 var path = require('path');
-
-var container=require(`../../js/background/windowAccess.js`);
+var util=require(`./mainUtils.js`);
+var container=require(`./windowAccess.js`)(util);
+console.log('IN windowAccess :'+container);
 
 var __BrowserWindow = getBrowserWindowConstructor();
 

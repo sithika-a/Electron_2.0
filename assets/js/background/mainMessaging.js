@@ -8,7 +8,7 @@ var Emitter = new(require(`events`).EventEmitter);
 var windowEventsController = util.getModule(`assets/js/background/windowEvents.js`);
 var container = util.getModule(`assets/js/background/windowAccess.js`)(util)
 var mainModuleLoader = util.getModule(`assets/js/background/mainModuleLoader.js`)(util)
-
+//var utils=util.getModule('assets/js/services/utilities.js');
 let messageHandler = {
     name: `mainMessagingModule`,
 
@@ -31,6 +31,7 @@ let messageHandler = {
         // console.log('msg info : ',JSON.stringify(info))
          if (info  && info.actionType) {
         this.log('Decider Block : ',info.actionType);
+        this.log('Information :',info);
        
             switch (info.actionType) {
                 case "menuActions":
@@ -97,11 +98,16 @@ let messageHandler = {
                     }
                 case "windowEvents":
                     {
+                        console.log('Reached window events');
                         let _container;
-                        if (msg.id && parseInt(msg.id))
-                            _container = WindowManager.getWindowById(msg.id);
+                        if (info.id && parseInt(info.id)){
+
+                            _container = container.getById(info.id);
+                            console.log('In if case :'+_container);
+                        }
                         else
                             _container = container.get(info.title);
+                            console.log('In else case :'+_container);
 
                         windowEventsController.eventHandler(_container, info.opt, info.paramObj);
                         // msg.title  may be Chat ,V2,FULL
@@ -112,7 +118,7 @@ let messageHandler = {
                     {
                         this.log('New v2 switch is on..')
                         ipc.removeAllListeners('msg-to-V2');
-                        ipc.on('msg-to-V2', messageHandler.v2NewHandler);
+                        FULLClient.emitter.subscribe('msg-to-V2', messageHandler.v2NewHandler);
                         /**
                          * Switch to new v2 handlers.
                          */
@@ -122,7 +128,7 @@ let messageHandler = {
                     {
                         this.log('New v2 switch is off..')
                         ipc.removeAllListeners('msg-to-V2');
-                        ipc.on('msg-to-V2', messageHandler.v2OldHandler);
+                        FULLClient.emitter.subscribe('msg-to-V2', messageHandler.v2OldHandler);
                         /**
                          * Switch to new v2 handlers.
                          */
@@ -299,18 +305,33 @@ let messageHandler = {
         messageHandler.passInfo('Chat', msg);
     },
     mainHandler(msg) {
+        console.log('In mainHandler :'+msg);
         messageHandler.decider(msg);
     },
     timerHandler(event, msg) {
-        messageHandler.passInfo(utils.namespace.CONTAINER_TIMER, msg);
+        messageHandler.passInfo(util.namespace.CONTAINER_TIMER, msg);
     }
 };
 
    messenger.subscribe(util.namespace.channel.Main, (event) => {
-    messageHandler.mainHandler(event.data);
+    console.log('Subscribing :'+event.data.info);
+    messageHandler.mainHandler(event.data.info);
 
     });
-   return messageHandler;
+   //  messenger.subscribe(util.namespace.channel.V2, (event,msg) => {
+   // // console.log('Subscribing :'+event.data.info);
+   //  messageHandler.v2OldHandler(event.data,msg);
+
+   //  });
+  // utils.subscribe('/sendMessage/to/main',(event)=>{
+  //   messageHandler.mainHandler(event.data);
+  // });
+   // messenger.subscribe(util.namespace.channel.SB, (msg) => {
+   //  messageHandler.sbHandler(msg);
+
+   //  });
+
+   //return messageHandler;
 }
 
 

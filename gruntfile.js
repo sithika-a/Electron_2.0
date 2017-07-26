@@ -51,6 +51,7 @@ module.exports = function(grunt) {
                     ' assets/js/services/global.js' +
                     ' assets/comm/proto/message-proto.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
+                    //' assets/js/services/messageListener.js' +
                     ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
                     async: false
@@ -142,18 +143,19 @@ module.exports = function(grunt) {
                     async: false
                 }
             },
-            //      v2: {
-            //          command: 'uglifyjs assets/js/services/global.js' 
-            //             + ' assets/js/DAO/oldCommDAO.js' 
-            //             + ' assets/js/services/utilities.js'
-            //             + ' assets/js/controller/webviewController.js'
-            //             + ' assets/js/services/shortcut.js' 
-            //             + ' assets/js/services/mousemenu.js' 
-            //             + ' assets/js/services/v2.js -o compiled/v2Container.min.js',
-            //          options: {
-            //              async: false
-            //          }
-            //      },
+                 v2: {
+                     command: 'uglifyjs assets/js/services/global.js' 
+                        + ' assets/js/DAO/oldCommDAO.js' 
+                        + ' assets/js/services/utilities.js'
+                        + ' assets/js/controller/webviewController.js'
+                        + ' assets/js/services/sendMessage.js'
+                        + ' assets/js/services/shortcut.js' 
+                        + ' assets/js/services/mousemenu.js' 
+                        + ' assets/js/services/v2.js -o compiled/v2Container.min.js',
+                     options: {
+                         async: false
+                     }
+                 },
             //       timer: {
             //          command: 'uglifyjs assets/js/services/global.js' 
             //             + ' assets/js/DAO/oldCommDAO.js' 
@@ -210,13 +212,13 @@ module.exports = function(grunt) {
                     ],
                 dest: '<%= distFolder %>/webContainer.js'
             },
-            // v2: {
-            //     src:[
-            //         '<%= distFolder %>/libs.min.js'
-            //         ,'<%= distFolder %>/v2Container.min.js'
-            //         ],
-            //     dest: '<%= distFolder %>/v2Container.js'
-            // },
+            v2: {
+                src:[
+                    '<%= distFolder %>/libs.min.js'
+                    ,'<%= distFolder %>/v2Container.min.js'
+                    ],
+                dest: '<%= distFolder %>/v2Container.js'
+            },
             hw: {
                 src: [
                     '<%= distFolder %>/libs.min.js', '<%= distFolder %>/hiddenWindow.min.js'
@@ -262,15 +264,15 @@ module.exports = function(grunt) {
                 ],
                 dest: '<%= distFolder %>/webContainer.css'
             },
-            // v2: {
-            //   options: {
-            //     report:'min'
-            //   },
-            //   src: [
-            //         'assets/css/v2.css'
-            //         ],
-            //   dest: '<%= distFolder %>/v2Container.css'
-            // },
+            v2: {
+              options: {
+                report:'min'
+              },
+              src: [
+                    'assets/css/v2.css'
+                    ],
+              dest: '<%= distFolder %>/v2Container.css'
+            },
             // timer: {
             //   options: {
             //     report:'min'

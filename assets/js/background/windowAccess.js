@@ -1,9 +1,21 @@
 module.exports = function(util) {
+// var __BrowserWindow=util.getModule('assets/js/background/windowCreator.js');
+// console.log('The browser window is :',__BrowserWindow);
+var __BrowserWindow = getBrowserWindowConstructor();
+
+    function getBrowserWindowConstructor() {
+        if (require && typeof window == "undefined") {
+            return require('electron').BrowserWindow;
+        } else if (FULLClient.require) {
+            var remote = util.getRemote();
+            return require('electron').remote.BrowserWindow;
+        }
+    }
 var path = require('path');
     var container = {
         name: 'WindowAccess',
         cache: {
-            v2: null,
+            V2: null,
             sb: null,
             chat: null
         },
@@ -20,16 +32,17 @@ var path = require('path');
                             title = 'AnyWhereWorks';
                             break;
                         }
-                    case namespace.CONTAINER_V2_SOFTPHONE:
+                    case util.namespace.CONTAINER_V2_SOFTPHONE:
                         {
                             title = namespace.CONTAINER_SB;
                             break;
                         }
-                    case namespace.CONTAINER_CHAT:
+                    case util.namespace.CONTAINER_CHAT:
                         {
                             title = 'AnyWhereWorks';
                             break;
                         }
+                  
                     default:
                         {
                             break;
@@ -41,20 +54,26 @@ var path = require('path');
         },
         set(title) {
             if (title) {
+                console.log('Reached to set the title :',this.cache[title]);
+                // console.log('Getting the target :',this.getTarget({
+                //     "title": title
+                // }));
                 this.cache[title] = this.getTarget({
                     "title": title
                 });
+                console.log('The title setted was :',this.cache[title]);
                 return this.cache[title];
             }
 
         },
-        remove: function(url) {
+        remove(url) {
             let title;
             if (url && (title = path.basename(url, '.html'))) {
                 this.cache[title] = null;
             }
         },
         getAll() {
+            console.log('Testing windows :',__BrowserWindow.getAllWindows());
             return typeof __BrowserWindow != 'undefined' ? __BrowserWindow.getAllWindows() : [];
         },
         getById(id) {

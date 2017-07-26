@@ -1,4 +1,5 @@
 ((R, util) => {
+   
     let sendMessage = {
         contructMessage(actualMessage, channel) {
             console.log('actualMessage : ', actualMessage)
@@ -19,10 +20,15 @@
         },
         toMain(message) {
             console.log('isValidMsg in  send to main ...', FULLClient.emitter.sendToMediator)
-            if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.Main));
+            if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.Main));
         },
         toSB(message) {
-            if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.SB));
+            console.log('Sending to SB ',message);
+            if (this.isValidMsg(message)){
+             console.log('Received in SB');
+            // console.log( FULLClient.emitter.sendToMediator.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.SB)));
+             FULLClient.emitter.sendToMediator.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.SB));
+         }
         },
         toChat(message) {
             console.log('what is emitter obj ? ', FULLClient.emitter)
@@ -34,7 +40,10 @@
             }
         },
         toV2(message) {
-            if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.V2));
+            if (this.isValidMsg(message)){
+                console.log("In send message to v2 :",message);
+             FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.V2));
+         }
         },
         toWebview(message) {
             FULLClient.emitter.toWebview(message);

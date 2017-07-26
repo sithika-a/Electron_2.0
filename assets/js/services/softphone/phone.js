@@ -110,9 +110,9 @@ h. stop switch - done
                     loggedIn: false
                 }));
 
-                FULLClient.ipc.send({
+                util.publish('/sendMessage/to/mediator',{
                     "eType": "reloadV2",
-                    "name": "reloadV2"
+                    
                 });
 
                 util.publish('/clear/status/timer');
@@ -452,14 +452,20 @@ h. stop switch - done
             hideOldV2: function() {
                 // hide phone icon
                 console.log('Hiding v2 phone icon, because starting in-built new v2 softphone.');
-                //$('#v2_Phone').hide();
-
+                //$('#v2_Phone').close();
+               // util.getCurrentWindow().close();
                 // close v2 container
                 var v2Close = new Application('close');
+                console.log("the close operation :",v2Close);
                 v2Close[v2Close.opt].appname = v2Close.apps.v2;
-                FULLClient.ipc.sendToV2(v2Close);
-
-                FULLClient.ipc.send({
+                console.log('After the assignment :',v2Close[v2Close.opt].appname);
+                //FULLClient.emitter.sendToV2(v2Close);
+                // util.publish('/sendMessage/to/v2',{
+                //     name: v2Close.close.appname,
+                //     opt: v2Close.close.name
+                // });
+                util.publish('/softphone/postMessage',v2Close);
+                util.publish('/sendMessage/to/mediator',{
                     eType: 'activateNewV2'
                 });
 
@@ -600,13 +606,14 @@ h. stop switch - done
 
         function softPhoneStopCallBack(param) {
 
-            FULLClient.ipc.send({
+            util.publish('/sendMessage/to/mediator',{
                 eType: 'activateOldV2'
             });
 
             v2Handler.setNewV2Flag(false);
             console.log('Showing v2 phone icon, because stopping in-built new v2 softphone.');
-            $('#v2_Phone').show()
+            //$('#v2_Phone').show()
+             util.publish('/util/window/events/show', namespace.CONTAINER_V2);
             this.removeWidget();
             console.log('Removed event listeners');
         };
@@ -723,6 +730,7 @@ h. stop switch - done
         util.subscribe('/softphone/softPhoneHide', softPhone, softPhoneHideCallBack);
         util.subscribe('/softphone/softPhoneOnload', softPhone, softPhone.spWidgetOnload);
         util.subscribe('/softphone/postMessage', msgHandler, msgHandler.handler);
+        //FULLClient.emitter.subscribe(namespace.channel.V2,msgHandler,msgHandler.handler);
 
         util.subscribe('/v2Handler/new/v2/switch', v2Handler, v2Handler.setNewV2Flag);
         util.subscribe('/v2Handler/msg/handler', v2Handler, v2Handler.handler);

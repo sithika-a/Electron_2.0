@@ -1,5 +1,13 @@
   
+  //var util=require('../assets/js/background/mainUtils.js');
+  //var sendMessage=util.getModule('assets/js/services/sendMessage.js');
+  // var util = require(`../assets/js/services/utilities.js`);
+  // console.log('Utilities :'+util);
 
+  // // var namespace=util.getModule('assets/js/DAO/oldCommDAO.js');
+  // console.log('IN mediatorMessaging :'+namespace);
+  //var messenger=util.getModule('assets/comm/messenger.js');
+  //console.log('mediatorMessaging :'+messenger);
   let messageHandler = {
       byPass(message) {
         console.warn('dest channel : ',message.metaData.dest.channel)
@@ -17,14 +25,18 @@
                   }
               case namespace.channel.SB:
                   {
+                    console.log('sending to SB..'+message);
+                      
                       FULLClient.emitter.sendToSB(message);
+                      //util.publish(`/sendMessage/to/sb`,message);
+                     //sendMessage.toSB(message);
                       break;
                   }
               case namespace.channel.Main:
                   {
-                      console.log('sending to main.. ',message.info);
+                      console.log('sending to main.. ',message);
                       // console.log(`Bypassing message to main FULLClient.emitter.sendToMain : ${message}`)
-                      FULLClient.emitter.sendToMain(message.info);
+                      FULLClient.emitter.sendToMain(message);
                       break;
                   }
               default:
@@ -66,3 +78,7 @@
     console.log('messageHandler : ')
       messageHandler.decider(event);
   });
+  // FULLClient.emitter.subscribe(namespace.channel.SB, event => {
+  //   console.log('messageHandler : ')
+  //     messageHandler.decider(event);
+  // });
