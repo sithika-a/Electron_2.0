@@ -4,9 +4,7 @@
     var path = require(`path`);
     console.debug(`Domain : ${domain}`);
     const messenger = require(`electron`).remote.require(path.join(process.cwd(), `/assets/comm/messenger.js`));
-    R["FULLClient"] = {
-        require,
-        emitter: {
+    R["Emitter"] = {
             broadCast: messenger.broadCast,
             subscribe: messenger.subscribe,
             unSubscribe: messenger.unSubscribe,
@@ -36,9 +34,9 @@
                 this.sendToMediator(message, messenger.channel.CHAT);
             },
             sendToSB(message) {
+                console.log('In preload container :'+message);
                 this.sendToMediator(message, messenger.channel.SB);
             }
-        }
     }
 
 })(window);

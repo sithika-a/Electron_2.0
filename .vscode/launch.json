@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "node",
+            "protocol":"inspector",
+            "request": "launch",
+            "program": "${workspaceRoot}/assets/js/background/main.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "/Users/sithika/Documents/Engines/Electron/electron-v1.7.3/Electron.app/Contents/MacOS/Electron",
+            "runtimeArgs": [
+                ".",
+                "--enable-logging",
+                "--remote-debugging-port=8222"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": false,
+            "outFiles": []
+        },
+        {
+            "name": "Attach",
+            "type": "node",
+            "request": "attach",
+            "port": 5858,
+            "sourceMaps": false,
+            "outFiles": []
+        }
+    ]
+}

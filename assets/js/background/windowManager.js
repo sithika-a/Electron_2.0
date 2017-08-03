@@ -1,27 +1,18 @@
-// let util = {
-//     name: 'Utilities',
-//     log(...args) {
-//         console.log.apply(console, [this.name,args]);
-//     }
-// };
 
-module.exports = (util) => {
+let WindowCreator = require(`./windowCreator.js`)
+let Thinclient= require(`../DAO/oldCommDAO.js`);
+let messageHandler=require('./mainMessaging.js');
+let container=require('./windowAccess.js');
+let menuActions = require('./menuActions.js');
+let util = require('./mainUtils.js');
 
- let WindowCreator = util.getModule(`assets/js/background/windowCreator.js`)
-//var container=require(`../../js/background/windowAccess.js`);
-var Emitter = new (require(`events`).EventEmitter);
-var Thinclient=util.getModule(`assets/js/DAO/oldCommDAO.js`);
-let messenger = util.getModule(`/assets/comm/messenger.js`);
-var messageHandler=util.getModule('assets/js/background/mainMessaging.js')(util,messenger);
-// var WindowCreator = require(path.join(process.cwd(), `assets/js/services/windowCreator.js`))
-
+console.log('Container :'+container);
 var WindowManager = {
         name: "WindowManager",
         log() {
             console.log.apply(console, arguments);
         },
-       
-        openHiddenContainer() {
+        openHiddenContainer( state ) {
             console.log('Hidden Window is getting opened !! ');
 
             // if (container.get('AnyWhereWorks'))
@@ -76,23 +67,20 @@ var WindowManager = {
         },
         setSbHandler(winRef) {
             winRef.on('focus', event => {
-                Emitter.emit("onFocus", {
-                    container: 'FULL'
-                });
+                menuActions.onFocus({container: 'FULL'})
                 lastFocussedWindow = util.namespace.CONTAINER_SB;
             });
             winRef.on('blur', event => {
-                Emitter.emit("onBlur");
+                menuActions.onBlur()
             });
         },
         setV2Handler(winRef) {
             winRef.on('focus', event => {
-                Emitter.emit("onFocus", {
-                    container: 'V2'
-                });
+                                menuActions.onFocus()
+                menuActions.onFocus({container: 'V2'})
             });
             winRef.on('blur', event => {
-                Emitter.emit("onBlur");
+                                menuActions.onBlur()
             });
         },
         openV2Container(isShowWindow) {
@@ -120,31 +108,31 @@ var WindowManager = {
             this.setV2Handler(v2Container.get());
         },
         setChatHandler(winRef) {
-            winRef.on('minimize', () => {
+            // winRef.on('minimize', () => {
                
-                let _tc = new Thinclient('state');
-                _tc[_tc.opt]['window']['isMinimized'] = true;
-               messageHandler.chatHandler(null, _tc);
+            //     let _tc = new Thinclient('state');
+            //     _tc[_tc.opt]['window']['isMinimized'] = true;
+            //    messageHandler.chatHandler(null, _tc);
 
-            });
+            // });
             winRef.on('focus', (event) =>  {
-                Emitter.emit("onFocus", {
+                menuActions.onFocus({
                     container: 'Chat'
                 });
                 lastFocussedWindow = util.namespace.CONTAINER_CHAT;
                 
-                let _tc = new Thinclient('state');
-                // console.log('tc :'+ _tc[_tc.opt]['window']['isFocused'] );
-                _tc[_tc.opt]['window']['isFocused'] = true;
-               messageHandler.chatHandler(null, _tc);
+               //  let _tc = new Thinclient('state');
+               //  // console.log('tc :'+ _tc[_tc.opt]['window']['isFocused'] );
+               //  _tc[_tc.opt]['window']['isFocused'] = true;
+               // messageHandler.chatHandler(null, _tc);
 
             });
             winRef.on('blur', (event) => {
-                Emitter.emit("onBlur");
-                let _tc = new Thinclient('state');
-                _tc[_tc.opt]['window']['isBlured'] = true;
+                menuActions.onBlur();
+                // let _tc = new Thinclient('state');
+                // _tc[_tc.opt]['window']['isBlured'] = true;
 
-                messageHandler.chatHandler(null, _tc);
+                // messageHandler.chatHandler(null, _tc);
 
             });
             winRef.webContents.on('new-window', e => {
@@ -267,10 +255,6 @@ var WindowManager = {
             });
         }
     };
-    
-    return WindowManager;
-}
+module.exports = WindowManager;
 
-// Emitter.on('/windowManager/open/chat/container', WindowManager.openChatContainer.bind(WindowManager));
-// Emitter.on('/windowManager/open/sb/container', WindowManager.openWebContainer.bind(WindowManager));
-// Emitter.on('/windowManager/open/v2/container', WindowManager.openV2Container.bind(WindowManager));
+    

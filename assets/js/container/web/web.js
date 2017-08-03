@@ -4,6 +4,8 @@ function quitAppFaster(e) {
          *  Hiding SB window rather closing it
          *  with window X-Btn click
          */
+         var util=require('../assets/js/services/utilities.js');
+
         if (util.platform.isWin() && (!userDAO.getSkillByName('FullWork') || namespace.APP_ID != namespace.CONTAINER_CHAT)) {
             util.publish('/util/window/events/minimize', namespace.CONTAINER_SB);
         } else {
@@ -119,4 +121,5 @@ onload = function() {
     // jQuery(window).bind('keypress', jQuery.debounce(10000, true, function(event) {
     //     util.publish('/api/hit/detection/trial/');
     // }));
+  
 }

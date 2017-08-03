@@ -1,24 +1,20 @@
-const {app,BrowserWindow,ipcMain} = require(`electron`);
-app.commandLine.appendSwitch(`remote-debugging-port`, `9222`);
+const {app,BrowserWindow,ipcMain} = require('electron');
+app.commandLine.appendSwitch('remote-debugging-port', '9222');
+let path = require('path');
+let util = require('./mainUtils.js');
+let mainMessaging=require('./mainMessaging.js');
+let WindowManager = require('./windowManager.js');
+let networkBoot= require('./networkBoot.js');
+let menuActions = require('./menuActions.js');
 
-var path = require(`path`);
-
-var util = require(`./mainUtils.js`);
-
-
-let messenger = util.getModule(`/assets/comm/messenger.js`);
-var mainMessaging=util.getModule(`assets/js/background/mainMessaging.js`)(util, messenger);
-
-
-var WindowManager = util.getModule(`assets/js/background/windowManager.js`)(util);
-
-//var WindowManager = require(path.join(process.cwd(),`assets/js/services/windowManager.js`))
-
-
-app.on(`ready`, () => {
+app.on('ready', () => {
          WindowManager.openHiddenContainer();
    
          WindowManager.openChatContainer();
             // Emitter.emit('mainOnload');
+            networkBoot.init();
+            menuActions.setNativeMenu();
             WindowManager.openWebContainer();
+
+            WindowManager.openV2Container();
 });

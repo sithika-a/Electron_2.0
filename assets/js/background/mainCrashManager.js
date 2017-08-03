@@ -1,6 +1,5 @@
 var util=require('assets/js/background/mainUtils.js');
-var messenger=util.getModule(`/assets/comm/messenger.js`);
-var messageHandler=require(`./mainMessaging.js`)(util, messenger);
+var messageHandler=require(`./mainMessaging.js`)
 
 try {
 

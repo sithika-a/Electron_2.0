@@ -1,4 +1,8 @@
+
+
+
 $(document).ready(function() {
+
 
     window.addEventListener("dragover", function(e) {
         event.preventDefault();
@@ -36,6 +40,28 @@ var newV2 = {
     //     util.mouse.registerCB(this.mouseMenu, this);
     // },
     init: function() {
+    //var WindowManager=require('assets/js/background/WindowManager.js');
+    //   console.debug(evt);
+    // console.debug(' ' + evt.type + ' == ', evt.target.src);
+
+    // var endPoints = ['https://fullcreative.awsapps.com/connect/ccp', 'https://fullcreative.awsapps.com/connect/home'];
+    // var webview = document.querySelector('#v2webview');
+    // endPoints
+    //     .filter(function(url) {
+    //         return new RegExp(url, 'i').test(evt.target.src)
+    //     })
+    //     .forEach(function(url) {
+    //         console.log('Endpoints URL : ', url);
+    //         console.check('Starting new V2 ');
+    //         webview.style.width = webview.style.height = '0%';
+    // //         $('.popup').show();
+    //         FULLClient.emitter.sendToSB({
+    //             name: 'v2Communication',
+    //             opt: 'pageRedirect'
+    //            // isMainFrame: evt.isMainFrame
+    //         });
+    //     })
+
 
         // v2.hideOldV2Frame();
 
@@ -115,31 +141,61 @@ var v2 = {
         function init() {
             var v2View = document.querySelector('#v2webview');
             if (v2View) {
+                console.log('In if case');
                 v2View.reload();
             } else {
+                console.log('In else case');
                 var c3Webview = new WebviewProxy('v2webview', v2.getV2Url(FULLClient.getConfig().v2.old), 'FULLClient:v2');
                 v2.getOuterDiv().height(window.innerHeight);
                 v2.getOuterDiv().html(c3Webview.getView());
+                c3Webview.setContentloaded(v2.addListener);
                 c3Webview.setNodeIntegration();
                 v2.registerMouse();
-                v2.addListener();
+               // v2.addListener();
                 v2.onClose();
             }
         }
         util.subscribe('/app/cookies/cleared', init);
     },
-    addListener: function() {
-        var webview = document.querySelector('#v2webview');
-        webview.addEventListener('did-get-redirect-request', function(evt) {
+    addListener: function(evt) {
+        // var webview = document.querySelector('#v2webview');
+        // webview.addEventListener('did-get-redirect-request', function(evt) {
+        //     webview.style.width = webview.style.height = '0%';
+        //     $('#v2Container').css({ background: 'grey' });
+        //     $('.popup').show();
+            // FULLClient.emitter.sendToSB({
+            //     name: 'v2Communication',
+            //     opt: 'pageRedirect',
+            //     isMainFrame: evt.isMainFrame,
+            //     metaData: {
+            //         dest:{
+            //             channel: 'msg-to-FULL'
+            //         }
+            //     }
+
+            // });
+            console.debug(evt);
+    console.debug(' ' + evt.type + ' == ', evt.target.src);
+    var endPoints = ['https://fullcreative.awsapps.com/connect/ccp', 'https://fullcreative.awsapps.com/connect/home'];
+    var webview = document.querySelector('#v2webview');
+    endPoints
+        .filter(function(url) {
+            return new RegExp(url, 'i').test(evt.target.src)
+        })
+        .forEach(function(url) {
+            console.log('Endpoints URL : ', url);
+            console.check('Starting new V2 ');
             webview.style.width = webview.style.height = '0%';
-            $('#v2Container').css({ background: 'grey' });
             $('.popup').show();
-            FULLClient.ipc.sendToSB({
+            console.log('Before publishing');
+            util.publish('/sendMessage/to/sb',{
                 name: 'v2Communication',
                 opt: 'pageRedirect',
                 isMainFrame: evt.isMainFrame
+             
             });
         });
+        
     },
     openNewWindow: function(e) {
         console.log('Warn : ', e);
@@ -254,7 +310,7 @@ var v2 = {
 
     // Inter process messaging.
     var application = {
-        handler: function(msg) {
+        handler: function(e) {
             console.log(' application ipc  ', msg);
             switch (msg.opt) {
                 case "close":
@@ -300,12 +356,13 @@ var v2 = {
                         break;
                     }
                 case "reLogin":
-                    {
+                  {
                         v2.isQuitable = true;
                         window.close();
                         break;
                     }
                 case "captureLogs":
+                    
                     {
                         v2.postToC3(msg);
                         break;
@@ -343,10 +400,14 @@ var v2 = {
             }
         }
     }
+    
     var ipc = FULLClient.require('electron').ipcRenderer;
-    ipc.on('msg-to-V2', msgModule.handler);
-
+    //ipc.on('msg-to-V2', msgModule.handler);
+    //util.subscribe('/v2Handler/msg/handler',msgModule,msgModule.handler);
+   
     util.subscribe('/msgModule/handler/', msgModule, msgModule.handler);
     util.subscribe('/open/browse/private/window', v2, v2.openNewWindow);
+
+    //util.subscribe('webview/service/domain/redirect',v2.addListener);
 
 })(this, util);

@@ -1,15 +1,16 @@
-var util = require(`assets/js/background/mainUtils.js`);
- var messageHandler=util.getModule('assets/js/background/mainMessaging.js');
-
+let util = require('./mainUtils.js');
+ let messageHandler=require('./mainMessaging.js');
 
 try {
-    var argv = global.sharedObject.cliArgs;
+    if(global.sharedObject){
+        let argv = global.sharedObject.cliArgs;
     if (argv && argv['disable-network-check'])
         throw new Error('network check disabled')
+    }
 
-    var isOnline = require('is-online');
-    var path = require('path');
-    var boot = {
+    let isOnline = require('is-online');
+    let path = require('path');
+    let boot = {
         getPromise: function(n) {
             if (!boot.promise) {
                 boot.promise = Promise.resolve(n);
@@ -29,7 +30,7 @@ try {
             boot.promise = null;
         },
         loadURL: function(urlToLoad, isNWUp ) {
-            var container = boot.getContainer();
+            let container = boot.getContainer();
             if (new RegExp(path.basename(container.webContents.getURL()), 'i').test(urlToLoad)){
                 container.send('webapp-nw',{
                     name : 'networkBoot',
@@ -56,10 +57,7 @@ try {
         stop: function() {
             clearInterval(boot.intervalID);
         },
-        reset: function() {
-            boot.stop();
-            boot.resetPromise();
-        },
+      
         isDownCB: function() {
             boot.setPromise(
                 boot.getPromise(0)
@@ -98,16 +96,22 @@ try {
             else
                 boot.isDownCB();
         },
+        
+    }
+    let public = {
         init: function() {
             console.log('******* boot check started ********** ');
             isOnline(boot.callback);
-            this.start(boot.callback);
+            boot.start(boot.callback);
+        },
+          reset: function() {
+            boot.stop();
+            boot.resetPromise();
         }
-    }
 
-    Emitter.on('mainOnload', boot.init.bind(boot));
-    Emitter.on('/network/boot/startup', boot.init.bind(boot));
-    Emitter.on('/user/contact/available', boot.reset.bind(boot));
+    }
+module.exports = public;
+
 } catch (e) {
     console.log('Error in network boot checker');
     console.log(e.message);

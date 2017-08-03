@@ -210,7 +210,7 @@
         proxy: function() {
             msgModule.handler.apply(msgModule, arguments);
         },
-        handler: function() {
+        handler: function(e) {
             var msg = arguments[0].name ? arguments[0] : arguments[1];
             /**
              * isForV2 is added in code 
@@ -275,6 +275,7 @@
                     }
                 case "v2Communication":
                     {
+                        console.log('Inside the v2Communication');
                         util.publish('/v2Handler/msg/handler', msg);
                         break;
                     }
@@ -345,8 +346,20 @@
             }
         }
     }
+        var sb={
+              messageListener(event) {
+
+            console.log('Message received as ', event);
+            if (event && event.data && event.data.info) {
+                msgModule.handler.call(msgModule, event.data.info)
+            }
+        }
+        }
+    
     var ipc = FULLClient.require('electron').ipcRenderer;
-    ipc.on('msg-to-FULL', msgModule.proxy);
+     FULLClient.emitter.subscribe(namespace.channel.SB, sb.messageListener);
+     console.log('Before subscribing');
+    //util.subscribe('/sendMessage/to/sb', sb.messageListener);
     util.subscribe('/msgModule/handler/', msgModule, msgModule.proxy);
 
 })(this, util);

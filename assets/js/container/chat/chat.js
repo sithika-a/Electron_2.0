@@ -61,7 +61,6 @@ console.log('Chat container...', nwUserAgent);
             handler: function(e) {
                 var msg = arguments[0].name ? arguments[0] : arguments[1];
                 var name = msg.name ? msg.name.toLowerCase() : false;
-                console.log('Message Recieved asa: ', msg)
                 switch (name) {
                     case "fulloauth":
                         {
@@ -265,7 +264,7 @@ console.log('Chat container...', nwUserAgent);
 
             if (!chat.isQuitable) {
                 onQuit();
-                return chat.isQuitable;
+                return chat.isQuitable; // false
             } else {
                 console.log('We are letting window to close ');
                 return undefined;

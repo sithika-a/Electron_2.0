@@ -4,7 +4,9 @@
  * cmd+q, cmd+w, cmd+r
  *
  **/
-
+//var WindowManager=require('../assets/js/background/windowManager.js')(util);
+var utils=require('../assets/js/background/mainUtils.js');
+console.log('In options :'+util);
 $('input:text,textarea').keydown(function(e) {
     switch (e.keyCode) {
         case 81:
@@ -51,7 +53,10 @@ if (!(userDAO.getSkillByName('FullWork') || userDAO.getSkillByName('CEA'))) {
  * V2 window is shown back
  */
 $('#v2_Phone').click(function() {
+    console.log('Click event :'+namespace.CONTAINER_V2);
+    
     util.publish('/util/window/events/show', namespace.CONTAINER_V2);
+    //WindowManager.openV2Container(true);
 });
 
 

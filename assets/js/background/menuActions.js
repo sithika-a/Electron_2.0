@@ -1,8 +1,9 @@
- var container = require(path.join(process.cwd(),`assets/js/background/windowAccess.js`))
- var util = require(`assets/js/background/mainUtils.js`);
- var messageHandler=util.getModule('assets/js/background/mainMessaging.js');
+ let container = require('./windowAccess.js')
+ let util = require('./mainUtils.js');
+ let messageHandler=require('./mainMessaging.js');
+ let darwinMenuList = require('./mac-menuList.js');
 
- var menuActions = {
+ let menuActions = {
      menu: null,
      template: null,
      isMac: function() {
@@ -12,7 +13,6 @@
          this.menu = require('electron').Menu;
          if (this.isMac()) {
              this.setNativeMenuForMac(darwinMenuList);
-             this.attachListener();
          } else {
              // this.setNativeMenuForWin(winMenuList)
          }
@@ -121,7 +121,7 @@
          this.enableZoomOut();
      },
      isContactAvail: function() {
-         if (userInfo && Object.keys(userInfo).length)
+         if (util.userInfo && Object.keys(util.userInfo).length)
              return true;
          else
              return false;
@@ -201,22 +201,6 @@
                      console.log('default sequence in zoomUI ...', option)
                  }
          }
-     },
-     attachListener: function() {
-         Emitter.on('zoomIn', menuActions.zoomIn.bind(menuActions));
-         Emitter.on('zoomOut', menuActions.zoomOut.bind(menuActions));
-         Emitter.on('resetZoom', menuActions.resetZoom.bind(menuActions));
-
-         Emitter.on('ReportIssue', menuActions.sendSignalToChat.bind(menuActions));
-         Emitter.on('clearCache', menuActions.clearCache.bind(menuActions));
-         Emitter.on('checkForUpdates', menuActions.checkForUpdates.bind(menuActions));
-         Emitter.on('switchZoomUI', menuActions.switchZoomUI.bind(menuActions))
-
-         Emitter.on('onBlur', menuActions.onBlur.bind(menuActions));
-         Emitter.on('onFocus', menuActions.onFocus.bind(menuActions));
-         Emitter.on('/user/contact/available', menuActions.enableAll.bind(menuActions));
-
      }
  }
-
- Emitter.on('mainOnload', menuActions.setNativeMenu.bind(menuActions));
+module.exports = menuActions;

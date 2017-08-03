@@ -1,4 +1,5 @@
-    var darwinMenuList = [{
+      let menuActions = require('./menuActions') 
+     let darwinMenuList = [{
         label: "Application",
         submenu: [{
             label: "About Application",
@@ -8,7 +9,8 @@
         }, {
             label: "Check for Updates...",
             click: function() {
-                Emitter.emit('checkForUpdates');
+                menuActions.checkForUpdates();
+                // Emitter.emit('checkForUpdates');
             }
         }, {
             label: "Hide AnyWhereWorks",
@@ -63,19 +65,24 @@
             label: "Zoom In",
             accelerator: "Command+Plus",
             click: function(item, focusedWindow) {
-                Emitter.emit('zoomIn', focusedWindow);
+                                                menuActions.zoomIn(focusedWindow);
+
+                // Emitter.emit('zoomIn', focusedWindow);
             }
         }, {
             label: "Zoom Out",
             accelerator: "Command+-",
             click: function(item, focusedWindow) {
-                Emitter.emit('zoomOut', focusedWindow);
+                                menuActions.zoomOut(focusedWindow);
+
+                // Emitter.emit('zoomOut', focusedWindow);
             }
         }, {
             label: "Actual Size",
             accelerator: "Command+o",
             click: function(item, focusedWindow) {
-                Emitter.emit('resetZoom', focusedWindow);
+                menuActions.resetZoom(focusedWindow);
+                // Emitter.emit('resetZoom', focusedWindow);
             }
         }]
     }, {
@@ -99,12 +106,16 @@
         submenu: [{
             label: "Report Issue",
             click: function(event) {
-                Emitter.emit('ReportIssue', event);
+                menuActions.sendSignalToChat(event);
+                // Emitter.emit('ReportIssue', event);
             }
         }, {
             label: "Reset App Data",
             click: function() {
-                Emitter.emit('clearCache');
+                menuActions.clearCache();
+                // Emitter.emit('clearCache');
             }
         }]
     }];
+    module.exports = darwinMenuList;
+

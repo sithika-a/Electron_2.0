@@ -27,6 +27,7 @@
                     messenger.sendToV2(msg);
             },
             sendToSB(msg) {
+                console.log('hey sending to sb from hidden window preload...',msg);
                 if (this.isValid(msg))
                     messenger.sendToSB(msg);
             },sendToMain(msg) {
