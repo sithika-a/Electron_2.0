@@ -1,7 +1,3 @@
-    let WindowManager = require(`./windowManager.js`);
-    let networkBoot = require(`./networkBoot.js`);
-    let menuActions = require(`./menuActions.js`);
-    let windowEventsController = require(`./windowEvents.js`)
 
     let mainModuleLoader = {
         name: 'mainModuleLoader',
@@ -66,3 +62,8 @@
     }
 
 module.exports = mainModuleLoader;
+    let WindowManager = require('./windowManager.js');
+    let networkBoot = require('./networkBoot.js');
+    let menuActions = require('./menuActions.js');
+    let windowEventsController = require('./windowEvents.js');
+    let container=require('./windowAccess.js');

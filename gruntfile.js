@@ -47,18 +47,19 @@ module.exports = function(grunt) {
             //     }
             // },
             hiddenWindow: {
-                command: 'uglifyjs assets/js/container/hiddenWindow.js' +
+                command: 'uglifyjs assets/comm/messenger-mediator.js' +
+                    ' assets/js/container/hiddenWindow.js' + 
                     ' assets/js/services/global.js' +
                     ' assets/comm/proto/message-proto.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
-                    //' assets/js/services/messageListener.js' +
                     ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
                     async: false
                 }
             },
                web: {
-                command: 'uglifyjs assets/js/services/global.js'
+                command: 'uglifyjs assets/comm/messenger-container.js' 
+                   + ' assets/js/services/global.js'
                    + ' assets/extra/common-banner.js' 
                    + ' assets/js/services/utilities.js' 
                    + ' assets/js/DAO/userDAO.js'
@@ -110,7 +111,8 @@ module.exports = function(grunt) {
                 }
             },
             chat: {
-                command: 'uglifyjs assets/js/services/global.js' +
+                command: 'uglifyjs assets/comm/messenger-container.js'+
+                    ' assets/js/services/global.js' +
                     ' assets/extra/common-banner.js' +
                     ' assets/js/services/utilities.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
@@ -144,7 +146,8 @@ module.exports = function(grunt) {
                 }
             },
                  v2: {
-                     command: 'uglifyjs assets/js/services/global.js' 
+                     command: 'uglifyjs assets/comm/messenger-container.js'
+                        + ' assets/js/services/global.js' 
                         + ' assets/js/DAO/oldCommDAO.js' 
                         + ' assets/js/services/utilities.js'
                         + ' assets/js/controller/webviewController.js'
@@ -181,30 +184,6 @@ module.exports = function(grunt) {
                 ],
                 dest: '<%= distFolder %>/libs.min.js'
             },
-            // preloadContainer: {
-            //     src: [
-            //         'assets/js/preload/preloadContainer.js'
-            //     ],
-            //     dest: '<%= asarArchive %>/preloadContainer.min.js'
-            // },
-            // preloadHiddenWindow: {
-            //     src: [
-            //         'assets/js/preload/preloadHiddenWindow.js'
-            //     ],
-            //     dest: '<%= asarArchive %>/preloadHiddenWindow.min.js'
-            // },
-            //  preloadWebview: {
-            //     src: [
-            //         'assets/js/preload/preloadWebview.js'
-            //     ],
-            //     dest: '<%= asarArchive %>/preloadWebview.min.js'
-            // },
-            // background: {
-            //     src: [
-            //          'assets/js/background/*.js'
-            //     ],
-            //     dest: '<%= asarArchive %>/background.js'
-            // },
             web: {
                 src:[
                     '<%= distFolder %>/libs.min.js'

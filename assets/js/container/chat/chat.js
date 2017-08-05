@@ -1,4 +1,6 @@
 console.log('Chat container...', nwUserAgent);
+
+let sendMessage = require('../../services/sendMessage.js')
 /**
  * Developer shortcut
  */
@@ -209,7 +211,7 @@ console.log('Chat container...', nwUserAgent);
                 actionType: 'getState',
                 opt: namespace.channel.CONTAINER_CHAT
             }
-            util.publish(`/sendMessage/to/main`,commObj);
+            sendMessage.toMain(commObj)
         },
         getOuterDiv: function() {
             if (!this.outerDiv)
@@ -291,7 +293,7 @@ console.log('Chat container...', nwUserAgent);
         },
          postToBackground(message) {
             if (message && message.actionType) {
-                util.publish(`/sendMessage/to/main`,message);
+            sendMessage.toMain(message)
             }
         },
         setBadge(count) {

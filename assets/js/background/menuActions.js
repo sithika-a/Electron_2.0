@@ -1,8 +1,3 @@
- let container = require('./windowAccess.js')
- let util = require('./mainUtils.js');
- let messageHandler=require('./mainMessaging.js');
- let darwinMenuList = require('./mac-menuList.js');
-
  let menuActions = {
      menu: null,
      template: null,
@@ -204,3 +199,7 @@
      }
  }
 module.exports = menuActions;
+ let container = require('./windowAccess.js');
+ let util = require('./mainUtils.js');
+ let messageHandler=require('./mainMessaging.js');
+ let darwinMenuList = require('./mac-menuList.js');

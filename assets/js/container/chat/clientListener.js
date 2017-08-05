@@ -1,3 +1,6 @@
+let sendMessage = require('../../services/sendMessage.js')
+
+
 ((R, util, FULLClient) => {
     let clientlistener = {
         name : `clientListener`,
@@ -48,7 +51,7 @@
                 case 'setv2status':
                     {
                         //Forwarding status to SB container...
-                        util.publish(`/sendMessage/to/sb`,msg)
+                        sendMessage.toSB(msg)
                         break;
                     }
                 case 'feedback':
@@ -58,8 +61,7 @@
                         feedbackSend[feedbackSend.opt].userFeedback = msg[msg.opt].text;
                         feedbackSend[feedbackSend.opt].isFromChatModule = true;
                         feedbackSend[feedbackSend.opt].token = msg[msg.opt].token
-                                                util.publish(`/sendMessage/to/sb`,feedbackSend)
-
+                                                sendMessage.toSB(feedbackSend)
                         break;
                     }
                 case 'notify':
@@ -73,13 +75,13 @@
                 case "clearCache":
                     {
                         console.log("ClearCache: user doing sign-out in chat window.");
-                       util.publish(`/sendMessage/to/sb`,{
+                        sendMessage.toSB({
                             name: "analytics",
                             accountNumber: null,
                             eventAction: analytics.APP_CLEAR_CACHE,
                             connId: FULLClient.getMode() + " " + FULLClient.getManifest().version + " " + process.platform,
                             metaInfo: "Clearing Cache for App from chatwindow"
-                        });
+                        })
                         util.clear();
                         break;
                     }
@@ -105,7 +107,7 @@
                             name: 'appQuit',
                             sender: namespace.channel.CONTAINER_CHAT
                         };
-                       util.publish(`/sendMessage/to/sb`,commObj);
+                        sendMessage.toSB(commObj)
                         break;
                     }
                 case 'getstate':
@@ -153,7 +155,7 @@
                 case 'loadwebsite':
                     {
                         // send to Mediator - hidden window
-                      util.publish(`/sendMessage/to/mediator`,msg);
+                        sendMessage.toMediator(msg)
                         break;
                     }
                 default:

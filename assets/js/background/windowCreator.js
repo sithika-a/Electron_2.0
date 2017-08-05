@@ -6,13 +6,6 @@
   Yes it is boilerplate code.
 *
 **/
-
-var path = require('path');
-
-var util=require(`./mainUtils.js`);
-var container=require(`./windowAccess.js`);
-console.log('IN windowAccess :'+container);
-
 var __BrowserWindow = getBrowserWindowConstructor();
 
     function getBrowserWindowConstructor() {
@@ -112,3 +105,8 @@ WindowCreator.prototype.hide = function() {
 };
 
 module.exports = WindowCreator;
+var path = require('path');
+
+var util=require('./mainUtils.js');
+var container=require('./windowAccess.js');
+console.log('IN windowAccess :'+container);

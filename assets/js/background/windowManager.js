@@ -1,13 +1,4 @@
-
-let WindowCreator = require(`./windowCreator.js`)
-let Thinclient= require(`../DAO/oldCommDAO.js`);
-let messageHandler=require('./mainMessaging.js');
-let container=require('./windowAccess.js');
-let menuActions = require('./menuActions.js');
-let util = require('./mainUtils.js');
-
-console.log('Container :'+container);
-var WindowManager = {
+let WindowManager = {
         name: "WindowManager",
         log() {
             console.log.apply(console, arguments);
@@ -29,7 +20,6 @@ var WindowManager = {
                 "minWidth": 1100,
                 "minHeight": 680,
                 "webPreferences": {
-                    preload: util.getHiddenWindowPreload(),
                     webSecurity: false,
                     allowRunningInsecureContent: true,
                     allowDisplayingInsecureContent: true
@@ -55,7 +45,6 @@ var WindowManager = {
                 "minHeight": 680,
                 "show": true,
                 "webPreferences": {
-                    "preload": util.getContainerPreload(),
                     "webSecurity": false,
                     "allowDisplayingInsecureContent": true,
                     "allowRunningInsecureContent": true
@@ -84,6 +73,7 @@ var WindowManager = {
             });
         },
         openV2Container(isShowWindow) {
+            console.log('open v2 ...',container)
             if (container.get('V2'))
                 return;
 
@@ -99,7 +89,6 @@ var WindowManager = {
                 "minWidth": 550,
                 "minHeight": 710,
                 "webPreferences": {
-                    preload: util.getContainerPreload(),
                     webSecurity: false,
                     allowRunningInsecureContent: true,
                     allowDisplayingInsecureContent: true
@@ -108,6 +97,8 @@ var WindowManager = {
             this.setV2Handler(v2Container.get());
         },
         setChatHandler(winRef) {
+            let messageHandler = require('./mainMessaging.js');
+console.log('messageHandler ',messageHandler)
             // winRef.on('minimize', () => {
                
             //     let _tc = new Thinclient('state');
@@ -162,7 +153,6 @@ var WindowManager = {
                 "minWidth": 1100,
                 "minHeight": 680,
                 "webPreferences": {
-                    preload: util.getContainerPreload(),
                     webSecurity: false,
                     allowRunningInsecureContent: true,
                     allowDisplayingInsecureContent: true
@@ -185,60 +175,11 @@ var WindowManager = {
                 "maxWidth": 170,
                 "maxHeight": 273,
                 "x": options ? options.x : 0,
-                "y": options ? options.y : 0,
-                "webPreferences": {
-                    preload: this.getPreloadUrl()
-                }
+                "y": options ? options.y : 0
             });
 
             if (parseInt(process.versions['electron'].split('.')[1]) < 36)
                 timerContainer.get().setAlwaysOnTop(true);
-        },
-        openSBMochaRunner() {
-            this.log('ChatContainer is getting opened !! ');
-            new WindowCreator('file://' + util.getFilePath() + '/tests/html/sbMochaRun.html', {
-                "title": "Mocha",
-                "width": 900,
-                "height": 600,
-                "fullscreen": false,
-                "kiosk": false,
-                "center": true,
-                "webPreferences": {
-                    preload: this.getPreloadUrl()
-                }
-            });
-        },
-        openSBJasmineRunner() {
-            this.log('openSBJasmineRunner is getting opened !! ');
-            new WindowCreator('file://' + util.getFilePath() + '/tests/jasmine/view/FULLJasmineRunner.html', {
-                "title": util.namespace.CONTAINER_CHAT + "-JasmineRunner",
-                "width": 1152,
-                "height": 700,
-                "fullscreen": false,
-                "kiosk": false,
-                "center": true,
-                "minWidth": 1060,
-                "minHeight": 680,
-                "show": true,
-                "webPreferences": {
-                    nodeIntegration: true,
-                    preload: this.getPreloadUrl(),
-                }
-            });
-        },
-        openV2MochaRunner() {
-            this.log('ChatContainer is getting opened !! ');
-            new WindowCreator('file://' + util.getFilePath() + '/tests/html/v2MochaRun.html', {
-                "title": "Mocha",
-                "width": 900,
-                "height": 600,
-                "fullscreen": false,
-                "kiosk": false,
-                "center": true,
-                "webPreferences": {
-                    preload: this.getPreloadUrl()
-                }
-            });
         },
         openWebsite(url) {
             this.log('openWebsite is getting opened !! ');
@@ -256,5 +197,10 @@ var WindowManager = {
         }
     };
 module.exports = WindowManager;
+// let Thinclient= require('../DAO/oldCommDAO.js');
+let WindowCreator = require('./windowCreator.js')
+let container=require('./windowAccess.js');
+let menuActions = require('./menuActions.js');
+let util = require('./mainUtils.js');
 
     

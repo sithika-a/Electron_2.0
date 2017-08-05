@@ -16,6 +16,7 @@
     "grunt-mkdir": "^1.0.0",
     "grunt-shell-spawn": "^0.3.10",
     "is-online": "^5.2.0",
+    "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "minimist": "^1.2.0",
     "moment-timezone": "latest",

@@ -1,34 +1,27 @@
 // let userInfo = null;
-var path = require(`path`);
-
 var util = {
     namespace: {
         channel: {
-            SB: `msg-to-FULL`, // SB container
-            CHAT: `msg-to-Chat`, // AnyWhereWorks container
-            V2: `msg-to-V2`, // v2 container
-            Mediator: `msg-to-Mediator`, // hidden Renderer
-            Main: `msg-to-Main` // BackGround
+            SB: 'msg-to-FULL', // SB container
+            CHAT: 'msg-to-Chat', // AnyWhereWorks container
+            V2: 'msg-to-V2', // v2 container
+            Mediator: 'msg-to-Mediator', // hidden Renderer
+            Main: 'msg-to-Main' // BackGround
         },
-        preload: {
-            container: `assets/js/preload/preloadContainer.js`,
-            mediator: `assets/js/preload/preloadHiddenWindow.js`,
-            webview: `assets/js/preload/preloadWebview.js`,
-        },
-        APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? `FULL` : `AnywhereWorks`, // "AnyWhereWorks || FULL" any branding app will behave based on it.
-        HIDDEN_CONTAINER: `HiddenWindow`,
-        CONTAINER_CHAT: `AnyWhereWorks`,
+        APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? 'FULL' : 'AnywhereWorks', // "AnyWhereWorks || FULL" any branding app will behave based on it.
+        HIDDEN_CONTAINER: 'HiddenWindow',
+        CONTAINER_CHAT: 'AnyWhereWorks',
         CONTAINER_CHAT_ALIAS: 'Chat',
         CONTAINER_SB: 'FULL',
         CONTAINER_V2: 'V2',
         CONTAINER_TIMER: 'Timer',
         CONTAINER_V2_SOFTPHONE: 'V2SoftPhone',
-        ZOOMIN: `ZoomIn`,
-        ZOOMOUT: `ZoomOut`,
-        ENABLE: `enable`,
-        DISABLE: `disable`,
-        BOTH: `Both`,
-        ALL: `All`,
+        ZOOMIN: 'ZoomIn',
+        ZOOMOUT: 'ZoomOut',
+        ENABLE: 'enable',
+        DISABLE: 'disable',
+        BOTH: 'Both',
+        ALL: 'All',
         ZOOMIN_LIMIT: 9,
         ZOOMOUT_LIMIT: -8,
         ZOOM_ACTUAL_SIZE: 0,
@@ -56,16 +49,10 @@ var util = {
 
     },
     getAppPath() {
-        return path.join(path.join(process.resourcesPath, `app`));
+        return path.join(path.join(process.resourcesPath, 'app'));
     },
     getFilePath() {
-        return (this.getConfig() && this.getConfig().mode == `code`) ? process.cwd() : this.getAppPath();
-    },
-    getContainerPreload() {
-        return path.join(this.getFilePath(), this.namespace.preload.container);
-    },
-    getHiddenWindowPreload() {
-        return path.join(this.getFilePath(), this.namespace.preload.mediator);
+        return (this.getConfig() && this.getConfig().mode == 'code') ? process.cwd() : this.getAppPath();
     },
     getManifest() {
         return require(path.join(this.getFilePath(), 'package.json')); // getting package json path
@@ -83,3 +70,5 @@ var util = {
 }
 
 module.exports = util;
+var path = require('path');
+

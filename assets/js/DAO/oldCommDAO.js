@@ -26,26 +26,7 @@ var namespace = {
         ZOOM_ACTUAL_SIZE: 0,
         ZOOM_FACTOR: 1
     }
-    // var namespace = {
-    //     APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? 'FULL' : 'AnywhereWorks', // "AnyWhereWorks || FULL" any branding app will behave based on it.
-    //     HIDDEN_CONTAINER :'HiddenWindow',
-    //     CONTAINER_CHAT: 'AnyWhereWorks',
-    //     CONTAINER_CHAT_ALIAS: 'Chat',
-    //     CONTAINER_SB: 'FULL',
-    //     CONTAINER_V2: 'V2',
-    //     CONTAINER_TIMER: 'Timer',
-    //     CONTAINER_V2_SOFTPHONE: 'V2SoftPhone',
-    //     ZOOMIN: 'ZoomIn',
-    //     ZOOMOUT: 'ZoomOut',
-    //     ENABLE: 'enable',
-    //     DISABLE: 'disable',
-    //     BOTH: 'Both',
-    //     ALL: 'All',
-    //     ZOOMIN_LIMIT: 9,
-    //     ZOOMOUT_LIMIT: -8,
-    //     ZOOM_ACTUAL_SIZE: 0,
-    //     ZOOM_FACTOR: 1
-    // }
+    
     /* Main Process Communication Object */
 function PostToBackground(operationType) {
     this.name = 'PostToBackground';

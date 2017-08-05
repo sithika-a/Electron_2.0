@@ -1,16 +1,14 @@
-let util = require('./mainUtils.js');
- let messageHandler=require('./mainMessaging.js');
-
 try {
-    if(global.sharedObject){
-        let argv = global.sharedObject.cliArgs;
-    if (argv && argv['disable-network-check'])
-        throw new Error('network check disabled')
+    
+    if (global.sharedObject) {
+        var argv = global.sharedObject.cliArgs;
+        if (argv && argv['disable-network-check'])
+            throw new Error('network check disabled')
     }
 
-    let isOnline = require('is-online');
-    let path = require('path');
-    let boot = {
+    var isOnline = require('is-online');
+    var path = require('path');
+    var boot = {
         getPromise: function(n) {
             if (!boot.promise) {
                 boot.promise = Promise.resolve(n);
@@ -24,17 +22,17 @@ try {
             }
         },
         getContainer: function() {
-            return messageHandler.getContainer(namespace.CONTAINER_CHAT);
+            return messageHandler.getContainer(utilities.namespace.CONTAINER_CHAT);
         },
         resetPromise: function() {
             boot.promise = null;
         },
-        loadURL: function(urlToLoad, isNWUp ) {
-            let container = boot.getContainer();
-            if (new RegExp(path.basename(container.webContents.getURL()), 'i').test(urlToLoad)){
-                container.send('webapp-nw',{
-                    name : 'networkBoot',
-                    isUp : isNWUp
+        loadURL: function(urlToLoad, isNWUp) {
+            var container = boot.getContainer();
+            if (new RegExp(path.basename(container.webContents.getURL()), 'i').test(urlToLoad)) {
+                container.send('webapp-nw', {
+                    name: 'networkBoot',
+                    isUp: isNWUp
                 });
                 return;
             }
@@ -42,11 +40,11 @@ try {
         },
         getDownURL: function() {
             return /^darwin/.test(process.platform) ?
-                'file://' + WindowManager.getFilePath() + '/view/wifi.html' :
-                'file://' + WindowManager.getFilePath() + '/view/ethernet.html';
+                'file://' + utilities.getFilePath() + '/view/wifi.html' :
+                'file://' + utilities.getFilePath() + '/view/ethernet.html';
         },
         getUpURL: function() {
-            return 'file://' + WindowManager.getFilePath() + '/view/AnywhereWorks.html';
+            return 'file://' + utilities.getFilePath() + '/view/AnywhereWorks.html';
         },
         start: function(cb) {
             this.stop()
@@ -57,7 +55,7 @@ try {
         stop: function() {
             clearInterval(boot.intervalID);
         },
-      
+
         isDownCB: function() {
             boot.setPromise(
                 boot.getPromise(0)
@@ -82,7 +80,7 @@ try {
                         // clear the promise
                         boot.resetPromise();
                         // load page.
-                        boot.loadURL(boot.getUpURL(),true);
+                        boot.loadURL(boot.getUpURL(), true);
                     }
                     return ++value;
                 })
@@ -96,21 +94,26 @@ try {
             else
                 boot.isDownCB();
         },
-        
+
     }
-    let public = {
+    var public = {
         init: function() {
             console.log('******* boot check started ********** ');
             isOnline(boot.callback);
             boot.start(boot.callback);
         },
-          reset: function() {
+        reset: function() {
             boot.stop();
             boot.resetPromise();
         }
 
     }
-module.exports = public;
+    module.exports = public;
+    var utilities = require('./mainUtils.js');
+    var messageHandler = require('./mainMessaging.js');
+    console.log('utilities  in network boot**** ', utilities)
+    var WindowManager = require('./windowManager.js');
+    console.log('WindowManager : ',WindowManager)
 
 } catch (e) {
     console.log('Error in network boot checker');

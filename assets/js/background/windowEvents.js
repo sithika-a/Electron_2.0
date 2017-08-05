@@ -1,4 +1,3 @@
-
 let windowEvents = {
     eventHandler: function(container, eType, paramsObj) {
         console.log('container  :',container)
@@ -82,5 +81,4 @@ let windowEvents = {
             }
     }
 }
-
     module.exports = windowEvents;

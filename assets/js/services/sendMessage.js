@@ -1,54 +1,51 @@
-((R, util) => {
-   
-    let sendMessage = {
-        contructMessage(actualMessage, channel) {
-            console.log('actualMessage : ', actualMessage)
+(()=>{
+    let emitter = require('../../comm/messenger-container.js');
+  let contructMessage = (actualMessage, channel) => {
+     console.log('actualMessage : ', actualMessage)
             var WindowMessaging = require(path.join(process.cwd(), `assets/comm/proto/message-proto.js`))
             var msg = new WindowMessaging();
             msg.info = actualMessage;
             msg.metaData.src.moduleName = actualMessage.moduleName || actualMessage.name;
             msg.metaData.dest.channel = channel;
             console.log('contructMessage  : ', msg)
-
             return msg;
-        },
-        isValidMsg(message) {
-            return (message && typeof message == 'object') ? true : false;
-        },
-        toMediator(message) {
-            if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.Mediator));
+   }
+    let isValid = message => (message && typeof message == 'object') ? true : false;
+    let sendMessage = {
+           toMediator(message) {
+            if (isValid(message)) emitter.sendToMediator(contructMessage(message, namespace.channel.Mediator));
         },
         toMain(message) {
-            console.log('isValidMsg in  send to main ...', FULLClient.emitter.sendToMediator)
-            if (this.isValidMsg(message)) FULLClient.emitter.sendToMediator.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.Main));
+            console.log('isValid in  send to main ...', emitter.sendToMediator)
+            if (isValid(message)) emitter.sendToMediator(contructMessage(message, namespace.channel.Main));
         },
         toSB(message) {
             console.log('Sending to SB ',message);
-            if (this.isValidMsg(message)){
+            if (isValid(message)){
              console.log('Received in SB');
-            // console.log( FULLClient.emitter.sendToMediator.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.SB)));
-             FULLClient.emitter.sendToMediator.call(FULLClient.emitter,this.contructMessage(message, namespace.channel.SB));
+             emitter.sendToMediator(contructMessage(message, namespace.channel.SB));
          }
         },
         toChat(message) {
-            console.log('what is emitter obj ? ', FULLClient.emitter)
+            console.log('what is emitter obj ? ', emitter)
 
-            if (this.isValidMsg(message)) {
-                console.log('isValidMsg in  send to chat ...', FULLClient.emitter.sendToMediator)
+            if (isValid(message)) {
+                console.log('isValid in  send to chat ...', emitter.sendToMediator)
 
-                FULLClient.emitter.sendToMediator.call(FULLClient.emitter, this.contructMessage(message, namespace.channel.CHAT));
+                emitter.sendToMediator(contructMessage(message, namespace.channel.CHAT));
             }
         },
         toV2(message) {
-            if (this.isValidMsg(message)){
+            if (isValid(message)){
                 console.log("In send message to v2 :",message);
-             FULLClient.emitter.sendToMediator(this.contructMessage(message, namespace.channel.V2));
+             emitter.sendToMediator(contructMessage(message, namespace.channel.V2));
          }
         },
         toWebview(message) {
-            FULLClient.emitter.toWebview(message);
+            emitter.toWebview(message);
         }
     }
+    // module.exports = sendMessage;
     util.subscribe(`/sendMessage/to/mediator`, sendMessage, sendMessage.toMediator);
     util.subscribe(`/sendMessage/to/main`, sendMessage, sendMessage.toMain);
     util.subscribe(`/sendMessage/to/sb`, sendMessage, sendMessage.toSB);
@@ -56,4 +53,5 @@
     util.subscribe(`/sendMessage/to/v2`, sendMessage, sendMessage.toV2);
     util.subscribe(`/sendMessage/to/timer`, sendMessage, sendMessage.toTimer);
     util.subscribe(`/sendMessage/to/webview`, sendMessage, sendMessage.toWebview);
-})(window, util);
+
+  })(window,util);
