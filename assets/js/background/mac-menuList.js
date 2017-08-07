@@ -1,4 +1,3 @@
-      let menuActions = require('./menuActions') 
      let darwinMenuList = [{
         label: "Application",
         submenu: [{
@@ -10,7 +9,6 @@
             label: "Check for Updates...",
             click: function() {
                 menuActions.checkForUpdates();
-                // Emitter.emit('checkForUpdates');
             }
         }, {
             label: "Hide AnyWhereWorks",
@@ -66,23 +64,18 @@
             accelerator: "Command+Plus",
             click: function(item, focusedWindow) {
                                                 menuActions.zoomIn(focusedWindow);
-
-                // Emitter.emit('zoomIn', focusedWindow);
             }
         }, {
             label: "Zoom Out",
             accelerator: "Command+-",
             click: function(item, focusedWindow) {
                                 menuActions.zoomOut(focusedWindow);
-
-                // Emitter.emit('zoomOut', focusedWindow);
             }
         }, {
             label: "Actual Size",
             accelerator: "Command+o",
             click: function(item, focusedWindow) {
                 menuActions.resetZoom(focusedWindow);
-                // Emitter.emit('resetZoom', focusedWindow);
             }
         }]
     }, {
@@ -118,4 +111,4 @@
         }]
     }];
     module.exports = darwinMenuList;
-
+let menuActions = require('./menuActions');

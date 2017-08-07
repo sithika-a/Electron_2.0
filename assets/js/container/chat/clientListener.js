@@ -1,6 +1,3 @@
-let sendMessage = require('../../services/sendMessage.js')
-
-
 ((R, util, FULLClient) => {
     let clientlistener = {
         name : `clientListener`,

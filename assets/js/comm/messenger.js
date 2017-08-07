@@ -63,19 +63,19 @@ let public = {
     },
     sendToMain(msg) {
         console.log('publish to main in messenger...', msg)
-        this.publish(this.channel.Main, msg)
+        this.publish(messenger.channel.Main, msg)
     },
     sendToV2(msg) {
-        this.publish(this.channel.V2, msg);
+        this.publish(messenger.channel.V2, msg);
     },
     sendToMediator(msg) {
-        this.publish(this.channel.Mediator, msg);
+        this.publish(messenger.channel.Mediator, msg);
     },
     sendToChat(msg) {
-        this.publish(this.channel.CHAT, msg);
+        this.publish(messenger.channel.CHAT, msg);
     },
     sendToSB(msg) {
-        this.publish(this.channel.SB, msg);
+        this.publish(messenger.channel.SB, msg);
     }
 }
 

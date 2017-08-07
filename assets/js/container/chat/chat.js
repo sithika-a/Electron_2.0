@@ -1,6 +1,5 @@
 console.log('Chat container...', nwUserAgent);
 
-let sendMessage = require('../../services/sendMessage.js')
 /**
  * Developer shortcut
  */
@@ -350,7 +349,7 @@ let sendMessage = require('../../services/sendMessage.js')
     }
 
 
-    FULLClient.emitter.subscribe(namespace.channel.CHAT, chat.messageListener);
+    emitter.subscribe(namespace.channel.CHAT, chat.messageListener);
 
     util.subscribe('/chat/postToWebview', chat, chat.postToWebview);
     util.subscribe('/chat/reloadChat', chat, chat.reloadchat);

@@ -1,5 +1,4 @@
-// let userInfo = null;
-var util = {
+let util = {
     namespace: {
         channel: {
             SB: 'msg-to-FULL', // SB container
@@ -29,12 +28,6 @@ var util = {
     },
     userInfo: null,
     config: null,
-    setUserInfo(info) {
-        this.userInfo = info;
-    },
-    getUserInfo() {
-        return this.userInfo
-    },
     getConfig() {
         if (!this.config) {
             try {
@@ -70,5 +63,4 @@ var util = {
 }
 
 module.exports = util;
-var path = require('path');
-
+let path = require('path');

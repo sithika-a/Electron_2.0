@@ -1,12 +1,11 @@
-
 let messageHandler = {
     name: 'mainMessagingModule',
     log(...args) {
         // let tmp = [].slice.call(arguments);
         // tmp.splice(0, 0, '[' + this.name + '] : ');
-        console.log.apply(console, [this.name,args]);
+        console.log.apply(console, [this.name, args]);
     },
-    passInfo (containerTitle, msg) {
+    passInfo(containerTitle, msg) {
         // console.log(' container in passInfo  :',container.get)
         if (typeof containerTitle == 'string' && typeof msg == 'object') {
             let targetWindow = container.get(containerTitle);
@@ -15,17 +14,17 @@ let messageHandler = {
             }
         }
     },
-    decider (info) {
-         if (info  && info.actionType) {
-        this.log('Decider Block : ',info.actionType);
-        // this.log('Information :',info);
-       
+    decider(info) {
+        if (info && info.actionType) {
+            this.log('Decider Block : ', info.actionType);
+            // this.log('Information :',info);
+
             switch (info.actionType) {
-                case "menuActions":
-                    {
-                        menuActions.switchZoomUI(info.opt);
-                        break;
-                    }
+                // case "menuActions":
+                //     {
+                //         menuActions.switchZoomUI(info.opt);
+                //         break;
+                //     }
                 case "transerInfo":
                     {
                         this.transerInfo(msg);
@@ -34,7 +33,7 @@ let messageHandler = {
                 case "userInfo":
                     {
                         console.log('USER INFO... block')
-                        
+
                         util.userInfo = info.userObj;
                         canQuitApp = false;
                         // moduleStarter.skillBasedLoader();
@@ -42,102 +41,100 @@ let messageHandler = {
                     }
                 case "init":
                     {
-                        console.log('init message',JSON.stringify(info))
-                        // Emitter.emit('attachAppListeners');
+                        console.log('init message', JSON.stringify(info))
                         break;
                     }
-                case "appQuit":
-                    {
-                        // Unhide all windows
-                        // show the last window on top
-                        canQuitApp = true;
-                        this.passInfo('Chat', msg);
-                        this.passInfo('V2', msg);
-                        this.passInfo(util.namespace.CONTAINER_TIMER, msg);
-                        // Making No more message reach from main daemon
-                        // thread to any other browser windows.
-                        this.passInfo = function() {};
-                        break;
-                    }
-                case "bounce":
-                    {
-                        this.bounce(info.opt);
-                        break;
-                    }
-                case "dockHide":
-                    {
-                        this.hideDockIcon(info.opt);
-                        break;
-                    }
-                case "setBadge":
-                    {
-                        this.setBadge(info.count);
-                        break;
-                    }
-                case "setOverlayIcon":
-                    {
-                        this.setOverlayIcon(info);
-                        break;
-                    }
-                case "getState":
-                    {
-                        let _tc = new Thinclient();
-                        this.passInfo('Chat', _tc);
-                        break;
-                    }
+                // case "appQuit":
+                //     {
+                //         // Unhide all windows
+                //         // show the last window on top
+                //         canQuitApp = true;
+                //         this.passInfo('Chat', msg);
+                //         this.passInfo('V2', msg);
+                //         this.passInfo(util.namespace.CONTAINER_TIMER, msg);
+                //         // Making No more message reach from main daemon
+                //         // thread to any other browser windows.
+                //         this.passInfo = function() {};
+                //         break;
+                //     }
+                // case "bounce":
+                //     {
+                //         this.bounce(info.opt);
+                //         break;
+                //     }
+                // case "dockHide":
+                //     {
+                //         this.hideDockIcon(info.opt);
+                //         break;
+                //     }
+                // case "setBadge":
+                //     {
+                //         this.setBadge(info.count);
+                //         break;
+                //     }
+                // case "setOverlayIcon":
+                //     {
+                //         this.setOverlayIcon(info);
+                //         break;
+                //     }
+                // case "getState":
+                //     {
+                //         let _tc = new Thinclient();
+                //         this.passInfo('Chat', _tc);
+                //         break;
+                //     }
                 case "windowEvents":
                     {
                         console.log('Reached window events');
                         let _container;
-                        if (info.id && parseInt(info.id)){
+                        if (info.id && parseInt(info.id)) {
 
                             _container = container.getById(info.id);
-                            console.log('In if case :'+_container);
-                        }
-                        else
+                            console.log('In if case :' + _container);
+                        } else
                             _container = container.get(info.title);
-                            console.log('In else case :'+_container);
+                        console.log('In else case :' + _container);
 
                         windowEventsController.eventHandler(_container, info.opt, info.paramObj);
                         // msg.title  may be Chat ,V2,FULL
                         // msg.opt may be window events like boutnce,enableontop etc
                         break;
                     }
-                case "activateNewV2":
-                    {
-                        this.log('New v2 switch is on..')
-                        ipc.removeAllListeners('msg-to-V2');
-                        FULLClient.emitter.subscribe('msg-to-V2', messageHandler.v2NewHandler);
-                        /**
-                         * Switch to new v2 handlers.
-                         */
-                        break;
-                    }
-                case "activateOldV2":
-                    {
-                        this.log('New v2 switch is off..')
-                        ipc.removeAllListeners('msg-to-V2');
-                        FULLClient.emitter.subscribe('msg-to-V2', messageHandler.v2OldHandler);
-                        /**
-                         * Switch to new v2 handlers.
-                         */
-                        break;
-                    }
-                case "loadWebsiteInNewWindow":
-                    {
-                        WindowManager.openWebsite(msg.url);
-                        break;
-                    }
-                case "reloadV2":
-                    {
-                        this.passInfo('V2', msg);
-                        break;
-                    }
-                case "open":
-                    {
-                        container.open(msg);
-                        break;
-                    }
+                // case "activateNewV2":
+                //     {
+                //         this.log('New v2 switch is on..')
+                //         ipc.removeAllListeners('msg-to-V2');
+                //         FULLClient.emitter.subscribe('msg-to-V2', messageHandler.v2NewHandler);
+                //         /**
+                //          * Switch to new v2 handlers.
+                //          */
+                //         break;
+                //     }
+                // case "activateOldV2":
+                //     {
+                //         this.log('New v2 switch is off..')
+                //         ipc.removeAllListeners('msg-to-V2');
+                //         FULLClient.emitter.subscribe('msg-to-V2', messageHandler.v2OldHandler);
+                //         /**
+                //          * Switch to new v2 handlers.
+                //          */
+                //         break;
+                //     }
+                // case "loadWebsiteInNewWindow":
+                //     {
+                //         WindowManager.openWebsite(msg.url);
+                //         break;
+                //     }
+                // case "reloadV2":
+                //     {
+                //         this.passInfo('V2', msg);
+                //         break;
+                //     }
+                // case "open":
+                //     {
+                //         container.open(msg);
+                //         break;
+                //     }
                 case "reLogin":
                     {
                         util.userInfo = {};
@@ -146,92 +143,92 @@ let messageHandler = {
                         this.passInfo('Chat', msg);
                         this.passInfo('V2', msg);
                         this.passInfo(util.namespace.CONTAINER_TIMER, msg);
-                        networkBoot.init();
+                        // networkBoot.init();
                         break;
                     }
-                case "isRestored":
-                    {
-                        if (msg.container) {
-                            switch (msg.container) {
-                                case util.namespace.CONTAINER_V2:
-                                    {
-                                        crashManager.track.isV2 = false;
-                                        break;
-                                    }
-                                case util.namespace.CONTAINER_SB:
-                                    {
-                                        crashManager.track.isSB = false;
-                                        break;
-                                    }
-                                case util.namespace.CONTAINER_CHAT:
-                                    {
-                                        crashManager.track.isChat = false;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        console.warn('Track : ', msg);
-                                        break;
-                                    }
-                            }
-                        }
-                        break;
-                    }
-                case 'isCrashed':
-                    {
-                        if (msg.container) {
-                            switch (msg.container) {
-                                case util.namespace.CONTAINER_V2:
-                                    {
-                                        this.passInfo(util.namespace.CONTAINER_V2, {
-                                            name: 'crashed',
-                                            crashed: crashManager.track.isV2
-                                        });
-                                        break;
-                                    }
-                                case util.namespace.CONTAINER_SB:
-                                    {
-                                        this.passInfo(util.namespace.CONTAINER_SB, {
-                                            name: 'crashed',
-                                            crashed: crashManager.track.isSB
-                                        });
-                                        break;
-                                    }
-                                case util.namespace.CONTAINER_CHAT:
-                                    {
-                                        this.passInfo(util.namespace.CONTAINER_CHAT, {
-                                            name: 'crashed',
-                                            crashed: crashManager.track.isChat
-                                        });
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        console.warn('Track : ', msg);
-                                        break;
-                                    }
-                            }
-                        }
-                        break;
-                    }
-                case "dummyMessage":
-                    {
-                        msg.isReply = true;
-                        this.passInfo('FULL', msg);
-                        this.passInfo('Chat', msg);
-                        this.passInfo('V2', msg);
-                        break;
-                    }
-                case "crashReporter":
-                    {
-                        if (msg.source) {
-                            this.passInfo(msg.source, {
-                                name: 'crashReporter',
-                                port: crashReportServer.port
-                            });
-                        }
-                        break;
-                    }
+                // case "isRestored":
+                //     {
+                //         if (msg.container) {
+                //             switch (msg.container) {
+                //                 case util.namespace.CONTAINER_V2:
+                //                     {
+                //                         crashManager.track.isV2 = false;
+                //                         break;
+                //                     }
+                //                 case util.namespace.CONTAINER_SB:
+                //                     {
+                //                         crashManager.track.isSB = false;
+                //                         break;
+                //                     }
+                //                 case util.namespace.CONTAINER_CHAT:
+                //                     {
+                //                         crashManager.track.isChat = false;
+                //                         break;
+                //                     }
+                //                 default:
+                //                     {
+                //                         console.warn('Track : ', msg);
+                //                         break;
+                //                     }
+                //             }
+                //         }
+                //         break;
+                //     }
+                // case 'isCrashed':
+                //     {
+                //         if (msg.container) {
+                //             switch (msg.container) {
+                //                 case util.namespace.CONTAINER_V2:
+                //                     {
+                //                         this.passInfo(util.namespace.CONTAINER_V2, {
+                //                             name: 'crashed',
+                //                             crashed: crashManager.track.isV2
+                //                         });
+                //                         break;
+                //                     }
+                //                 case util.namespace.CONTAINER_SB:
+                //                     {
+                //                         this.passInfo(util.namespace.CONTAINER_SB, {
+                //                             name: 'crashed',
+                //                             crashed: crashManager.track.isSB
+                //                         });
+                //                         break;
+                //                     }
+                //                 case util.namespace.CONTAINER_CHAT:
+                //                     {
+                //                         this.passInfo(util.namespace.CONTAINER_CHAT, {
+                //                             name: 'crashed',
+                //                             crashed: crashManager.track.isChat
+                //                         });
+                //                         break;
+                //                     }
+                //                 default:
+                //                     {
+                //                         console.warn('Track : ', msg);
+                //                         break;
+                //                     }
+                //             }
+                //         }
+                //         break;
+                //     }
+                // case "dummyMessage":
+                //     {
+                //         msg.isReply = true;
+                //         this.passInfo('FULL', msg);
+                //         this.passInfo('Chat', msg);
+                //         this.passInfo('V2', msg);
+                //         break;
+                //     }
+                // case "crashReporter":
+                //     {
+                //         if (msg.source) {
+                //             this.passInfo(msg.source, {
+                //                 name: 'crashReporter',
+                //                 port: crashReportServer.port
+                //             });
+                //         }
+                //         break;
+                //     }
                 default:
                     {
                         break;
@@ -239,14 +236,14 @@ let messageHandler = {
             }
         }
     },
-      setBadge: function(count) {
+    setBadge: function(count) {
         if (/^darwin/.test(process.platform)) {
             count ?
                 app.dock.setBadge(count.toString()) :
                 app.dock.setBadge('');
         }
     },
-     setOverlayIcon: function(msg) {
+    setOverlayIcon: function(msg) {
         try {
             if (/^win32/.test(process.platform) && msg) {
 
@@ -301,23 +298,18 @@ let messageHandler = {
     }
 };
 
- 
-   module.exports = messageHandler;
+messenger.subscribe(util.namespace.channel.Main, (event) => {
+    console.log('Subscribing :' + event.data.info);
+    messageHandler.mainHandler(event.data.info);
+
+});
+
+module.exports = messageHandler;
 
 let util = require('./mainUtils.js');
 let messenger = require('../../comm/messenger.js');
-console.log('messenger : ',messenger)
 let windowEventsController = require('./windowEvents.js');
 let container = require('./windowAccess.js');
 let moduleStarter = require('./mainModuleLoader.js');
-let networkBoot = require('./networkBoot.js');
-let menuActions = require('./menuActions.js');
-
-console.log('How many times i m subscribing...')
-  messenger.subscribe(util.namespace.channel.Main, (event) => {
-    // console.log('Subscribing :'+event.data.info);
-    messageHandler.mainHandler(event.data.info);
-
-    });
-
-
+// let networkBoot = require('./networkBoot.js');
+// let menuActions = require('./menuActions.js');

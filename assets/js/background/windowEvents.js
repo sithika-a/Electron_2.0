@@ -67,8 +67,8 @@ let windowEvents = {
                     }
                 case "bounce":
                     {
-                        if(paramsObj.platform == `darwin`){
-                            paramsObj.isContinuous ? app.dock.bounce(`critical`) : app.dock.bounce();
+                        if(paramsObj.platform == 'darwin'){
+                            paramsObj.isContinuous ? app.dock.bounce('critical') : app.dock.bounce();
                         }else {
                             container.flashFrame(true);
                         }

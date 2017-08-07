@@ -47,25 +47,27 @@ module.exports = function(grunt) {
             //     }
             // },
             hiddenWindow: {
-                command: 'uglifyjs assets/comm/messenger-mediator.js' +
+                command: 'uglifyjs  assets/js/preload/preload.js'+ 
+                     ' assets/js/comm/messenger-mediator.js' +
                     ' assets/js/container/hiddenWindow.js' + 
                     ' assets/js/services/global.js' +
-                    ' assets/comm/proto/message-proto.js' +
+                    ' assets/js/comm/proto/message-proto.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
                     async: false
                 }
             },
-               web: {
-                command: 'uglifyjs assets/comm/messenger-container.js' 
+               web: { 
+                command: 'uglifyjs assets/js/preload/preload.js'
+                   + ' assets/js/comm/messenger-container.js' 
                    + ' assets/js/services/global.js'
                    + ' assets/extra/common-banner.js' 
                    + ' assets/js/services/utilities.js' 
                    + ' assets/js/DAO/userDAO.js'
                    + ' assets/js/services/sendMessage.js'
                    + ' assets/js/DAO/oldCommDAO.js'
-                   + ' assets/comm/proto/message-proto.js'
+                   + ' assets/js/comm/proto/message-proto.js'
                    + ' assets/js/DAO/statusPanelDAO.js'
                    + ' assets/js/DAO/goClockDAO.js' 
                    + ' assets/js/container/web/web.js'
@@ -110,15 +112,16 @@ module.exports = function(grunt) {
                     async: false
                 }
             },
-            chat: {
-                command: 'uglifyjs assets/comm/messenger-container.js'+
+            chat: { 
+                command: 'uglifyjs assets/js/preload/preload.js'+
+                    ' assets/js/comm/messenger-container.js' +
                     ' assets/js/services/global.js' +
-                    ' assets/extra/common-banner.js' +
+                    ' assets/extra/common-banner.js ' +
                     ' assets/js/services/utilities.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/js/DAO/userDAO.js' +
                     ' assets/js/services/sendMessage.js' +
-                    ' assets/comm/proto/message-proto.js' +
+                    ' assets/js/comm/proto/message-proto.js' +
                     ' assets/js/services/fullAuth.js' +
                     ' assets/js/container/chat/chat.js' +
                     ' assets/js/container/chat/clientListener.js' +
@@ -146,7 +149,7 @@ module.exports = function(grunt) {
                 }
             },
                  v2: {
-                     command: 'uglifyjs assets/comm/messenger-container.js'
+                     command: 'uglifyjs assets/js/comm/messenger-container.js'
                         + ' assets/js/services/global.js' 
                         + ' assets/js/DAO/oldCommDAO.js' 
                         + ' assets/js/services/utilities.js'

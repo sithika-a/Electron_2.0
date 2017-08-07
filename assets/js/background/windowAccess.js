@@ -1,13 +1,3 @@
-let getBrowserWindowConstructor = () => {
-    if (require && typeof window == "undefined") {
-        return require('electron').BrowserWindow;
-    } else if (FULLClient.require) {
-        let remote = util.getRemote();
-        return require('electron').remote.BrowserWindow;
-    }
-};
-let __BrowserWindow = getBrowserWindowConstructor();
-
 let windowAccess = {
     name: 'WindowAccess',
     cache: {
@@ -50,14 +40,9 @@ let windowAccess = {
     },
     set(title) {
         if (title) {
-            console.log('Reached to set the title :', this.cache[title]);
-            // console.log('Getting the target :',this.getTarget({
-            //     "title": title
-            // }));
             this.cache[title] = this.getTarget({
                 "title": title
             });
-            console.log('The title setted was :', this.cache[title]);
             return this.cache[title];
         }
 
@@ -69,10 +54,10 @@ let windowAccess = {
         }
     },
     getAll() {
-        return typeof __BrowserWindow != 'undefined' ? __BrowserWindow.getAllWindows() : [];
+        return typeof BrowserWindow != 'undefined' ? BrowserWindow.getAllWindows() : [];
     },
     getById(id) {
-        return (parseInt(id) && typeof __BrowserWindow != 'undefined') ? __BrowserWindow.fromId(id) : false;
+        return (parseInt(id) && typeof BrowserWindow != 'undefined') ? BrowserWindow.fromId(id) : false;
     },
     getTarget(lTarget) {
         let targetArray = this.getAll();
@@ -134,6 +119,8 @@ let windowAccess = {
     }
 }
 module.exports = windowAccess;
+const {BrowserWindow} = require('electron');
+
 let path = require('path');
 let util = require('./mainUtils.js');
 let WindowManager = require('./windowManager.js');

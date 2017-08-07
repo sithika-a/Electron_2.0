@@ -1,8 +1,7 @@
-(()=>{
-    let emitter = require('../../comm/messenger-container.js');
+((R)=>{
   let contructMessage = (actualMessage, channel) => {
      console.log('actualMessage : ', actualMessage)
-            var WindowMessaging = require(path.join(process.cwd(), `assets/comm/proto/message-proto.js`))
+            var WindowMessaging = require(path.join(process.cwd(), `assets/js/comm/proto/message-proto.js`))
             var msg = new WindowMessaging();
             msg.info = actualMessage;
             msg.metaData.src.moduleName = actualMessage.moduleName || actualMessage.name;
@@ -45,13 +44,14 @@
             emitter.toWebview(message);
         }
     }
+    let commPhrase = `/sendMessage/to/`
     // module.exports = sendMessage;
-    util.subscribe(`/sendMessage/to/mediator`, sendMessage, sendMessage.toMediator);
-    util.subscribe(`/sendMessage/to/main`, sendMessage, sendMessage.toMain);
-    util.subscribe(`/sendMessage/to/sb`, sendMessage, sendMessage.toSB);
-    util.subscribe(`/sendMessage/to/chat`, sendMessage, sendMessage.toChat);
-    util.subscribe(`/sendMessage/to/v2`, sendMessage, sendMessage.toV2);
-    util.subscribe(`/sendMessage/to/timer`, sendMessage, sendMessage.toTimer);
-    util.subscribe(`/sendMessage/to/webview`, sendMessage, sendMessage.toWebview);
+    util.subscribe(`${commPhrase}mediator`, sendMessage, sendMessage.toMediator);
+    util.subscribe(`${commPhrase}main`, sendMessage, sendMessage.toMain);
+    util.subscribe(`${commPhrase}sb`, sendMessage, sendMessage.toSB);
+    util.subscribe(`${commPhrase}chat`, sendMessage, sendMessage.toChat);
+    util.subscribe(`${commPhrase}v2`, sendMessage, sendMessage.toV2);
+    util.subscribe(`${commPhrase}timer`, sendMessage, sendMessage.toTimer);
+    util.subscribe(`${commPhrase}webview`, sendMessage, sendMessage.toWebview);
 
   })(window,util);

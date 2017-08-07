@@ -332,6 +332,7 @@ util.publish = function(scheme, context) {
 };
 
 util.subscribe = function(scheme, context) {
+    console.log('scheme : ',scheme, ': context',context )
     amplify.subscribe.apply(amplify, arguments);
 };
 

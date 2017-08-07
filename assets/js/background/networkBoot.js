@@ -1,14 +1,14 @@
 try {
     
     if (global.sharedObject) {
-        var argv = global.sharedObject.cliArgs;
+        let argv = global.sharedObject.cliArgs;
         if (argv && argv['disable-network-check'])
             throw new Error('network check disabled')
     }
 
-    var isOnline = require('is-online');
-    var path = require('path');
-    var boot = {
+    let isOnline = require('is-online');
+    let path = require('path');
+    let boot = {
         getPromise: function(n) {
             if (!boot.promise) {
                 boot.promise = Promise.resolve(n);
@@ -28,7 +28,7 @@ try {
             boot.promise = null;
         },
         loadURL: function(urlToLoad, isNWUp) {
-            var container = boot.getContainer();
+            let container = boot.getContainer();
             if (new RegExp(path.basename(container.webContents.getURL()), 'i').test(urlToLoad)) {
                 container.send('webapp-nw', {
                     name: 'networkBoot',
@@ -96,7 +96,7 @@ try {
         },
 
     }
-    var public = {
+    let public = {
         init: function() {
             console.log('******* boot check started ********** ');
             isOnline(boot.callback);
@@ -109,11 +109,9 @@ try {
 
     }
     module.exports = public;
-    var utilities = require('./mainUtils.js');
-    var messageHandler = require('./mainMessaging.js');
-    console.log('utilities  in network boot**** ', utilities)
-    var WindowManager = require('./windowManager.js');
-    console.log('WindowManager : ',WindowManager)
+    let utilities = require('./mainUtils.js');
+    let messageHandler = require('./mainMessaging.js');
+    let WindowManager = require('./windowManager.js');
 
 } catch (e) {
     console.log('Error in network boot checker');

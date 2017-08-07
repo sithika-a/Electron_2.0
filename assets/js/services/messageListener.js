@@ -357,7 +357,7 @@
         }
     
     var ipc = FULLClient.require('electron').ipcRenderer;
-     FULLClient.emitter.subscribe(namespace.channel.SB, sb.messageListener);
+     emitter.subscribe(namespace.channel.SB, sb.messageListener);
      console.log('Before subscribing');
     //util.subscribe('/sendMessage/to/sb', sb.messageListener);
     util.subscribe('/msgModule/handler/', msgModule, msgModule.proxy);
