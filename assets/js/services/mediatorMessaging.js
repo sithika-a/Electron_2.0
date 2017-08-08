@@ -4,7 +4,7 @@
           switch (message.metaData.dest.channel) {
               case namespace.channel.Mediator:
                   {
-                      console.log(`Message received for hidden window : `, msg);
+                      console.log('Message received for hidden window : ', msg);
                       this.getMatch(msg);
                       break;
                   }
@@ -54,15 +54,8 @@
       decider(event) {
           let msg = event.data;
           console.debug(`ACK : Actual Message : ${JSON.stringify(msg.info)} : src : ${JSON.stringify(msg.metaData.src)} : dest : src : ${JSON.stringify(msg.metaData.dest)}`);
-          if (msg.metaData.dest.channel == namespace.channel.Mediator) {
-              console.log('Message to Mediator : ');
-
-              this.toSelf(msg);
-          } else {
               console.log('Message to others : ', msg);
-
               this.passInfo(msg)
-          }
       }
   }
 
