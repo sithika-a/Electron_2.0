@@ -46,6 +46,13 @@ module.exports = function(grunt) {
             //         async: false
             //     }
             // },
+            preloadWebview: {
+                command: 'uglifyjs  assets/js/preload/preload.js'+ 
+                    ' assets/js/preload/preloadWeb.js -o compiled/preloadWebview.min.js',
+                options: {
+                    async: false
+                }
+            },
             hiddenWindow: {
                 command: 'uglifyjs  assets/js/preload/preload.js'+ 
                      ' assets/js/comm/messenger-mediator.js' +

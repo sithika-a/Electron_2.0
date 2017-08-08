@@ -59,7 +59,7 @@
                  // this.setPreload(FULLClient.getAsarPath() + '/webPreload.min.js');
 
                 
-                this.setPreload('../assets/js/preload/preloadWebview.js');
+                this.setPreload('../compiled/preloadWebview.min.js');
                 this.setNewWinPolicy(webviewController.checkBrowserCompatible);
                 // this.setNewWinPolicy(webviewController.openNewWindow);
                 this.setMediaControl();
@@ -171,9 +171,7 @@
             }
         },
         setPreload: function(preloadScriptPath) {
-            if (this.isNWCompatible()) {
                 this.getView().setAttribute('preload', preloadScriptPath || '../asar/full.asar/webPreload.min.js');
-            }
         },
         setLoadstart: function(cb) {
             if (cb && this.isNWCompatible()) {
