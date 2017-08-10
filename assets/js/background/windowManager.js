@@ -1,3 +1,9 @@
+// let Thinclient= require('../DAO/oldCommDAO.js');
+let WindowCreator = require('./windowCreator.js')
+let container = require('./windowAccess.js');
+// let menuActions = require('./menuActions.js');
+let util = require('./mainUtils.js');
+
 let WindowManager = {
     name: "WindowManager",
     openHiddenContainer(state) {
@@ -196,8 +202,3 @@ let WindowManager = {
     }
 };
 module.exports = WindowManager;
-// let Thinclient= require('../DAO/oldCommDAO.js');
-let WindowCreator = require('./windowCreator.js')
-let container = require('./windowAccess.js');
-// let menuActions = require('./menuActions.js');
-let util = require('./mainUtils.js');

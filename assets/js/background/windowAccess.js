@@ -1,3 +1,8 @@
+const {BrowserWindow} = require('electron');
+
+let path = require('path');
+let util = require('./mainUtils.js');
+let WindowManager = require('./windowManager.js');
 let windowAccess = {
     name: 'WindowAccess',
     cache: {
@@ -119,8 +124,3 @@ let windowAccess = {
     }
 }
 module.exports = windowAccess;
-const {BrowserWindow} = require('electron');
-
-let path = require('path');
-let util = require('./mainUtils.js');
-let WindowManager = require('./windowManager.js');

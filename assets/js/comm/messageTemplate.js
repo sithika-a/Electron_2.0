@@ -1,10 +1,11 @@
 module.exports = function WindowMessaging() {
-   this.name = `WindowMessaging`;
+   this.name = 'WindowMessaging';
+   this.eventType = ''; // Define the data
    this.metaData = {
-        messagingProtocol: `eventEmitter`,
+        messagingProtocol: 'eventEmitter',
         src: {
             windowName: util.window.getName(), // window name
-            moduleName: null,//`StatusPanel`
+            moduleName: null,//'StatusPanel'
         },
         dest: {
             name: null, //  window name : 'V2'

@@ -3,7 +3,7 @@
     let domain = location.host || location.href;
     let path = require('path');
     console.debug('Domain :', domain);
-    const winCommunicator = require('electron').remote.require(path.join(process.cwd(), '/assets/js/comm/messenger.js'));
+    const winCommunicator = require('electron').remote.require(path.join(process.cwd(), '/assets/js/comm/eventBus.js'));
     let isValid = msg => {
         if (msg && typeof msg == 'object') {
             return msg;

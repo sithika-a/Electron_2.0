@@ -332,7 +332,6 @@ util.publish = function(scheme, context) {
 };
 
 util.subscribe = function(scheme, context) {
-    console.log('scheme : ',scheme, ': context',context )
     amplify.subscribe.apply(amplify, arguments);
 };
 
@@ -1007,7 +1006,6 @@ util.windowEvents = {
         if (msg) {
             console.log('is msg present ? ',msg)
             util.publish(`/sendMessage/to/main`,msg);
-            //messenger.broadCast(namespace.channel.Main ,msg);
         }
     }
 

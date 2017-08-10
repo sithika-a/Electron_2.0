@@ -4,8 +4,8 @@
           switch (message.metaData.dest.channel) {
               case namespace.channel.Mediator:
                   {
-                      console.log('Message received for hidden window : ', msg);
-                      this.getMatch(msg);
+                      console.log('Message received for hidden window : ', message);
+                      this.getMatch(message);
                       break;
                   }
               case namespace.channel.CHAT:

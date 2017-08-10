@@ -298,16 +298,17 @@ let messageHandler = {
     }
 };
 
-messenger.subscribe(util.namespace.channel.Main, (event) => {
+eventBus.subscribe(util.namespace.channel.Main, (event) => {
     console.log('Subscribing :' + event.data.info);
     messageHandler.mainHandler(event.data.info);
 
 });
 
 module.exports = messageHandler;
+console.log('eventBus : ',eventBus);
 
 let util = require('./mainUtils.js');
-let messenger = require('../../comm/messenger.js');
+let eventBus = require('../../comm/eventBus.js');
 let windowEventsController = require('./windowEvents.js');
 let container = require('./windowAccess.js');
 let moduleStarter = require('./mainModuleLoader.js');

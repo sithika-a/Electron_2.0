@@ -3,7 +3,7 @@
         var domain = location.host || location.href;
         var path = require('path');
         console.debug('Domain :', domain);
-        let winCommunicator = require('electron').remote.require(path.join(process.cwd(), '/assets/js/comm/messenger.js'));
+        let winCommunicator = require('electron').remote.require(path.join(process.cwd(), '/assets/js/comm/eventBus.js'));
         console.log('winCommunicator : ', winCommunicator)
         R['emitter'] = {
             isValid(message) {
@@ -12,10 +12,10 @@
                 }
                 // if (message && typeof message == 'object' && message.metaData && message.metaData.dest && message.metaData.dest.channel)
             },
-            sendToMediator(message) {
+            sendToHiddenWindow(message) {
                 if (this.isValid(message)) {
                     console.log('It is a valid message ...')
-                    winCommunicator.sendToMediator(message);
+                    winCommunicator.sendToHiddenWindow(message);
                 } else {
                     console.log('invalid valid message ...')
 
@@ -27,10 +27,3 @@
             unSubscribeAll: winCommunicator.unSubscribeAll
         }
     })(window)
-    // module.exports = {
-    //     sendToMediator: emitter.sendToMediator,
-    //     publish: _messenger.publish,
-    //     subscribe: _messenger.subscribe,
-    //     unSubscribe: _messenger.unSubscribe,
-    //     unSubscribeAll: _messenger.unSubscribeAll
-    // };

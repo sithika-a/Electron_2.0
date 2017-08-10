@@ -56,9 +56,8 @@ module.exports = function(grunt) {
             hiddenWindow: {
                 command: 'uglifyjs  assets/js/preload/preload.js'+ 
                      ' assets/js/comm/messenger-mediator.js' +
-                    ' assets/js/container/hiddenWindow.js' + 
                     ' assets/js/services/global.js' +
-                    ' assets/js/comm/proto/message-proto.js' +
+                    ' assets/js/comm/messageTemplate.js' +
                     ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/js/services/mediatorMessaging.js -o compiled/hiddenWindow.min.js',
                 options: {
@@ -74,7 +73,7 @@ module.exports = function(grunt) {
                    + ' assets/js/DAO/userDAO.js'
                    + ' assets/js/services/sendMessage.js'
                    + ' assets/js/DAO/oldCommDAO.js'
-                   + ' assets/js/comm/proto/message-proto.js'
+                   + ' assets/js/comm/messageTemplate.js'
                    + ' assets/js/DAO/statusPanelDAO.js'
                    + ' assets/js/DAO/goClockDAO.js' 
                    + ' assets/js/container/web/web.js'
@@ -128,7 +127,7 @@ module.exports = function(grunt) {
                     ' assets/js/DAO/oldCommDAO.js' +
                     ' assets/js/DAO/userDAO.js' +
                     ' assets/js/services/sendMessage.js' +
-                    ' assets/js/comm/proto/message-proto.js' +
+                    ' assets/js/comm/messageTemplate.js' +
                     ' assets/js/services/fullAuth.js' +
                     ' assets/js/container/chat/chat.js' +
                     ' assets/js/container/chat/clientListener.js' +
