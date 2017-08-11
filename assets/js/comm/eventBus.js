@@ -65,6 +65,7 @@ let eventBus = {
         this.publish(channel.V2, msg);
     },
     sendToHiddenWindow(msg) {
+        console.log('sendToHiddenWindow .. in event Bus...',msg)
         this.publish(channel.HIDDEN_CONTAINER, msg);
     },
     sendToChat(msg) {

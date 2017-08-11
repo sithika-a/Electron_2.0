@@ -1,3 +1,15 @@
+
+let channel = require('../comm/channel.js');
+console.log('channel List in mainMessagingModule:',channel);
+
+let util = require('./mainUtils.js');
+let eventBus = require('../comm/eventBus.js');
+console.log('eventBus @ main_messaging: ',eventBus);
+
+let windowEventsController = require('./windowEvents.js');
+let container = require('./windowAccess.js');
+// let moduleStarter = require('./mainModuleLoader.js');
+
 let messageHandler = {
     name: 'mainMessagingModule',
     log(...args) {
@@ -51,7 +63,7 @@ let messageHandler = {
                 //         canQuitApp = true;
                 //         this.passInfo('Chat', msg);
                 //         this.passInfo('V2', msg);
-                //         this.passInfo(util.namespace.CONTAINER_TIMER, msg);
+                //         this.passInfo(channel.CONTAINER_TIMER, msg);
                 //         // Making No more message reach from main daemon
                 //         // thread to any other browser windows.
                 //         this.passInfo = function() {};
@@ -142,7 +154,7 @@ let messageHandler = {
                         this.passInfo('FULL', msg);
                         this.passInfo('Chat', msg);
                         this.passInfo('V2', msg);
-                        this.passInfo(util.namespace.CONTAINER_TIMER, msg);
+                        this.passInfo(channel.CONTAINER_TIMER, msg);
                         // networkBoot.init();
                         break;
                     }
@@ -150,17 +162,17 @@ let messageHandler = {
                 //     {
                 //         if (msg.container) {
                 //             switch (msg.container) {
-                //                 case util.namespace.CONTAINER_V2:
+                //                 case channel.CONTAINER_V2:
                 //                     {
                 //                         crashManager.track.isV2 = false;
                 //                         break;
                 //                     }
-                //                 case util.namespace.CONTAINER_SB:
+                //                 case channel.CONTAINER_SB:
                 //                     {
                 //                         crashManager.track.isSB = false;
                 //                         break;
                 //                     }
-                //                 case util.namespace.CONTAINER_CHAT:
+                //                 case channel.CONTAINER_CHAT:
                 //                     {
                 //                         crashManager.track.isChat = false;
                 //                         break;
@@ -178,25 +190,25 @@ let messageHandler = {
                 //     {
                 //         if (msg.container) {
                 //             switch (msg.container) {
-                //                 case util.namespace.CONTAINER_V2:
+                //                 case channel.CONTAINER_V2:
                 //                     {
-                //                         this.passInfo(util.namespace.CONTAINER_V2, {
+                //                         this.passInfo(channel.CONTAINER_V2, {
                 //                             name: 'crashed',
                 //                             crashed: crashManager.track.isV2
                 //                         });
                 //                         break;
                 //                     }
-                //                 case util.namespace.CONTAINER_SB:
+                //                 case channel.CONTAINER_SB:
                 //                     {
-                //                         this.passInfo(util.namespace.CONTAINER_SB, {
+                //                         this.passInfo(channel.CONTAINER_SB, {
                 //                             name: 'crashed',
                 //                             crashed: crashManager.track.isSB
                 //                         });
                 //                         break;
                 //                     }
-                //                 case util.namespace.CONTAINER_CHAT:
+                //                 case channel.CONTAINER_CHAT:
                 //                     {
-                //                         this.passInfo(util.namespace.CONTAINER_CHAT, {
+                //                         this.passInfo(channel.CONTAINER_CHAT, {
                 //                             name: 'crashed',
                 //                             crashed: crashManager.track.isChat
                 //                         });
@@ -281,7 +293,7 @@ let messageHandler = {
     v2NewHandler(event, msg) {
         if (msg && /object/i.test(typeof msg)) {
             msg.isForV2 = true;
-            messageHandler.passInfo(util.namespace.CONTAINER_V2_SOFTPHONE, msg);
+            messageHandler.passInfo(channel.CONTAINER_V2_SOFTPHONE, msg);
         }
     },
     sbHandler(event, msg) {
@@ -294,23 +306,17 @@ let messageHandler = {
         messageHandler.decider(msg);
     },
     timerHandler(event, msg) {
-        messageHandler.passInfo(util.namespace.CONTAINER_TIMER, msg);
+        messageHandler.passInfo(channel.CONTAINER_TIMER, msg);
     }
 };
 
-eventBus.subscribe(util.namespace.channel.Main, (event) => {
+eventBus.subscribe(channel.BROWSER, (event) => {
     console.log('Subscribing :' + event.data.info);
     messageHandler.mainHandler(event.data.info);
 
 });
 
 module.exports = messageHandler;
-console.log('eventBus : ',eventBus);
 
-let util = require('./mainUtils.js');
-let eventBus = require('../../comm/eventBus.js');
-let windowEventsController = require('./windowEvents.js');
-let container = require('./windowAccess.js');
-let moduleStarter = require('./mainModuleLoader.js');
 // let networkBoot = require('./networkBoot.js');
 // let menuActions = require('./menuActions.js');

@@ -1,12 +1,12 @@
 
 var namespace = {
-        channel: {
-            SB: 'msg-to-FULL', // SB container
-            CHAT: 'msg-to-Chat', // AnyWhereWorks container
-            V2: 'msg-to-V2', // v2 container
-            Mediator: 'msg-to-Mediator', // hidden Renderer
-            Main: 'msg-to-Main' // BackGround
-        },
+     channel : {
+    SB: 'msg-to-switchboard', // SB container
+    CHAT: 'msg-to-chat', // AnyWhereWorks container
+    V2: 'msg-to-v2', // v2 container
+    HIDDEN_CONTAINER: 'msg-to-hidden-window', // hidden Renderer
+    BROWSER: 'msg-to-browser' // BackGround process
+},
         APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? 'FULL' : 'AnywhereWorks', // "AnyWhereWorks || FULL" any branding app will behave based on it.
         HIDDEN_CONTAINER: 'HiddenWindow',
         CONTAINER_CHAT: 'AnyWhereWorks',

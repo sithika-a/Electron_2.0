@@ -1,12 +1,5 @@
 let util = {
     namespace: {
-        channel: {
-            SB: 'msg-to-FULL', // SB container
-            CHAT: 'msg-to-Chat', // AnyWhereWorks container
-            V2: 'msg-to-V2', // v2 container
-            Mediator: 'msg-to-Mediator', // hidden Renderer
-            Main: 'msg-to-Main' // BackGround
-        },
         APP_ID: /^win/.test(process.platform) && /FULLClient/.test(process.execPath) ? 'FULL' : 'AnywhereWorks', // "AnyWhereWorks || FULL" any branding app will behave based on it.
         HIDDEN_CONTAINER: 'HiddenWindow',
         CONTAINER_CHAT: 'AnyWhereWorks',

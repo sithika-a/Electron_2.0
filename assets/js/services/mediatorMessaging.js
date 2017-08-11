@@ -59,7 +59,7 @@
       }
   }
 
-  emitter.subscribe(namespace.channel.Mediator, event => {
+  emitter.subscribe(namespace.channel.HIDDEN_CONTAINER, event => {
       console.log('messageHandler : ')
       messageHandler.decider(event);
   });

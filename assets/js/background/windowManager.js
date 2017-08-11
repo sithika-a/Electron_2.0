@@ -3,6 +3,9 @@ let WindowCreator = require('./windowCreator.js')
 let container = require('./windowAccess.js');
 // let menuActions = require('./menuActions.js');
 let util = require('./mainUtils.js');
+let channel = require('../comm/channel.js');
+console.log('Hey channel is there  ? ',channel)
+
 
 let WindowManager = {
     name: "WindowManager",
@@ -14,7 +17,7 @@ let WindowManager = {
 
         let filepath = util.getFilePath();
         let hiddenWindow = new WindowCreator('file://' + util.getFilePath() + '/view/hiddenWindow.html', {
-            "title": util.namespace.HIDDEN_CONTAINER,
+            "title": channel.HIDDEN_CONTAINER,
             "width": 1100,
             "height": 680,
             "fullscreen": false,
@@ -36,7 +39,7 @@ let WindowManager = {
         console.log('WebContainer is getting opened !! ');
 
         let WebContainer = new WindowCreator('file://' + util.getFilePath() + '/view/FULL.html', {
-            "title": util.namespace.CONTAINER_CHAT,
+            "title": channel.CONTAINER_CHAT,
             "width": 1152,
             "height": 700,
             "fullscreen": false,
@@ -60,7 +63,7 @@ let WindowManager = {
             menuActions.onFocus({
                 container: 'FULL'
             })
-            lastFocussedWindow = util.namespace.CONTAINER_SB;
+            lastFocussedWindow = channel.CONTAINER_SB;
         });
         winRef.on('blur', event => {
             menuActions.onBlur()
@@ -84,7 +87,7 @@ let WindowManager = {
 
         console.log('V2Container is getting opened !! ');
         let v2Container = new WindowCreator('file://' + util.getFilePath() + '/view/V2.html', {
-            "title": util.namespace.CONTAINER_V2,
+            "title": channel.CONTAINER_V2,
             "width": 550,
             "height": 710,
             "fullscreen": false,
@@ -115,7 +118,7 @@ let WindowManager = {
             menuActions.onFocus({
                 container: 'Chat'
             });
-            lastFocussedWindow = util.namespace.CONTAINER_CHAT;
+            lastFocussedWindow = channel.CONTAINER_CHAT;
 
             //  let _tc = new Thinclient('state');
             //  // console.log('tc :'+ _tc[_tc.opt]['window']['isFocused'] );
@@ -149,7 +152,7 @@ let WindowManager = {
         console.log('FilePath :' + 'file://' + util.getFilePath() + '/view/AnyWhereWorks.html');
 
         let chatContainer = new WindowCreator('file://' + util.getFilePath() + '/view/AnyWhereWorks.html', {
-            "title": util.namespace.CONTAINER_CHAT,
+            "title": channel.CONTAINER_CHAT,
             "width": 1100,
             "height": 680,
             "fullscreen": false,
@@ -167,7 +170,7 @@ let WindowManager = {
         // this.setChatHandler(chatContainer.get());
     },
     openTimerWidget(options) {
-        if (container.get(util.namespace.CONTAINER_TIMER))
+        if (container.get(channel.CONTAINER_TIMER))
             return;
 
         let timerContainer = new WindowCreator('file://' + util.getFilePath() + '/view/Timer.html', {
