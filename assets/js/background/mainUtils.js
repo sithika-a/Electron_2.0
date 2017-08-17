@@ -8,6 +8,8 @@ let util = {
         CONTAINER_V2: 'V2',
         CONTAINER_TIMER: 'Timer',
         CONTAINER_V2_SOFTPHONE: 'V2SoftPhone',
+    },
+    ZOOMING : {
         ZOOMIN: 'ZoomIn',
         ZOOMOUT: 'ZoomOut',
         ENABLE: 'enable',

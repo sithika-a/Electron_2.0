@@ -199,7 +199,7 @@
      }
  }
 module.exports = menuActions;
- let container = require('./windowAccess.js');
+ let container = require('./windowCache.js');
  let util = require('./mainUtils.js');
  let messageHandler=require('./mainMessaging.js');
  let darwinMenuList = require('./mac-menuList.js');

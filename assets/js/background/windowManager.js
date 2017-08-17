@@ -1,6 +1,5 @@
 // let Thinclient= require('../DAO/oldCommDAO.js');
 let WindowCreator = require('./windowCreator.js')
-let container = require('./windowAccess.js');
 // let menuActions = require('./menuActions.js');
 let util = require('./mainUtils.js');
 let channel = require('../comm/channel.js');
@@ -12,12 +11,9 @@ let WindowManager = {
     openHiddenContainer(state) {
         console.log('Hidden Window is getting opened !! ');
 
-        // if (container.get('AnyWhereWorks'))
-        //     return;
-
         let filepath = util.getFilePath();
         let hiddenWindow = new WindowCreator('file://' + util.getFilePath() + '/view/hiddenWindow.html', {
-            "title": channel.HIDDEN_CONTAINER,
+            "title": util.namespace.HIDDEN_CONTAINER,
             "width": 1100,
             "height": 680,
             "fullscreen": false,
@@ -34,12 +30,10 @@ let WindowManager = {
         return hiddenWindow.get();
     },
     openWebContainer(isShowWindow) {
-        if (container.get('FULL'))
-            return;
         console.log('WebContainer is getting opened !! ');
 
         let WebContainer = new WindowCreator('file://' + util.getFilePath() + '/view/FULL.html', {
-            "title": channel.CONTAINER_CHAT,
+            "title": util.namespace.CONTAINER_SB,
             "width": 1152,
             "height": 700,
             "fullscreen": false,
@@ -63,7 +57,7 @@ let WindowManager = {
             menuActions.onFocus({
                 container: 'FULL'
             })
-            lastFocussedWindow = channel.CONTAINER_SB;
+            lastFocussedWindow = util.namespace.CONTAINER_SB;
         });
         winRef.on('blur', event => {
             menuActions.onBlur()
@@ -81,13 +75,10 @@ let WindowManager = {
         });
     },
     openV2Container(isShowWindow) {
-        console.log('open v2 ...', container)
-        if (container.get('V2'))
-            return;
 
         console.log('V2Container is getting opened !! ');
         let v2Container = new WindowCreator('file://' + util.getFilePath() + '/view/V2.html', {
-            "title": channel.CONTAINER_V2,
+            "title": util.namespace.CONTAINER_V2,
             "width": 550,
             "height": 710,
             "fullscreen": false,
@@ -144,15 +135,12 @@ let WindowManager = {
         });
     },
     openChatContainer() {
-        // if (container.get('AnyWhereWorks'))
-        //     return;
-
         console.log('ChatContainer is getting opened !! ');
         let filepath = util.getFilePath();
         console.log('FilePath :' + 'file://' + util.getFilePath() + '/view/AnyWhereWorks.html');
 
         let chatContainer = new WindowCreator('file://' + util.getFilePath() + '/view/AnyWhereWorks.html', {
-            "title": channel.CONTAINER_CHAT,
+            "title": util.namespace.CONTAINER_CHAT,
             "width": 1100,
             "height": 680,
             "fullscreen": false,
@@ -168,40 +156,6 @@ let WindowManager = {
         });
         //return chatContainer.open();
         // this.setChatHandler(chatContainer.get());
-    },
-    openTimerWidget(options) {
-        if (container.get(channel.CONTAINER_TIMER))
-            return;
-
-        let timerContainer = new WindowCreator('file://' + util.getFilePath() + '/view/Timer.html', {
-            "title": "TimerWidget",
-            "alwaysOnTop": true,
-            "frame": false,
-            "show": false,
-            "width": 165,
-            "height": 85,
-            "maxWidth": 170,
-            "maxHeight": 273,
-            "x": options ? options.x : 0,
-            "y": options ? options.y : 0
-        });
-
-        if (parseInt(process.versions['electron'].split('.')[1]) < 36)
-            timerContainer.get().setAlwaysOnTop(true);
-    },
-    openWebsite(url) {
-        console.log('openWebsite is getting opened !! ');
-        new WindowCreator(url, {
-            "title": "Website Loading....",
-            "width": 1152,
-            "height": 700,
-            "fullscreen": false,
-            "kiosk": false,
-            "center": true,
-            "webPreferences": {
-                "nodeIntegration": false
-            }
-        });
     }
 };
 module.exports = WindowManager;

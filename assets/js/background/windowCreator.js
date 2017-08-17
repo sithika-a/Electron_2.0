@@ -93,4 +93,4 @@ class WindowCreator {
 module.exports = WindowCreator;
 const {BrowserWindow} = require('electron');
 let path = require('path');
-let container = require('./windowAccess.js');
+let container = require('./windowCache.js');

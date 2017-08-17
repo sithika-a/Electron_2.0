@@ -66,4 +66,4 @@ module.exports = mainModuleLoader;
     let networkBoot = require('./networkBoot.js');
     let menuActions = require('./menuActions.js');
     let windowEventsController = require('./windowEvents.js');
-    let container=require('./windowAccess.js');
+    let container=require('./windowCache.js');

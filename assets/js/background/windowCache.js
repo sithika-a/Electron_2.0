@@ -1,10 +1,11 @@
 const {BrowserWindow} = require('electron');
-
+console.log('caching ,,,,calllled.. ')
+let channel = require('../comm/channel.js');
 let path = require('path');
 let util = require('./mainUtils.js');
 let WindowManager = require('./windowManager.js');
-let windowAccess = {
-    name: 'WindowAccess',
+let windowCache = {
+    name: 'windowCache',
     cache: {
         V2: null,
         sb: null,
@@ -18,14 +19,14 @@ let windowAccess = {
     get(title) {
         if (title) {
             switch (title) {
-                case "Chat":
+                case util.namespace.CONTAINER_CHAT_ALIAS:
                     {
                         title = 'AnyWhereWorks';
                         break;
                     }
                 case util.namespace.CONTAINER_V2_SOFTPHONE:
                     {
-                        title = namespace.CONTAINER_SB;
+                        title = util.namespace.CONTAINER_SB;
                         break;
                     }
                 case util.namespace.CONTAINER_CHAT:
@@ -79,36 +80,39 @@ let windowAccess = {
             }
         };
     },
-    open(options) {
+    open(title) {
+        console.log('Opening !!!!! ',title)
+        // if (!this.get(title)){
+        //     console.log('open container name : ',`open${title}`)
+        //             WindowManager[`open${title}`]();
+        //             }
         switch (title) {
             case "V2":
                 {
-                    WindowManager.openV2Container();
+                    if (!this.get(title)){
+                    WindowManager[`open${title}Container`]()
+                    }
+                    break;
+                }
+            case "HiddenWindow":
+                {
+                    if (this.get(title)){
+                    WindowManager.openHiddenContainer();
+                    }
                     break;
                 }
             case "FULL":
                 {
+                    if (!this.get(title)){
                     WindowManager.openWebContainer();
+                    }
                     break;
                 }
             case "Chat":
                 {
-                    WindowManager.openChatContainer();
-                    break;
-                }
-            case "sbMocha":
-                {
-                    WindowManager.openSBMochaRunner();
-                    break;
-                }
-            case "sbJasmineRunner":
-                {
-                    WindowManager.openSBJasmineRunner();
-                    break;
-                }
-            case "v2Mocha":
-                {
-                    WindowManager.openV2MochaRunner();
+                    if (!this.get(channel.CONTAINER_CHAT)) {
+                        WindowManager.openChatContainer();
+                    }
                     break;
                 }
             case "Timer":
@@ -123,4 +127,4 @@ let windowAccess = {
         }
     }
 }
-module.exports = windowAccess;
+module.exports = windowCache;

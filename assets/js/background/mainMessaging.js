@@ -7,7 +7,7 @@ let eventBus = require('event-bus');
 console.log('eventBus @ main_messaging: ',eventBus);
 
 let windowEventsController = require('./windowEvents.js');
-let container = require('./windowAccess.js');
+let container = require('./windowCache.js');
 // let moduleStarter = require('./mainModuleLoader.js');
 
 let messageHandler = {
