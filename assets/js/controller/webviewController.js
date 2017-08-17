@@ -13,7 +13,6 @@
 
 (function(root, util, undefined) {
     var urlParser = FULLClient.require('url');
-    var nwUserAgent=require('../assets/extra/common-banner.js');
     function getExeScript(srcInWebview) {
 
         var url = 'images.sb.a-cti.com/chrome/js/webviewAPI.js'
