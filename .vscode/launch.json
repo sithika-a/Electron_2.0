@@ -10,7 +10,7 @@
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "/Users/sithika/Documents/Engines/Electron/electron-v1.7.3/Electron.app/Contents/MacOS/Electron",
+            "runtimeExecutable": "/Users/sithika/Documents/Engines/electron-v1.7.3/Electron.app/Contents/MacOS/Electron",
             "runtimeArgs": [
                 ".",
                 "--enable-logging",

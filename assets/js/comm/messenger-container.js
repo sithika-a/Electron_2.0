@@ -3,7 +3,10 @@
         var domain = location.host || location.href;
         var path = require('path');
         console.debug('Domain :', domain);
-        R['winCommunicator']= require('electron').remote.require(path.join(process.cwd(), '/assets/js/comm/eventBus.js'));
+        // R['winCommunicator']= require('electron').remote.require(path.join(process.cwd(), '/assets/js/comm/eventBus.js'));
+        // R['winCommunicator'] = require('event-bus');
+                R['winCommunicator'] = require('electron').remote.require('event-bus');
+
         console.log('winCommunicator : ', winCommunicator)
         R['emitter'] = {
             isValid(message) {

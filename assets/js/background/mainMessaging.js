@@ -3,7 +3,7 @@ let channel = require('../comm/channel.js');
 console.log('channel List in mainMessagingModule:',channel);
 
 let util = require('./mainUtils.js');
-let eventBus = require('../comm/eventBus.js');
+let eventBus = require('event-bus');
 console.log('eventBus @ main_messaging: ',eventBus);
 
 let windowEventsController = require('./windowEvents.js');
