@@ -3,7 +3,6 @@ console.log('caching ,,,,calllled.. ')
 let channel = require('../comm/channel.js');
 let path = require('path');
 let util = require('./mainUtils.js');
-let WindowManager = require('./windowManager.js');
 let windowCache = {
     name: 'windowCache',
     cache: {
@@ -79,52 +78,6 @@ let windowCache = {
                 return targetArray[i];
             }
         };
-    },
-    open(title) {
-        console.log('Opening !!!!! ',title)
-        // if (!this.get(title)){
-        //     console.log('open container name : ',`open${title}`)
-        //             WindowManager[`open${title}`]();
-        //             }
-        switch (title) {
-            case "V2":
-                {
-                    if (!this.get(title)){
-                    WindowManager[`open${title}Container`]()
-                    }
-                    break;
-                }
-            case "HiddenWindow":
-                {
-                    if (this.get(title)){
-                    WindowManager.openHiddenContainer();
-                    }
-                    break;
-                }
-            case "FULL":
-                {
-                    if (!this.get(title)){
-                    WindowManager.openWebContainer();
-                    }
-                    break;
-                }
-            case "Chat":
-                {
-                    if (!this.get(channel.CONTAINER_CHAT)) {
-                        WindowManager.openChatContainer();
-                    }
-                    break;
-                }
-            case "Timer":
-                {
-                    if (options) WindowManager.openTimerWidget(options);
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
     }
 }
 module.exports = windowCache;

@@ -1,16 +1,17 @@
 // let Thinclient= require('../DAO/oldCommDAO.js');
-let WindowCreator = require('./windowCreator.js')
+let WindowCreator = require('./windowCreator.js');
 // let menuActions = require('./menuActions.js');
 let util = require('./mainUtils.js');
 let channel = require('../comm/channel.js');
-console.log('Hey channel is there  ? ',channel)
-
+let windowCache = require('./windowCache.js');
+console.log('Hey channel is there  ? ', channel)
 
 let WindowManager = {
     name: "WindowManager",
     openHiddenContainer(state) {
+         if (windowCache.get(util.namespace.HIDDEN_CONTAINER))
+            return;
         console.log('Hidden Window is getting opened !! ');
-
         let filepath = util.getFilePath();
         let hiddenWindow = new WindowCreator('file://' + util.getFilePath() + '/view/hiddenWindow.html', {
             "title": util.namespace.HIDDEN_CONTAINER,
@@ -30,8 +31,9 @@ let WindowManager = {
         return hiddenWindow.get();
     },
     openWebContainer(isShowWindow) {
+         if (windowCache.get(util.namespace.CONTAINER_SB))
+            return;
         console.log('WebContainer is getting opened !! ');
-
         let WebContainer = new WindowCreator('file://' + util.getFilePath() + '/view/FULL.html', {
             "title": util.namespace.CONTAINER_SB,
             "width": 1152,
@@ -48,7 +50,6 @@ let WindowManager = {
                 "allowRunningInsecureContent": true
             }
         });
-
         // this.setSbHandler(WebContainer.get());
         return WebContainer.get();
     },
@@ -75,7 +76,8 @@ let WindowManager = {
         });
     },
     openV2Container(isShowWindow) {
-
+        if (windowCache.get(util.namespace.CONTAINER_V2))
+            return;
         console.log('V2Container is getting opened !! ');
         let v2Container = new WindowCreator('file://' + util.getFilePath() + '/view/V2.html', {
             "title": util.namespace.CONTAINER_V2,
@@ -135,6 +137,7 @@ let WindowManager = {
         });
     },
     openChatContainer() {
+        if (windowCache.get(channel.CONTAINER_CHAT)) return;
         console.log('ChatContainer is getting opened !! ');
         let filepath = util.getFilePath();
         console.log('FilePath :' + 'file://' + util.getFilePath() + '/view/AnyWhereWorks.html');

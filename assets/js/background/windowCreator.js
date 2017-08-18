@@ -14,6 +14,10 @@
  *
  **/
 
+const {BrowserWindow} = require('electron');
+let path = require('path');
+let windowCache = require('./windowCache.js');
+console.log('windowCache  ? ',windowCache)
 class WindowCreator {
     constructor(url, options, cb) {
         this.url = url;
@@ -76,7 +80,7 @@ class WindowCreator {
         appWin.once('closed', () => {
             if (this && this.url) {
                 console.log('onclosed ?? :: ' + this.url);
-                container.remove(this.url);
+                windowCache.remove(this.url);
             }
         });
     }
@@ -91,6 +95,3 @@ class WindowCreator {
     }
 }
 module.exports = WindowCreator;
-const {BrowserWindow} = require('electron');
-let path = require('path');
-let container = require('./windowCache.js');

@@ -21,6 +21,7 @@
     "minimist": "^1.2.0",
     "moment-timezone": "latest",
     "node-mac-notifier": "0.0.13",
+    "event-bus": "http://images.sb.a-cti.com/TC/dependency_modules/event-bus.tar.gz",
     "node-notifier": "git+https://github.com/Solomon-m/notifier.git",
     "plist": "^1.2.0",
     "progress-stream": "^1.2.0",
